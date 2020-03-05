@@ -1,4 +1,7 @@
-"""Metadig check utilities
+"""Functions to manipulate python variables
+
+The functions in variable.py are used to inspect, filter and convert Python
+objects.
 """
 
 import sys
@@ -6,15 +9,17 @@ import re
 
 import java.util.ArrayList as ArrayList
 
+# CHeck if an object is blank or undefined.
 def isBlank(object):
 
   pattern = re.compile(r'\s+')
   # Depending on the values extracted from the xpath, the following types may be returned
+  # by the Java Based scripting engine (jython):
   # - an int (single value, all numeric)
   # - a string
   # - a boolean (i.e. "Yes", "Y", "No", "No") - this type isn't expected for award
   # - a java.util.ArrayList (multiple values, each typed as int, boolean or string)
-  if(isinstance(object, int)):
+  if(isinstance(object, int) or isinstance(object, float) or isinstance(object, long)):
       return False
   elif (isinstance(object, str) or isinstance(object, unicode)):
     # If award is a string, check that it is not all whitespace
@@ -37,11 +42,82 @@ def isBlank(object):
         if (len(objStripped) == 0):
             blankFound = True
         else:
-            return False
+            return False 
+  elif(isinstance(object, list)):
+    # Multiple objects exist
+    # Return as soon as a non-blank object is found
+    # Also, check if all values are blank
+    blankFound = False
+    for i in range(0, len(object)):
+      thisObj = object[i]
+      if (isinstance(thisObj, int)):
+        return False
+      else:
+        objStripped = re.sub(pattern, '', thisObj)
+        if (len(objStripped) == 0):
+          blankFound = True
+        else:
+          return False 
+  
     # If we reached this point and blankFound is true, then all
     # values are blank
     if blankFound: 
         return True
   else:
     raise Exception('Unknown variable type {}'.format(type(object)))
+    
+def toUnicode(object, *argv):
+    """Convert jython and Python types to unicode
 
+    The input object can be either a Jython variable type or a Python variable
+    type. The object is converted to a Python unicode object. When ArrayLists and 
+    lists are evaluated, each element is inspected and converted to unicode.
+    Convertering all variables to unicode, ensures that the quality check code has less 
+    checking that it has to do, and also to remove any reference to jython objects in the
+    check code (in the future, a pure Python scripting engine may be used).
+
+    Args:
+        object (Jython ArrayList or most Python type): the object to be converted
+        encoding (str): the encoding scheme to be used, default: "utf-8"
+
+    Returns:
+        unicode: either a scalar or list is returned, depending on the input
+    """
+        
+    if(len(argv) > 0):
+        encoding = argv[0]
+    else:
+        encoding = "utf-8"
+        
+    if(isinstance(object, int)):
+        return(unicode(str(object), encoding))
+    elif(isinstance(object, float)):
+        return(unicode(str(object), encoding))
+    elif(isinstance(object, long)):
+        return(unicode(str(object), encoding))
+    elif(isinstance(object, bool)):
+        return(unicode(str(object), encoding))
+    elif (isinstance(object, str)): 
+        return(unicode(object, encoding))
+    elif (isinstance(object, unicode)):
+        return(object)
+    elif(isinstance(object, list)):
+        row = []
+        # Multiple objects exist
+        # Return as soon as a non-blank object is found
+        # Also, check if all values are blank
+        for i in range(0, len(object)):
+            row.append(toUnicode(object[i], encoding))
+        return(row)
+    elif(isinstance(object, ArrayList)):
+        row = []
+        # Multiple objects exist
+        # Return as soon as a non-blank object is found
+        # Also, check if all values are blank
+        for i in range(0, len(object)):
+            row.append(toUnicode(object.get(i), encoding))
+        return(row)
+    elif(object is None):
+        return object
+    else:
+        raise Exception('Unknown variable type {}'.format(type(object)))
