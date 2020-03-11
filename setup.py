@@ -8,13 +8,13 @@ Metadig provides tools that can be used by the MetaDIG Quality Engine
 #long_description = fh.read()
 
 setup(name='metadig',
-      version='1.0.0',
+      version='1.1.0',
       author="Peter Slaughter",
       author_email="slaughter@nceas.ucsb.edu",
       description='Metadig Quality Engine Python Library',
       long_description=long_description,
       url='https://github.com/NCEAS/metadig-py',
-      download_url='https://github.com/NCEAS/metadig/tarball/1.0.0',
+      download_url='https://github.com/NCEAS/metadig/tarball/1.1.0',
       license='Apache-2',
       packages=find_packages(),
       install_requires=[
