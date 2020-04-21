@@ -8,6 +8,7 @@ import sys
 import re
 
 import java.util.ArrayList as ArrayList
+import java.math.BigDecimal as BigDecimal
 
 # CHeck if an object is blank or undefined.
 def isBlank(object):
@@ -117,6 +118,8 @@ def toUnicode(object, *argv):
         for i in range(0, len(object)):
             row.append(toUnicode(object.get(i), encoding))
         return(row)
+    elif(isinstance(object, BigDecimal)):
+        return(unicode(object.toString()));
     elif(object is None):
         return object
     else:

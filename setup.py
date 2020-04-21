@@ -8,7 +8,7 @@ Metadig provides tools that can be used by the MetaDIG Quality Engine
 #long_description = fh.read()
 
 setup(name='metadig',
-      version='1.1.0',
+      version='1.2.0',
       author="Peter Slaughter",
       author_email="slaughter@nceas.ucsb.edu",
       description='Metadig Quality Engine Python Library',

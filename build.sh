@@ -4,3 +4,6 @@
 
 # This is the current way to create a python 2.7 distribution from source, really
 python setup.py bdist_egg
+
+# TODO: have setup.py read version number from a text file or from github tag
+tar cvf metadig-py-1.2.0.tar dist metadig

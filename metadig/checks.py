@@ -35,9 +35,11 @@ def isResolvable(url):
     if(urlComps.scheme not in set(knownProtocols)):
         return (False, 'Unknown or proprietary communications protocol: "{}", known protocols: {}'.format(urlComps.scheme, ", ".join(knownProtocols)))
         
+    # Perform an HTTP 'Head' request - we just want to know if the file exists and do not need to 
+    # download it.    
     request = urllib2.Request(url)
     request.get_method = lambda : 'HEAD'
-    # Python urllib2 strangly throws an error for a http status, and the response object is returned
+    # Python urllib2 strangly throws an error for an http status, and the response object is returned
     # by the exception code. 
     try:
         response = urllib2.urlopen(request)
@@ -56,16 +58,18 @@ def isResolvable(url):
         else:
             return (False, 'Error resolving URL "{}": {} {}'.format(url, he.code, he.headers))
     except urllib2.URLError as ue:
-        print("URLError.reason", ue.reason)
         return (False, ue.reason[1])
-    except Exception() as e:
-        print("Exception: ", e)
-        return (False, str(e))
+    except Exception as e:
+        return (False, repr(e))
+    except OSError as oe:
+        return (False, repr(oe))
+    except:
+        return (False, "Unexpected error:", sys.exc_info()[0])
     
     if(response.code in set([200, 202, 203, 206, 301, 302, 303])):
         return (True, "Successfully resolved the URL {}: status {}".format(url, response.code))
     else:
-        return (False, "Successfully resolved the URL {}".format(url))
+        return (False, "Did not resolved the URL {}".format(url))
 
 # Check if an identifier has a valid, known namespace
 #def isNamespaceValid(identifier):
