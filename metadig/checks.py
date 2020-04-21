@@ -66,6 +66,7 @@ def isResolvable(url):
     except:
         return (False, "Unexpected error:", sys.exc_info()[0])
     
+    response.close()
     if(response.code in set([200, 202, 203, 206, 301, 302, 303])):
         return (True, "Successfully resolved the URL {}: status {}".format(url, response.code))
     else:
