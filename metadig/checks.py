@@ -2,11 +2,11 @@
 """
 
 import sys
-import urllib2
-from urlparse import urlparse
+import urllib.request, urllib.error, urllib.parse
+from urllib.parse import urlparse
 
 def getType(object):
-    print 'type: {}'.format(type(object))
+    print('type: {}'.format(type(object)))
         
 def isResolvable(url):
 # First parse the url for a protocol, host port and path
@@ -37,13 +37,13 @@ def isResolvable(url):
         
     # Perform an HTTP 'Head' request - we just want to know if the file exists and do not need to 
     # download it.    
-    request = urllib2.Request(url)
+    request = urllib.request.Request(url)
     request.get_method = lambda : 'HEAD'
     # Python urllib2 strangly throws an error for an http status, and the response object is returned
     # by the exception code. 
     try:
-        response = urllib2.urlopen(request)
-    except urllib2.HTTPError as he:
+        response = urllib.request.urlopen(request)
+    except urllib.error.HTTPError as he:
         # An error was encountered resolving the url, check which one so that we can print 
         # a more meaningful error message than provided by HTTPError
         # FYI, HTTP status codes (from FAIR FM_A1.1 https://github.com/FAIRMetrics/Metrics/blob/master/Distributions/FM_A1.1.pdf)
@@ -57,7 +57,7 @@ def isResolvable(url):
             return (False, "Unable to resolved URL {}: Server Error".format(url))
         else:
             return (False, 'Error resolving URL "{}": {} {}'.format(url, he.code, he.headers))
-    except urllib2.URLError as ue:
+    except urllib.error.URLError as ue:
         return (False, ue.reason[1])
     except Exception as e:
         return (False, repr(e))

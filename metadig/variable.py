@@ -20,9 +20,9 @@ def isBlank(object):
   # - a string
   # - a boolean (i.e. "Yes", "Y", "No", "No") - this type isn't expected for award
   # - a java.util.ArrayList (multiple values, each typed as int, boolean or string)
-  if(isinstance(object, int) or isinstance(object, float) or isinstance(object, long)):
+  if(isinstance(object, int) or isinstance(object, float) or isinstance(object, int)):
       return False
-  elif (isinstance(object, str) or isinstance(object, unicode)):
+  elif (isinstance(object, str) or isinstance(object, str)):
     # If award is a string, check that it is not all whitespace
     objStripped = re.sub(pattern, '', object)
     if (len(objStripped) == 0):
@@ -91,16 +91,16 @@ def toUnicode(object, *argv):
         encoding = "utf-8"
         
     if(isinstance(object, int)):
-        return(unicode(str(object), encoding))
+        return(str(str(object), encoding))
     elif(isinstance(object, float)):
-        return(unicode(str(object), encoding))
-    elif(isinstance(object, long)):
-        return(unicode(str(object), encoding))
+        return(str(str(object), encoding))
+    elif(isinstance(object, int)):
+        return(str(str(object), encoding))
     elif(isinstance(object, bool)):
-        return(unicode(str(object), encoding))
+        return(str(str(object), encoding))
     elif (isinstance(object, str)): 
-        return(unicode(object, encoding))
-    elif (isinstance(object, unicode)):
+        return(str(object, encoding))
+    elif (isinstance(object, str)):
         return(object)
     elif(isinstance(object, list)):
         row = []
@@ -119,7 +119,7 @@ def toUnicode(object, *argv):
             row.append(toUnicode(object.get(i), encoding))
         return(row)
     elif(isinstance(object, BigDecimal)):
-        return(unicode(object.toString()));
+        return(str(object.toString()));
     elif(object is None):
         return object
     else:
