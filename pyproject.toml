@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "metadig"
+version = "1.2.0"
+description='Metadig Quality Engine Python Library'
+authors = ["Peter Slaughter <slaughter@nceas.ucsb.edu>","Jeanette Clark <jclark@nceas.ucsb.edu>"]
+readme = "README.md"
+packages = [{include = "metadig"}]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+jep = "3.9.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
