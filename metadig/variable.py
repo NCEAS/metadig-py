@@ -7,8 +7,8 @@ objects.
 import sys
 import re
 
-import java.util.ArrayList as ArrayList
-import java.math.BigDecimal as BigDecimal
+from java.util import ArrayList
+from java.math import BigDecimal
 
 # CHeck if an object is blank or undefined.
 def isBlank(object):
@@ -100,8 +100,6 @@ def toUnicode(object, *argv):
         return(str(str(object), encoding))
     elif (isinstance(object, str)): 
         return(str(object, encoding))
-    elif (isinstance(object, str)):
-        return(object)
     elif(isinstance(object, list)):
         row = []
         # Multiple objects exist
@@ -119,7 +117,7 @@ def toUnicode(object, *argv):
             row.append(toUnicode(object.get(i), encoding))
         return(row)
     elif(isinstance(object, BigDecimal)):
-        return(str(object.toString()));
+        return(str(object.toString()))
     elif(object is None):
         return object
     else:
