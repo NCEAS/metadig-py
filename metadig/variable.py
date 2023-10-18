@@ -99,7 +99,7 @@ def toUnicode(object, *argv):
     elif(isinstance(object, bool)):
         return(str(str(object), encoding))
     elif (isinstance(object, str)): 
-        return(str(object, encoding))
+        return(object)
     elif(isinstance(object, list)):
         row = []
         # Multiple objects exist
