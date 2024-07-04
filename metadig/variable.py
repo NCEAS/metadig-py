@@ -1,18 +1,20 @@
 """Functions to manipulate python variables
 
 The functions in variable.py are used to inspect, filter and convert Python
-objects.
+objs.
 """
 
-import sys
 import re
 
-from java.util import ArrayList
-from java.math import BigDecimal
+try:
+    from java.util import ArrayList
+    from java.math import BigDecimal
+except ImportError:
+    pass
 
 
-# CHeck if an object is blank or undefined.
-def isBlank(object):
+# Check if an object is blank or undefined.
+def isBlank(obj):
 
     pattern = re.compile(r"\s+")
     # Depending on the values extracted from the xpath, the following types may be returned
@@ -21,22 +23,22 @@ def isBlank(object):
     # - a string
     # - a boolean (i.e. "Yes", "Y", "No", "No") - this type isn't expected for award
     # - a java.util.ArrayList (multiple values, each typed as int, boolean or string)
-    if isinstance(object, int) or isinstance(object, float) or isinstance(object, int):
+    if isinstance(obj, int) or isinstance(obj, float) or isinstance(obj, int):
         return False
-    elif isinstance(object, str) or isinstance(object, str):
+    elif isinstance(obj, str):
         # If award is a string, check that it is not all whitespace
-        objStripped = re.sub(pattern, "", object)
+        objStripped = re.sub(pattern, "", obj)
         if len(objStripped) == 0:
             return True
         else:
             return False
-    elif isinstance(object, ArrayList):
+    elif isinstance(obj, ArrayList):
         # Multiple objects exist
         # Return as soon as a non-blank object is found
         # Also, check if all values are blank
         blankFound = False
-        for i in range(0, len(object)):
-            thisObj = object.get(i)
+        for i in range(0, len(obj)):
+            thisObj = obj.get(i)
             if isinstance(thisObj, int):
                 return False
             else:
@@ -45,13 +47,13 @@ def isBlank(object):
                     blankFound = True
                 else:
                     return False
-    elif isinstance(object, list):
+    elif isinstance(obj, list):
         # Multiple objects exist
         # Return as soon as a non-blank object is found
         # Also, check if all values are blank
         blankFound = False
-        for i in range(0, len(object)):
-            thisObj = object[i]
+        for i in range(0, len(obj)):
+            thisObj = obj[i]
             if isinstance(thisObj, int):
                 return False
             else:
@@ -66,21 +68,21 @@ def isBlank(object):
         if blankFound:
             return True
     else:
-        raise Exception("Unknown variable type {}".format(type(object)))
+        raise Exception("Unknown variable type {}".format(type(obj)))
 
 
-def toUnicode(object, *argv):
+def toUnicode(obj, *argv):
     """Convert jython and Python types to unicode
 
-    The input object can be either a Jython variable type or a Python variable
-    type. The object is converted to a Python unicode object. When ArrayLists and
+    The input obj can be either a Jython variable type or a Python variable
+    type. The obj is converted to a Python unicode obj. When ArrayLists and
     lists are evaluated, each element is inspected and converted to unicode.
     Convertering all variables to unicode, ensures that the quality check code has less
-    checking that it has to do, and also to remove any reference to jython objects in the
+    checking that it has to do, and also to remove any reference to jython objs in the
     check code (in the future, a pure Python scripting engine may be used).
 
     Args:
-        object (Jython ArrayList or most Python type): the object to be converted
+        obj (Jython ArrayList or most Python type): the obj to be converted
         encoding (str): the encoding scheme to be used, default: "utf-8"
 
     Returns:
@@ -92,35 +94,35 @@ def toUnicode(object, *argv):
     else:
         encoding = "utf-8"
 
-    if isinstance(object, int):
-        return str(str(object), encoding)
-    elif isinstance(object, float):
-        return str(str(object), encoding)
-    elif isinstance(object, int):
-        return str(str(object), encoding)
-    elif isinstance(object, bool):
-        return str(str(object), encoding)
-    elif isinstance(object, str):
-        return object
-    elif isinstance(object, list):
+    if isinstance(obj, int):
+        return str(str(obj), encoding)
+    elif isinstance(obj, float):
+        return str(str(obj), encoding)
+    elif isinstance(obj, int):
+        return str(str(obj), encoding)
+    elif isinstance(obj, bool):
+        return str(str(obj), encoding)
+    elif isinstance(obj, str):
+        return obj
+    elif isinstance(obj, list):
         row = []
-        # Multiple objects exist
-        # Return as soon as a non-blank object is found
+        # Multiple objs exist
+        # Return as soon as a non-blank obj is found
         # Also, check if all values are blank
-        for i in range(0, len(object)):
-            row.append(toUnicode(object[i], encoding))
+        for i in range(0, len(obj)):
+            row.append(toUnicode(obj[i], encoding))
         return row
-    elif isinstance(object, ArrayList):
+    elif isinstance(obj, ArrayList):
         row = []
-        # Multiple objects exist
-        # Return as soon as a non-blank object is found
+        # Multiple objs exist
+        # Return as soon as a non-blank obj is found
         # Also, check if all values are blank
-        for i in range(0, len(object)):
-            row.append(toUnicode(object.get(i), encoding))
+        for i in range(0, len(obj)):
+            row.append(toUnicode(obj.get(i), encoding))
         return row
-    elif isinstance(object, BigDecimal):
-        return str(object.toString())
-    elif object is None:
-        return object
+    elif isinstance(obj, BigDecimal):
+        return str(obj.toString())
+    elif obj is None:
+        return obj
     else:
-        raise Exception("Unknown variable type {}".format(type(object)))
+        raise Exception("Unknown variable type {}".format(type(obj)))
