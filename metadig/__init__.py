@@ -11,3 +11,5 @@ from .checks import isResolvable
 from .variable import isBlank
 from .variable import toUnicode
 from .object_store import StoreManager
+from .object_store import MetadataNotFoundError
+from .object_store import ObjectNotFoundError
