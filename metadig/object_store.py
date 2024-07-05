@@ -22,6 +22,7 @@ Example Usage:
 from abc import ABC, abstractmethod
 from hashstore import HashStoreFactory
 
+
 class ObjectStore(ABC):
     """
     Abstract base class for defining an object storage interface.
@@ -42,7 +43,7 @@ class ObjectStore(ABC):
             identifier (str): The identifier of the object to retrieve.
 
         Returns:
-            object: The retrieved object as a stream
+            tuple: A tuple containing the object stream and its metadata.
         """
 
 
@@ -63,22 +64,32 @@ class HashStore(ObjectStore):
              configuration
 
         get_object(identifier):
-            Retrieves an object from the hash store based on the given
-             identifier.
+            Retrieves an object stream and it's metadata from the hashstore as
+              a tuple
     """
 
     def __init__(self, configuration):
 
         # if the config is not a dictionary, convert it
         if not isinstance(configuration, dict):
-            if hasattr(configuration, 'keySet'):
-                configuration = {str(key): configuration.get(key) for key in configuration.keySet()}
+            if hasattr(configuration, "keySet"):
+                configuration = {
+                    str(key): configuration.get(key) for key in configuration.keySet()
+                }
             else:
-                raise TypeError("Configuration must be a dictionary or have a keySet method.")
-            
-        #configuration.pop('store_type', None)
+                raise TypeError(
+                    "Configuration must be a dictionary or have a keySet method."
+                )
+
+        # configuration.pop('store_type', None)
         # check required keys are present
-        required_keys = ['store_path', 'store_depth', 'store_width', 'store_algorithm', 'store_metadata_namespace']
+        required_keys = [
+            "store_path",
+            "store_depth",
+            "store_width",
+            "store_algorithm",
+            "store_metadata_namespace",
+        ]
         for key in required_keys:
             if key not in configuration:
                 raise ValueError(f"Missing required configuration key: {key}")
@@ -90,7 +101,8 @@ class HashStore(ObjectStore):
 
     def get_object(self, identifier):
         obj = self.store.retrieve_object(identifier)
-        return obj
+        meta = self.store.retrieve_metadata(identifier)
+        return obj, meta
 
 
 class StoreManager:
@@ -112,7 +124,8 @@ class StoreManager:
             store class based on the 'store_type' value in the configuration.
 
         get_object(identifier):
-            Retrieves an object from the managed store instance based on the given identifier.
+            Retrieves an object stream and it's metadata from the hashstore as
+             a tuple
     """
 
     def __init__(self, configuration):
@@ -142,7 +155,7 @@ class StoreManager:
         """
         store_type = configuration.get("store_type")
 
-        if store_type == "HashStore":  # Default path if not provided
+        if store_type == "HashStore":
             return HashStore(configuration)
 
         # Add more conditions for other store types if needed
@@ -157,6 +170,7 @@ class StoreManager:
             identifier (str): The identifier of the object to retrieve.
 
         Returns:
-            object: The retrieved object from the managed store instance.
+            object: an object stream and it's metadata from the hashstore as
+              a tuple.
         """
         return self.store.get_object(identifier)
