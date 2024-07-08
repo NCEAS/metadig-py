@@ -4,7 +4,7 @@ metadig
 Python package for metadig
 """
 
-__version__ = "1.0"
+__version__ = "1.3.0"
 
 from .checks import getType
 from .checks import isResolvable
