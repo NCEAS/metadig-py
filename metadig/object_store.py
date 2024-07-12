@@ -46,6 +46,7 @@ class ObjectStore(ABC):
             tuple: A tuple containing the object stream and its metadata.
         """
 
+
 class StoreManager:
     """
     Manage different types of stores based on the configuration.
@@ -116,6 +117,7 @@ class StoreManager:
         """
         return self.store.get_object(identifier)
 
+
 class HashStore(ObjectStore):
     """
     A class representing a hashstore that implements the ObjectStore interface.
@@ -173,17 +175,20 @@ class HashStore(ObjectStore):
             obj = self.store.retrieve_object(identifier)
         except:  # Replace with the actual exception raised by `retrieve_object`
             raise ObjectNotFoundError(f"Object with identifier {identifier} not found")
-        
+
         try:
             meta = self.store.retrieve_metadata(identifier)
         except:  # Replace with the actual exception raised by `retrieve_metadata`
-            raise MetadataNotFoundError(f"Metadata for object with identifier {identifier} not found")
-        
+            raise MetadataNotFoundError(
+                f"Metadata for object with identifier {identifier} not found"
+            )
+
         return obj, meta
 
 
 class ObjectNotFoundError(Exception):
     pass
+
 
 class MetadataNotFoundError(Exception):
     pass

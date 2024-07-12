@@ -3,6 +3,7 @@ import pytest
 from hashstore import HashStoreFactory
 import os
 
+
 # Create store and put an object in it
 @pytest.fixture
 def store_dir(tmp_path_factory):

@@ -3,6 +3,7 @@ import pytest
 from metadig import StoreManager
 from metadig import read_sysmeta_element
 
+
 def test_sysmeta_fn(store_dir):
 
     properties = {
@@ -19,4 +20,3 @@ def test_sysmeta_fn(store_dir):
 
     fid = read_sysmeta_element(sys, "formatId")
     assert fid == "text/csv"
-

@@ -6,7 +6,6 @@ from metadig import MetadataNotFoundError
 from metadig import ObjectNotFoundError
 
 
-
 def test_object_store_returns_correct_data(store_dir):
     """
     Test that the object store returns data, and that it is the data expected
@@ -32,6 +31,7 @@ def test_object_store_returns_correct_data(store_dir):
     pid = root.find(".//identifier").text
     assert pid == "test-pid"
 
+
 def test_object_store_handles_no_store(store_dir):
 
     properties = {
@@ -42,8 +42,11 @@ def test_object_store_handles_no_store(store_dir):
         "store_metadata_namespace": "https://ns.dataone.org/service/types/v2.0#SystemMetadata",
     }
 
-    with pytest.raises(ValueError, match = "Unknown storeType: None. Expected one of: HashStore"):
+    with pytest.raises(
+        ValueError, match="Unknown storeType: None. Expected one of: HashStore"
+    ):
         StoreManager(properties)
+
 
 def test_object_store_handles_no_metadata(store_dir):
 
@@ -57,8 +60,12 @@ def test_object_store_handles_no_metadata(store_dir):
     }
 
     manager = StoreManager(properties)
-    with pytest.raises(MetadataNotFoundError, match = 'Metadata for object with identifier test-pid-2 not found'):
+    with pytest.raises(
+        MetadataNotFoundError,
+        match="Metadata for object with identifier test-pid-2 not found",
+    ):
         obj = manager.get_object("test-pid-2")
+
 
 def test_object_store_handles_no_object(store_dir):
 
@@ -72,5 +79,7 @@ def test_object_store_handles_no_object(store_dir):
     }
 
     manager = StoreManager(properties)
-    with pytest.raises(ObjectNotFoundError, match = 'Object with identifier not-a-pid not found'):
+    with pytest.raises(
+        ObjectNotFoundError, match="Object with identifier not-a-pid not found"
+    ):
         obj = manager.get_object("not-a-pid")
