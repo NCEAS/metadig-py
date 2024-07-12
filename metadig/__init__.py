@@ -13,5 +13,6 @@ from .variable import toUnicode
 from .object_store import StoreManager
 from .object_store import MetadataNotFoundError
 from .object_store import ObjectNotFoundError
+from .sysmeta import read_sysmeta_element
 
-__all__ = ['StoreManager', 'getType', 'isResolvable', 'isBlank', 'toUnicode']
+__all__ = ['StoreManager', 'getType', 'isResolvable', 'isBlank', 'toUnicode', 'read_sysmeta_element']
