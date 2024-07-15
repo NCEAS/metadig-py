@@ -13,7 +13,8 @@ from .variable import toUnicode
 from .object_store import StoreManager
 from .object_store import MetadataNotFoundError
 from .object_store import ObjectNotFoundError
-from .sysmeta import read_sysmeta_element
+from .metadata import read_sysmeta_element
+from .metadata import find_eml_entity
 
 __all__ = [
     "StoreManager",
@@ -22,4 +23,5 @@ __all__ = [
     "isBlank",
     "toUnicode",
     "read_sysmeta_element",
+    "find_eml_entity",
 ]
