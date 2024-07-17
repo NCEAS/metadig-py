@@ -21,6 +21,7 @@ Example Usage:
 
 from abc import ABC, abstractmethod
 from hashstore import HashStoreFactory
+from hashstore.filehashstore import PidRefsDoesNotExist
 
 
 class ObjectStore(ABC):
@@ -173,15 +174,21 @@ class HashStore(ObjectStore):
     def get_object(self, identifier):
         try:
             obj = self.store.retrieve_object(identifier)
-        except:  # Replace with the actual exception raised by `retrieve_object`
-            raise ObjectNotFoundError(f"Object with identifier {identifier} not found")
+        except (
+            PidRefsDoesNotExist
+        ) as e:  # Replace with the actual exception raised by `retrieve_object`
+            raise ObjectNotFoundError(
+                f"Object with identifier {identifier} not found"
+            ) from e
 
         try:
             meta = self.store.retrieve_metadata(identifier)
-        except:  # Replace with the actual exception raised by `retrieve_metadata`
+        except (
+            PidRefsDoesNotExist
+        ) as e:  # Replace with the actual exception raised by `retrieve_metadata`
             raise MetadataNotFoundError(
                 f"Metadata for object with identifier {identifier} not found"
-            )
+            ) from e
 
         return obj, meta
 
