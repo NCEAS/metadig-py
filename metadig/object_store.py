@@ -165,6 +165,10 @@ class HashStore(ObjectStore):
         for key in required_keys:
             if key not in configuration:
                 raise ValueError(f"Missing required configuration key: {key}")
+        
+        configuration['store_width'] = int(configuration['store_width'])
+        configuration['store_depth'] = int(configuration['store_depth'])
+
         # initialize hashstore
         factory = HashStoreFactory()
         module_name = "hashstore.filehashstore"
