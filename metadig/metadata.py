@@ -67,3 +67,66 @@ def find_eml_entity(doc, identifier, file_name):
 
     # Return None if no match is found
     return None
+
+
+def get_valid_csv(manager, pid):
+    """
+    Returns an input stream for a given pid if the file is a csv file, along with it's
+    filename and a status.
+
+    Args:
+        manager: a store manager returned from StoreManager()
+        pid (str): Identifier of file to return.
+
+    Returns:
+        obj: An input stream object
+        fname: The filename of the object
+        status: SKIP or VALID. Returns skip if not a csv.
+        
+    """
+    obj, sys = manager.get_object(pid)
+    fname = read_sysmeta_element(sys, "fileName")
+    if read_sysmeta_element(sys, "formatId") != "text/csv":
+        return None, fname, "SKIP"
+    return obj, fname, "VALID"
+
+def find_entity_index(fname, pid, entity_names, ids):
+    """
+    Finds the index of a documented entity from a list of entities in a metadata document. The
+    function will first try to match based on filename, then identifier. Returns none if no match.
+
+    Args:
+        fname (str): Filename of the file to match.
+        pid (str): Identifier of file to match.
+        entity_names: List of entity names to search for filename in
+        ids: List of idenfitiers to search for identifier in
+
+    Returns:
+        z: Index of matching entity in documentation.
+        
+    """
+    z = [i for i, x in enumerate(entity_names) if x == fname]
+    if not z:
+        z = [i for i, x in enumerate(ids) if x == pid.replace(":", "-")]
+    return z[0] if z else None
+
+def read_csv_with_metadata(d_read, fd, skiprows):
+    """
+    Uses pandas to read in a csv with given field delimiter and header rows to skip
+
+    Args:
+        d_read: Data as read in from the stream 
+        fd (str): Field delimiter from metadata
+        skiprows (int): Number of rows to skip
+
+    Returns:
+        df: Pandas data.frame with data
+        error: error message on exception
+        
+    """
+    delimiter = "," if fd is None else fd
+    header = 0 if skiprows is None else int(skiprows) - 1
+    try:
+        return pd.read_csv(io.StringIO(d_read), delimiter=delimiter, header=header), None
+    except Exception as e:
+        return None, f"Error reading CSV: {str(e)}"

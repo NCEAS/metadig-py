@@ -15,6 +15,9 @@ from .object_store import MetadataNotFoundError
 from .object_store import ObjectNotFoundError
 from .metadata import read_sysmeta_element
 from .metadata import find_eml_entity
+from .metadata import find_entity_index
+from .metadata import read_csv_with_metadata
+from .metadata import get_valid_csv
 
 __all__ = [
     "StoreManager",
@@ -24,4 +27,7 @@ __all__ = [
     "toUnicode",
     "read_sysmeta_element",
     "find_eml_entity",
+    "find_entity_index",
+    "read_csv_with_metadata",
+    "get_valid_csv"
 ]
