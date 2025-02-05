@@ -108,7 +108,10 @@ def find_entity_index(fname, pid, entity_names, ids):
     z = [i for i, x in enumerate(entity_names) if x == fname]
     if not z:
         z = [i for i, x in enumerate(ids) if x == pid.replace(":", "-")]
-    return z[0] if z else None
+    
+    if len(z) > 1:
+        z = z[0]
+    return z if z else None
 
 def read_csv_with_metadata(d_read, fd, skiprows):
     """
@@ -125,7 +128,7 @@ def read_csv_with_metadata(d_read, fd, skiprows):
         
     """
     delimiter = "," if fd is None else fd
-    header = 0 if skiprows is None else int(skiprows) - 1
+    header = 0 if skiprows is None else int(skiprows[0]) - 1
     try:
         return pd.read_csv(io.StringIO(d_read), delimiter=delimiter, header=header), None
     except Exception as e:
