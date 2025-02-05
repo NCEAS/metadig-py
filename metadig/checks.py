@@ -4,6 +4,12 @@
 import sys
 import urllib.request, urllib.error, urllib.parse
 from urllib.parse import urlparse
+import xml.etree.ElementTree as ET
+from types import SimpleNamespace
+from lxml import etree
+import subprocess
+import json
+import sys
 
 
 def getType(object):
@@ -85,13 +91,168 @@ def isResolvable(url):
     else:
         return (False, "Did not resolved the URL {}".format(url))
 
+from lxml import etree
+from types import SimpleNamespace
 
-# Check if an identifier has a valid, known namespace
-# def isNamespaceValid(identifier):
-#    delimiter = ':'
-#    if(identifier.find(delimeter == -1)):
-#        return False, "Missing namespace in identifier"
-#
-#    namespace, id = identfier.split(':', 1)
-#
-#    return True, "The namespace is valid"
+def run_check(check_xml_path: str, metadata_xml_path: str):
+    """
+    Run a validation check against an XML metadata document.
+
+    :param check_xml_path: Path to the XML file containing the check configuration.
+    :param metadata_xml_path: Path to the XML metadata document.
+    :return: The result of the check function.
+    """
+    # Load the metadata and check XML files
+    metadata_doc = etree.parse(metadata_xml_path).getroot()
+    metadata_doc_no_ns = etree.parse(metadata_xml_path).getroot()
+
+    # Remove namespaces
+    for elem in metadata_doc_no_ns.iter():
+        if elem.tag.startswith("{") and not elem.tag.startswith("{http://www.w3.org/2001/XMLSchema-instance}"):
+            elem.tag = elem.tag.split('}', 1)[1]  # Remove namespace
+
+    # Load the check XML
+    check_doc = etree.parse(check_xml_path).getroot()
+
+    # Ensure the check is valid
+    check_id_elem = check_doc.xpath(".//id")
+    check_id = check_id_elem[0].text if check_id_elem else "Unknown"
+
+    if not is_check_valid(check_doc, metadata_doc):
+        print(f"Check {check_id} is not valid for metadata document {metadata_xml_path}")
+        return
+
+    # Extract selectors and apply them
+    selectors = check_doc.xpath(".//selector")
+    check_vars = {}
+
+    # todo: replace all this hardcoded proof of concept stuff with something that makes sense
+    check_vars['dataPids'] = ["urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1"]
+    check_vars['storeConfiguration'] = {
+         "store_type": "HashStore",
+        "store_path": "/Users/clark/Documents/metacat-hashstore",
+        "store_depth": "3",
+        "store_width": 2,
+        "store_algorithm": "SHA-256",
+        "store_metadata_namespace": "https://ns.dataone.org/service/types/v2.0#SystemMetadata",
+    }
+
+    if not selectors:
+        raise ValueError("No selectors are defined for this check.")
+
+    # Extract the information from selectors
+    for selector in selectors:
+        selector_xpath = selector.xpath("xpath")[0].text
+        selector_name = selector.xpath("name")[0].text
+
+
+        ns_aware_elem = selector.get("namespaceAware")
+        ns_aware = ns_aware_elem and ns_aware_elem[0].text.lower() == "true"
+        metadata_doc_to_use = metadata_doc if ns_aware else metadata_doc_no_ns
+
+        variable_list = select_nodes(metadata_doc_to_use, selector)
+
+        check_vars[selector_name] = variable_list
+
+    # Execute check function
+    result = None
+    code_elem = check_doc.xpath("code")
+    if code_elem:
+        code_str =f"""
+import json
+locals().update({json.dumps(check_vars)})
+""" + code_elem[0].text + "\ncall()"
+
+
+    result = subprocess.run(
+        [sys.executable, "-c", code_str],
+        capture_output=True,
+        text=True,
+        check=True
+    )
+
+    # with the subprocess, the only way to get the output out is to print to stdout and then parse it
+    # there must be a better way to do this - maybe with a sub environment instead? I'm not sure how this
+    # works in python
+
+
+def is_check_valid(check_doc, metadata_doc):
+    """
+    Check if the given check document is valid for the metadata document.
+
+    :param check_doc: XML representing the check document.
+    :param metadata_doc: XML representing the metadata document.
+    :return: True if valid, False otherwise.
+    """
+    dialect_nodes = check_doc.xpath("dialect")
+    if dialect_nodes:
+        for dialect_node in dialect_nodes:
+            dialect_name_elem = dialect_node.xpath("name")
+            dialect_xpath_elem = dialect_node.xpath("xpath")
+
+            if dialect_name_elem and dialect_xpath_elem:
+                dialect_xpath = dialect_xpath_elem[0].text
+                dialect_match_node = metadata_doc.xpath(dialect_xpath)
+
+                if dialect_match_node:
+                    return True
+        return False
+    # If no dialect specified, assume check is valid for all metadata
+    return True
+
+
+def ns_strip(xml_doc, ns_prefix):
+    """
+    Strip the specified namespace from a document.
+
+    :param xml_doc: The document to strip.
+    :param ns_prefix: The namespace prefix to strip.
+    :return: XML document without the specified namespace.
+    """
+    xpath_str = f".//namespace::*[name()='{ns_prefix}']/parent::*"
+    for element in xml_doc.xpath(xpath_str):
+        ns_decl = f"xmlns:{ns_prefix}"
+        if ns_decl in element.attrib:
+            del element.attrib[ns_decl]
+    return xml_doc
+
+
+def select_nodes(context_node, selector_context):
+    """
+    Select data values from a metadata document as specified in a check's selectors.
+
+    :param context_node: Metadata document node.
+    :param selector_context: Selector node defining the extraction criteria.
+    :return: List of selected node values.
+    """
+    if selector_context is None:
+        return []
+    values = []
+    selector_xpath = selector_context.xpath("xpath")[0].text
+    sub_selector = selector_context.xpath("subSelector")
+
+    selected_nodes = context_node.xpath(selector_xpath)
+    if not selected_nodes:
+        return values
+
+    for node in selected_nodes:
+        if sub_selector:
+            value = select_nodes(node, sub_selector[0])
+        else:
+            if hasattr(node, 'text') and node.text is not None:
+                text_val = node.text
+            else:
+                text_val = node
+            try:
+                value = float(text_val)
+            except (ValueError, TypeError):
+                if text_val == "True":
+                    value = True
+                elif text_val == "False":
+                    value = False
+                else:
+                    value = text_val
+        values.append(value)
+
+    return values
+
