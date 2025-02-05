@@ -1,15 +1,16 @@
 """Metadig check utilities
 """
 
+import json
+import subprocess
 import sys
-import urllib.request, urllib.error, urllib.parse
-from urllib.parse import urlparse
+import urllib.request
+import urllib.error
+import urllib.parse
 import xml.etree.ElementTree as ET
 from types import SimpleNamespace
+from urllib.parse import urlparse
 from lxml import etree
-import subprocess
-import json
-import sys
 
 
 def getType(object):
@@ -91,8 +92,6 @@ def isResolvable(url):
     else:
         return (False, "Did not resolved the URL {}".format(url))
 
-from lxml import etree
-from types import SimpleNamespace
 
 def run_check(check_xml_path: str, metadata_xml_path: str):
     """
@@ -255,4 +254,3 @@ def select_nodes(context_node, selector_context):
         values.append(value)
 
     return values
-
