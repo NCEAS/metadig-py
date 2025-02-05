@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mdq:check xmlns:mdq="https://nceas.ucsb.edu/mdqe/v1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="https://nceas.ucsb.edu/mdqe/v1 ../schemas/schema1.xsd">
+  <id>data.table-text-delimited.glimpse</id>
+  <name>Show a summary of a text-delimited table</name>
+  <description>CShow a summary of a text-delimited table.</description>
+  <type>identification</type>
+  <level>INFO</level>
+  <environment>python</environment>
+  <code><![CDATA[
+
+def call():
+    global output
+    global status
+    global output_identifiers
+    global output_type
+
+    from metadig import StoreManager
+    from metadig import read_sysmeta_element
+    from metadig import find_eml_entity
+    from metadig import get_valid_csv
+    from metadig import find_entity_index
+    from metadig import read_csv_with_metadata
+    import pandas as pd
+    import io
+
+    manager = StoreManager(storeConfiguration)  
+
+    output_data = []
+    status_data = []
+    output_identifiers = []
+    output_type = []
+
+    for pid in dataPids:
+        output_identifiers.append(pid)
+        obj, sys = manager.get_object(pid)
+
+        # if file is not text/csv, skip it
+        # otherwise get the object and filename
+        obj, fname, status = get_valid_csv(manager, pid)
+        if status == "SKIP":
+            output_data.append(f"{fname} is not a text-delimited table, skipping.")
+            status_data.append(status)
+            continue
+
+        # read in all the data
+        d_read = obj.read()
+
+        # find which entity file is documented in
+        z = find_entity_index(fname, pid, entityNames, ids)
+        if z is None:
+            output_data.append(f"{fname} does not appear to be documented in the metadata.")
+            status_data.append("FAILURE")
+            continue
+        z = z[0]
+        
+        # try to read in the file
+        df, error = read_csv_with_metadata(d_read, fieldDelimiter[z], headerLines[z])
+        if error:
+            output_data.append(f"{fname} is unable to be read as a table.")
+            status_data.append("FAILURE")
+            continue
+
+
+        if isinstance(df, pd.DataFrame):
+            summary = df.describe()
+            summary_md = summary.to_markdown()
+            output_data.append(f"**{fname}** \n {summary_md} \n")
+            output_type.append("markdown")
+            status_data.append("SUCCESS")
+        else:
+            output_data.append(f"{fname} cannot be parsed." + char(type(df)))
+            output_type.append("text")
+            status_data.append("FAILURE")
+
+    successes = sum(x == "SUCCESS" for x in status_data)
+    failures = sum(x == "FAILURE" for x in status_data)
+    skips = sum(x == "SKIP" for x in status_data)
+    output = output_data
+    if successes > 0 and failures == 0:
+        status = "SUCCESS"
+        return True
+    elif successes == 0 and failures > 0:
+        status = "FAILURE"
+        return True
+    else:
+        status = "FAILURE" 
+        return True
+
+  ]]></code>
+  <selector>
+    <name>entityNames</name>
+    <xpath>/eml/dataset/*[self::dataTable|self::otherEntity]</xpath>
+    <subSelector>
+      <name>...</name>
+      <xpath>./entityName</xpath>
+    </subSelector>
+  </selector>
+  <selector>
+    <name>objectNames</name>
+    <xpath>/eml/dataset/*[self::dataTable|self::otherEntity]</xpath>
+    <subSelector>
+      <name>...</name>
+      <xpath>./physical/objectName</xpath>
+    </subSelector>
+  </selector>
+  <selector>
+    <name>ids</name>
+    <xpath>/eml/dataset/*[self::dataTable|self::otherEntity]/@id</xpath>
+  </selector>
+  <selector>
+     <name>fieldDelimiter</name>
+    <xpath>/eml/dataset/*[self::dataTable|self::otherEntity]</xpath>
+     <subSelector>
+        <name>...</name>
+        <xpath>./physical/dataFormat/textFormat/simpleDelimited/fieldDelimiter</xpath>
+    </subSelector>
+  </selector>
+  <selector>
+     <name>headerLines</name>
+    <xpath>/eml/dataset/*[self::dataTable|self::otherEntity]</xpath>
+     <subSelector>
+        <name>...</name>
+        <xpath>./physical/dataFormat/textFormat/numHeaderLines</xpath>
+    </subSelector>
+  </selector>
+  <dialect>
+    <name>Ecological Metadata Language</name>
+    <xpath>boolean(/*[local-name() = 'eml'])</xpath>
+  </dialect>
+</mdq:check>
