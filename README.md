@@ -39,6 +39,16 @@ Currently, we have the following modules and functions available:
 "find_eml_entity",
 ```
 
+## Installation
+
+To install MetaDIG-py, run the following commands
+
+```sh
+$ mkvirtualenv -p python3.9 metadigpy // Create a virtual environment
+$ poetry install // Run command to install dependencies
+$ pytest // Restart your IDE if you are having issues executing this command
+```
+
 ## License
 
 ```
