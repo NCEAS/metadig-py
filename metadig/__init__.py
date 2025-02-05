@@ -8,6 +8,7 @@ __version__ = "1.3.0"
 
 from .checks import getType
 from .checks import isResolvable
+from .checks import run_check
 from .variable import isBlank
 from .variable import toUnicode
 from .object_store import StoreManager
@@ -29,5 +30,6 @@ __all__ = [
     "find_eml_entity",
     "find_entity_index",
     "read_csv_with_metadata",
-    "get_valid_csv"
+    "get_valid_csv",
+    "run_check"
 ]

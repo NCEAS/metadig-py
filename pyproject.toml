@@ -10,6 +10,8 @@ packages = [{include = "metadig"}]
 python = "^3.9"
 jep = "4.1.1"
 hashstore = { git = "https://github.com/dataoneorg/hashstore.git"}
+lxml = "^5.3.0"
+pandas = "^2.2.2"
 
 
 [tool.poetry.group.dev.dependencies]
