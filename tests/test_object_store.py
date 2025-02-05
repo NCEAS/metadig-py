@@ -61,8 +61,8 @@ def test_object_store_handles_no_metadata(store_dir):
 
     manager = StoreManager(properties)
     with pytest.raises(
-        MetadataNotFoundError,
-        match="Metadata for object with identifier test-pid-2 not found",
+        ValueError,
+        match="No metadata found for pid: test-pid-2",
     ):
         obj = manager.get_object("test-pid-2")
 
