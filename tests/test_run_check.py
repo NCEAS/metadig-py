@@ -19,25 +19,4 @@ def sample_metadata_file():
 def test_run_check(sample_check_file, sample_metadata_file):
     result = run_check(sample_check_file, sample_metadata_file)
 
-    variables = {'var1': 10}
-
-    wrapped_code = f"""
-import json
-locals().update({json.dumps(variables)})
-def call():
-    print(var1)
-"""
-
-
-    # Run the code directly in a subprocess
-    result = subprocess.run(
-        [sys.executable, "-c", wrapped_code + '\ncall()'],
-        capture_output=True,
-        text=True,
-        check=True
-    )
-    
-    print(result.stdout)
-
-
     assert result is not None, "Expected a result from the embedded code."
