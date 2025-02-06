@@ -10,30 +10,31 @@ def init_store_path(tmp_path):
     hashstore_path = directory.as_posix()
     return hashstore_path
 
-
-# Create store and put an object in it
-@pytest.fixture
-def store_dir(store_path):
-    current_dir = os.path.dirname(__file__)
-    obj_path = os.path.join(current_dir, "testdata", "test-data.csv")
-    obj2_path = os.path.join(current_dir, "testdata", "test-data-2.csv")
-    meta_path = os.path.join(current_dir, "testdata", "test-pid.xml")
-
-    hashstore_factory = HashStoreFactory()
-
-    # Create a properties dictionary with the required fields
+@pytest.fixture(name="props")
+def init_props(store_path):
+    """Properties to initialize HashStore."""
     properties = {
-        "store_path": str(store_path),
+        "store_path": store_path,
         "store_depth": 3,
         "store_width": 2,
         "store_algorithm": "SHA-256",
         "store_metadata_namespace": "https://ns.dataone.org/service/types/v2.0#SystemMetadata",
     }
+    return properties
+
+# Create store and put an object in it
+@pytest.fixture
+def store_dir(store_path, props):
+    current_dir = os.path.dirname(__file__)
+    obj_path = os.path.join(current_dir, "testdata", "test-data.csv")
+    obj2_path = os.path.join(current_dir, "testdata", "test-data-2.csv")
+    meta_path = os.path.join(current_dir, "testdata", "test-pid.xml")
 
     # Get HashStore from factory
+    hashstore_factory = HashStoreFactory()
     module_name = "hashstore.filehashstore"
     class_name = "FileHashStore"
-    store = hashstore_factory.get_hashstore(module_name, class_name, properties)
+    store = hashstore_factory.get_hashstore(module_name, class_name, props)
 
     store.store_object("test-pid", str(obj_path))
     store.store_object("test-pid-2", str(obj2_path))
