@@ -2,10 +2,18 @@ import os
 import pytest
 from hashstore import HashStoreFactory
 
+@pytest.fixture(name="store_path")
+def init_store_path(tmp_path):
+    """Create and return the path to a hashstore"""
+    directory = tmp_path / "metacat" / "hashstore"
+    directory.mkdir(parents=True)
+    hashstore_path = directory.as_posix()
+    return hashstore_path
+
+
 # Create store and put an object in it
 @pytest.fixture
-def store_dir(tmp_path_factory):
-    store_path = tmp_path_factory.mktemp("store")
+def store_dir(store_path):
     current_dir = os.path.dirname(__file__)
     obj_path = os.path.join(current_dir, "testdata", "test-data.csv")
     obj2_path = os.path.join(current_dir, "testdata", "test-data-2.csv")
