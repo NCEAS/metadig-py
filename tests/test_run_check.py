@@ -1,22 +1,23 @@
-import pytest
+"""Test module for the metadig module."""
+
 from metadig import run_check
-import os
-import subprocess
-import json
-import sys
 
-@pytest.fixture
-def sample_check_file():
-    test_data_directory = os.path.join(os.path.dirname(__file__), 'testdata')
-    return os.path.join(test_data_directory, 'data.table-text-delimited.glimpse.xml')
+def test_run_check(sample_check_file_path, sample_metadata_file_path):
+    check_vars = {}
 
-@pytest.fixture
-def sample_metadata_file():
-    test_data_directory = os.path.join(os.path.dirname(__file__), 'testdata')
-    return os.path.join(test_data_directory, 'doi:10.18739_A2QJ78081.xml')
+    # todo: replace all this hardcoded proof of concept stuff with something that makes sense
+    check_vars['dataPids'] = ["urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1"]
+    check_vars['storeConfiguration'] = {
+         "store_type": "HashStore",
+        "store_path": "/Users/clark/Documents/metacat-hashstore",
+        "store_depth": "3",
+        "store_width": 2,
+        "store_algorithm": "SHA-256",
+        "store_metadata_namespace": "https://ns.dataone.org/service/types/v2.0#SystemMetadata",
+    }
 
-
-def test_run_check(sample_check_file, sample_metadata_file):
-    result = run_check(sample_check_file, sample_metadata_file)
+    result = run_check(sample_check_file_path, sample_metadata_file_path, check_vars)
+    print("Dou ~ Result:")
+    print(result)
 
     assert result is not None, "Expected a result from the embedded code."

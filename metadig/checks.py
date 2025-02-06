@@ -11,6 +11,7 @@ import xml.etree.ElementTree as ET
 from types import SimpleNamespace
 from urllib.parse import urlparse
 from lxml import etree
+from typing import Dict, Any
 
 
 def getType(object):
@@ -93,12 +94,13 @@ def isResolvable(url):
         return (False, "Did not resolved the URL {}".format(url))
 
 
-def run_check(check_xml_path: str, metadata_xml_path: str):
+def run_check(check_xml_path: str, metadata_xml_path: str, check_vars: Dict[str, Any]):
     """
     Run a validation check against an XML metadata document.
 
-    :param check_xml_path: Path to the XML file containing the check configuration.
-    :param metadata_xml_path: Path to the XML metadata document.
+    :param str check_xml_path: Path to the XML file containing the check configuration.
+    :param str metadata_xml_path: Path to the XML metadata document.
+    :param Dict check_vars: Dictionary containing local vars that the check may need.
     :return: The result of the check function.
     """
     # Load the metadata and check XML files
@@ -123,18 +125,6 @@ def run_check(check_xml_path: str, metadata_xml_path: str):
 
     # Extract selectors and apply them
     selectors = check_doc.xpath(".//selector")
-    check_vars = {}
-
-    # todo: replace all this hardcoded proof of concept stuff with something that makes sense
-    check_vars['dataPids'] = ["urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1"]
-    check_vars['storeConfiguration'] = {
-         "store_type": "HashStore",
-        "store_path": "/Users/clark/Documents/metacat-hashstore",
-        "store_depth": "3",
-        "store_width": 2,
-        "store_algorithm": "SHA-256",
-        "store_metadata_namespace": "https://ns.dataone.org/service/types/v2.0#SystemMetadata",
-    }
 
     if not selectors:
         raise ValueError("No selectors are defined for this check.")
@@ -157,18 +147,29 @@ def run_check(check_xml_path: str, metadata_xml_path: str):
     result = None
     code_elem = check_doc.xpath("code")
     if code_elem:
-        code_str =f"""
+        code_str = f"""
 import json
 locals().update({json.dumps(check_vars)})
 """ + code_elem[0].text + "\ncall()"
+        # TODO: Clean up code for print statements
+        # code_str = f"""print("This worked")"""
 
-
-    result = subprocess.run(
-        [sys.executable, "-c", code_str],
-        capture_output=True,
-        text=True,
-        check=True
-    )
+        try:
+            result = subprocess.run(
+                [sys.executable, "-c", code_str],
+                capture_output=True,
+                text=True,
+                check=True
+            )
+            # TODO: Clean up code for print statements
+            print("Exit code:", result.returncode)
+            print("stdout:", result.stdout)
+            print("stderr:", result.stderr)
+        except subprocess.CalledProcessError as e:
+            print(f"Error: {e}")
+        return result
+    else:
+        raise IOError("Check code is unavailable/cannot be found.")
 
     # with the subprocess, the only way to get the output out is to print to stdout and then parse it
     # there must be a better way to do this - maybe with a sub environment instead? I'm not sure how this
