@@ -10,7 +10,7 @@ def init_store_path(tmp_path):
     hashstore_path = directory.as_posix()
     return hashstore_path
 
-@pytest.fixture(name="props")
+@pytest.fixture(name="hashstore_props")
 def init_props(store_path):
     """Properties to initialize HashStore."""
     properties = {
@@ -24,7 +24,7 @@ def init_props(store_path):
 
 # Create store and put an object in it
 @pytest.fixture
-def store_dir(store_path, props):
+def store_dir(store_path, hashstore_props):
     current_dir = os.path.dirname(__file__)
     obj_path = os.path.join(current_dir, "testdata", "test-data.csv")
     obj2_path = os.path.join(current_dir, "testdata", "test-data-2.csv")
@@ -34,7 +34,7 @@ def store_dir(store_path, props):
     hashstore_factory = HashStoreFactory()
     module_name = "hashstore.filehashstore"
     class_name = "FileHashStore"
-    store = hashstore_factory.get_hashstore(module_name, class_name, props)
+    store = hashstore_factory.get_hashstore(module_name, class_name, hashstore_props)
 
     store.store_object("test-pid", str(obj_path))
     store.store_object("test-pid-2", str(obj2_path))
