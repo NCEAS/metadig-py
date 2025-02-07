@@ -28,8 +28,9 @@ def init_hashstore_props(store_path):
 def init_storemanager_props(hashstore_props):
     """Properties to initialize StoreManager."""
     # Add 'store_type' to hashstore properties
-    hashstore_props["store_type"] = "HashStore"
-    return hashstore_props
+    storemanager_props = hashstore_props
+    storemanager_props["store_type"] = "HashStore"
+    return storemanager_props
 
 @pytest.fixture(name="store")
 def init_hashstore(hashstore_props):
