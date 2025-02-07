@@ -5,7 +5,7 @@ python checks in [metadig-checks](https://github.com/NCEAS/metadig-checks).
 
 ## Contributors
 
-- **Author**: Jeanette Clark
+- **Author**: Jeanette Clark, Dou Mok
 - **License**: [Apache 2](http://opensource.org/licenses/Apache-2.0)
 - [Package source code on GitHub](https://github.com/NCEAS/metadig-py)
 - [**Submit Bugs and feature requests**](https://github.com/NCEAS/metadig-py/issues)
