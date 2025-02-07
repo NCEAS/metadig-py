@@ -162,6 +162,7 @@ locals().update({json.dumps(check_vars)})
                 check=True
             )
             # TODO: Clean up code for print statements
+            # TODO: Return the results in a dictionary and add pytest
             print("Exit code:", result.returncode)
             print("stdout:", result.stdout)
             print("stderr:", result.stderr)
