@@ -51,9 +51,15 @@ def init_hashstore_with_test_data(store):
     obj2_path = os.path.join(current_dir, "testdata", "test-data-2.csv")
     meta_path = os.path.join(current_dir, "testdata", "test-pid.xml")
 
+    # Store data and metadata objects for 'object_store' pytest
     store.store_object("test-pid", str(obj_path))
     store.store_object("test-pid-2", str(obj2_path))
     store.store_metadata("test-pid", str(meta_path))
+    # Store data and metadata object for 'checks' pytest
+    # TODO: The data object here may not be suitable tor the actual check that is run
+    # TODO: Determine if specific data object and metadata should be used
+    store.store_object("urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1", str(obj_path))
+    store.store_metadata("urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1", str(meta_path))
     return True
 
 # TODO: Refactor these fixtures later when run_checks is working, repeated code
