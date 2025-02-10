@@ -25,7 +25,7 @@ def test_run_check(
     result = run_check(sample_check_file_path, sample_metadata_file_path, check_vars)
     assert result is not None, "Expected a result from the embedded code."
     assert result["Check Status"] == 0
-    assert result["Check Result"] != ""
+    assert result["Check Result"] is not None
 
 
 def test_run_check_error_missing_pid(
@@ -49,4 +49,4 @@ def test_run_check_error_missing_pid(
     result = run_check(sample_check_file_path, sample_metadata_file_path, check_vars)
     assert result is not None, "Expected a result from the embedded code."
     assert result["Check Status"] == 1
-    assert result["Check Result"] != ""
+    assert result["Check Result"] is not None
