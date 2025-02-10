@@ -2,7 +2,6 @@
 
 from metadig import run_check
 from metadig.object_store import StoreManager
-import json
 
 
 def test_run_check(

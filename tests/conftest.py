@@ -64,7 +64,9 @@ def init_hashstore_with_test_data(store):
     obj_path_to_pid_obj = os.path.join(current_dir, "testdata", pid_associated_file_name)
     obj_path_to_pid_sysmeta = os.path.join(current_dir, "testdata", pid_sysmeta_name)
     store.store_object("urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1", str(obj_path_to_pid_obj))
-    store.store_metadata("urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1", str(obj_path_to_pid_sysmeta))
+    store.store_metadata(
+        "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1", str(obj_path_to_pid_sysmeta)
+    )
     return True
 
 # TODO: Refactor these fixtures later when run_checks is working, repeated code

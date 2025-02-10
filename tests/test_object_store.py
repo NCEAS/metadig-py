@@ -1,9 +1,9 @@
-import os
-import pytest
+"""Test module for object_store module"""
+
 import xml.etree.ElementTree as ET
+import pytest
 
 from metadig import StoreManager
-from metadig import MetadataNotFoundError
 from metadig import ObjectNotFoundError
 
 
@@ -38,7 +38,7 @@ def test_object_store_handles_no_metadata(storemanager_props, init_hashstore_wit
         ValueError,
         match="No metadata found for pid: test-pid-2",
     ):
-        obj = manager.get_object("test-pid-2")
+        _ = manager.get_object("test-pid-2")
 
 
 def test_object_store_handles_no_object(storemanager_props):
@@ -47,4 +47,4 @@ def test_object_store_handles_no_object(storemanager_props):
     with pytest.raises(
         ObjectNotFoundError, match="Object with identifier not-a-pid not found"
     ):
-        obj = manager.get_object("not-a-pid")
+        _ = manager.get_object("not-a-pid")

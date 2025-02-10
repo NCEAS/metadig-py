@@ -1,21 +1,22 @@
-import pytest
+"""Test module for 'metadata' module"""
 
 from metadig import StoreManager
 from metadig import read_sysmeta_element
 from metadig import find_eml_entity
 
 
-def test_sysmeta_fn(storemanager_props, init_hashstore_with_test_data):
+def test_read_sysmeta_element(storemanager_props, init_hashstore_with_test_data):
+    """Confirm that 'read_sysmeta_element' reads a given element as expected."""
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)
-    obj, sys = manager.get_object("test-pid")
+    _, sys = manager.get_object("test-pid")
 
     fid = read_sysmeta_element(sys, "formatId")
     assert fid == "text/csv"
 
 
 def test_find_entity():
-
+    """Test 'find_eml_entity' is able to find the expected entity."""
     doc = """<?xml version="1.0" encoding="UTF-8"?>
     <eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="id" system="system" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
       <dataset>
@@ -104,16 +105,16 @@ def test_find_entity():
     """
 
     fname = "file.csv"
-    id = "identifier-123"
+    identifier = "identifier-123"
 
-    ent = find_eml_entity(doc + dt, id, fname)
+    ent = find_eml_entity(doc + dt, identifier, fname)
     anames = ent.findall(".//attributeName")
     assert [elem.text for elem in anames] == ["length_1"]
 
-    ent = find_eml_entity(doc + oe, id, fname)
+    ent = find_eml_entity(doc + oe, identifier, fname)
     anames = ent.findall(".//attributeName")
     assert [elem.text for elem in anames] == ["length_1"]
 
-    ent = find_eml_entity(doc + oe2, id, fname)
+    ent = find_eml_entity(doc + oe2, identifier, fname)
     anames = ent.findall(".//attributeName")
     assert [elem.text for elem in anames] == ["length_1"]
