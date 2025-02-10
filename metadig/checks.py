@@ -109,8 +109,10 @@ def run_check(check_xml_path: str, metadata_xml_path: str, check_vars: Dict[str,
 
     # Remove namespaces
     for elem in metadata_doc_no_ns.iter():
-        if elem.tag.startswith("{") and not elem.tag.startswith("{http://www.w3.org/2001/XMLSchema-instance}"):
-            elem.tag = elem.tag.split('}', 1)[1]  # Remove namespace
+        if elem.tag.startswith("{") and not elem.tag.startswith(
+            "{http://www.w3.org/2001/XMLSchema-instance}"
+        ):
+            elem.tag = elem.tag.split("}", 1)[1]  # Remove namespace
 
     # Load the check XML
     check_doc = etree.parse(check_xml_path).getroot()
@@ -120,7 +122,9 @@ def run_check(check_xml_path: str, metadata_xml_path: str, check_vars: Dict[str,
     check_id = check_id_elem[0].text if check_id_elem else "Unknown"
 
     if not is_check_valid(check_doc, metadata_doc):
-        print(f"Check {check_id} is not valid for metadata document {metadata_xml_path}")
+        print(
+            f"Check {check_id} is not valid for metadata document {metadata_xml_path}"
+        )
         return
 
     # Extract selectors and apply them
@@ -134,7 +138,6 @@ def run_check(check_xml_path: str, metadata_xml_path: str, check_vars: Dict[str,
         selector_xpath = selector.xpath("xpath")[0].text
         selector_name = selector.xpath("name")[0].text
 
-
         ns_aware_elem = selector.get("namespaceAware")
         ns_aware = ns_aware_elem and ns_aware_elem[0].text.lower() == "true"
         metadata_doc_to_use = metadata_doc if ns_aware else metadata_doc_no_ns
@@ -145,30 +148,40 @@ def run_check(check_xml_path: str, metadata_xml_path: str, check_vars: Dict[str,
 
     # Execute check function
     result = None
+    result_output = {}
+    # TODO: Clean-up code, we can likely extract this portion of forming the call to another fn
+    # successes, failures and skips are not global variables in the check code, so they cannot
+    # be retrieved at this moment.
     code_elem = check_doc.xpath("code")
     if code_elem:
-        code_str = f"""
+        code_str = (
+            f"""
 import json
 locals().update({json.dumps(check_vars)})
-""" + code_elem[0].text + "\ncall()"
-        # TODO: Clean up code for print statements
-        # code_str = f"""print("This worked")"""
+"""
+            + code_elem[0].text
+            + "\ncall()\nprint(output[0])"
+        )
 
         try:
             result = subprocess.run(
                 [sys.executable, "-c", code_str],
                 capture_output=True,
                 text=True,
-                check=True
+                check=True,
             )
             # TODO: Clean up code for print statements
             # TODO: Return the results in a dictionary and add pytest
-            print("Exit code:", result.returncode)
-            print("stdout:", result.stdout)
-            print("stderr:", result.stderr)
-        except subprocess.CalledProcessError as e:
-            print(f"Error: {e}")
-        return result
+            result_output["Check Status"] = result.returncode
+            result_output["Check Result"] = result.stdout
+            print(result_output)
+            return result_output
+
+        except Exception as e:
+            result_output["Check Status"] = 1
+            result_output["Check Result"] = e
+            print(result_output)
+            raise e
     else:
         raise IOError("Check code is unavailable/cannot be found.")
 
