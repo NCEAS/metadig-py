@@ -1,7 +1,7 @@
 # MetaDIG-py - A python client package for assisting with running MetaDIG checks
 
 MetaDIG-Py is a library that contains helper functions and classes to assist users with writing 
-python checks in [metadig-checks](https://github.com/NCEAS/metadig-checks).
+python checks for suites in [metadig-checks](https://github.com/NCEAS/metadig-checks).
 
 ## Contributors
 
