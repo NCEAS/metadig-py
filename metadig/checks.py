@@ -172,15 +172,12 @@ locals().update({json.dumps(check_vars)})
             )
             result_output["Check Status"] = result.returncode
             result_output["Check Result"] = result.stdout
-            print(result_output)
             return result_output
 
         except Exception as e:
-            # TODO: Investigate if there is a way to produce the exact error
             result_output["Check Status"] = 1
             # pylint: disable=E1101 the subprocess does have this member
             result_output["Check Result"] = e.stderr
-            print(result_output)
             return result_output
     else:
         raise IOError("Check code is unavailable/cannot be found.")
