@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns3:systemMetadata xmlns:ns2="http://ns.dataone.org/service/types/v1" xmlns:ns3="http://ns.dataone.org/service/types/v2.0">
+    <serialVersion>0</serialVersion>
+    <identifier>urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1</identifier>
+    <formatId>text/csv</formatId>
+    <size>7155815</size>
+    <checksum algorithm="MD5">7440dc491bfdcb0cb3c26bfd1171a8cf</checksum>
+    <submitter>http://orcid.org/0000-0001-8947-0479</submitter>
+    <rightsHolder>http://orcid.org/0000-0001-8947-0479</rightsHolder>
+    <accessPolicy>
+        <allow>
+            <subject>public</subject>
+            <permission>read</permission>
+        </allow>
+        <allow>
+            <subject>CN=arctic-data-admins,DC=dataone,DC=org</subject>
+            <permission>read</permission>
+            <permission>write</permission>
+            <permission>changePermission</permission>
+        </allow>
+    </accessPolicy>
+    <replicationPolicy replicationAllowed="false" numberReplicas="0"/>
+    <obsoletes>urn:uuid:240fb28d-7638-4165-8649-5458cbb87dfe</obsoletes>
+    <archived>false</archived>
+    <dateUploaded>2024-07-01T18:54:30.888+00:00</dateUploaded>
+    <dateSysMetadataModified>2024-07-01T18:54:31.598+00:00</dateSysMetadataModified>
+    <originMemberNode>urn:node:ARCTIC</originMemberNode>
+    <authoritativeMemberNode>urn:node:ARCTIC</authoritativeMemberNode>
+    <fileName>the_arctic_plant_aboveground_biomass_synthesis_dataset_v1_2.csv</fileName>
+</ns3:systemMetadata>

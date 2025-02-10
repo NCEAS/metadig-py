@@ -59,8 +59,12 @@ def init_hashstore_with_test_data(store):
     # Store data and metadata object for 'checks' pytest
     # TODO: The data object here may not be suitable tor the actual check that is run
     # TODO: Determine if specific data object and metadata should be used
-    store.store_object("urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1", str(obj_path))
-    store.store_metadata("urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1", str(meta_path))
+    pid_associated_file_name = "the_arctic_plant_aboveground_biomass_synthesis_dataset.csv"
+    pid_sysmeta_name = "urn_uuid_6a7a874a-39b5-4855-85d4-0fdfac795cd1.xml"
+    obj_path_to_pid_obj = os.path.join(current_dir, "testdata", pid_associated_file_name)
+    obj_path_to_pid_sysmeta = os.path.join(current_dir, "testdata", pid_sysmeta_name)
+    store.store_object("urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1", str(obj_path_to_pid_obj))
+    store.store_metadata("urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1", str(obj_path_to_pid_sysmeta))
     return True
 
 # TODO: Refactor these fixtures later when run_checks is working, repeated code
