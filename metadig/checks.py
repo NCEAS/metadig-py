@@ -170,18 +170,18 @@ locals().update({json.dumps(check_vars)})
                 text=True,
                 check=True,
             )
-            # TODO: Clean up code for print statements
-            # TODO: Return the results in a dictionary and add pytest
             result_output["Check Status"] = result.returncode
             result_output["Check Result"] = result.stdout
             print(result_output)
             return result_output
 
         except Exception as e:
+            # TODO: Investigate if there is a way to produce the exact error
             result_output["Check Status"] = 1
-            result_output["Check Result"] = e
+            # pylint: disable=E1101 the subprocess does have this member
+            result_output["Check Result"] = e.stderr
             print(result_output)
-            raise e
+            return result_output
     else:
         raise IOError("Check code is unavailable/cannot be found.")
 
