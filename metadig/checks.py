@@ -94,6 +94,16 @@ def isResolvable(url):
     else:
         return (False, "Did not resolved the URL {}".format(url))
 
+def get_data_pids(pid):
+    """Retrieve the associated data pids for the given pid.
+
+    :param str pid: The pid to retrieve data pids for
+    :return: List of data pids
+    """
+    # TODO: Implement method, this will be called by the client which will be combined with
+    # the store configuration to create a 'check_vars' to pass onto 'run_check'
+    print(pid)
+    return
 
 def run_check(check_xml_path: str, metadata_xml_path: str, check_vars: Dict[str, Any]):
     """
