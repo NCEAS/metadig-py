@@ -1,5 +1,4 @@
-"""Metadig check utilities
-"""
+"""Metadig check utilities"""
 
 import json
 import subprocess
