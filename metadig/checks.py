@@ -7,6 +7,7 @@ import sys
 import urllib.request
 import urllib.error
 import urllib.parse
+import ast
 from urllib.parse import urlparse
 from typing import Dict, Any
 from lxml import etree
@@ -161,7 +162,7 @@ import json
 locals().update({json.dumps(check_vars)})
 """
             + code_elem[0].text
-            + "\ncall()\nprint(output[0])"
+            + "\ncall()\nprint(output)"
         )
 
         try:
@@ -173,7 +174,8 @@ locals().update({json.dumps(check_vars)})
                 check=True,
             )
             result_output["Check Status"] = result.returncode
-            result_output["Check Result"] = result.stdout
+            # use ast to form a string that contains python literals (ex. lists, dicts, etc.)
+            result_output["Check Result"] = ast.literal_eval(result.stdout)
             return result_output
         # pylint: disable=W0718
         except Exception as e:
