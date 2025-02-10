@@ -7,15 +7,13 @@ import sys
 import urllib.request
 import urllib.error
 import urllib.parse
-import xml.etree.ElementTree as ET
-from types import SimpleNamespace
 from urllib.parse import urlparse
-from lxml import etree
 from typing import Dict, Any
+from lxml import etree
 
-
-def getType(object):
-    print("type: {}".format(type(object)))
+def getType(object_to_check):
+    """Checks and prints the argument's object type."""
+    print("type: {}".format(type(object_to_check)))
 
 
 def isResolvable(url):
@@ -34,19 +32,18 @@ def isResolvable(url):
 
     """
     # url = 'https://cn.dataone.org/cn/v2/resolve/urn:uuid:7098ba54-ca6f-4e35-beb3-718bd0fe58a8'
-    urlComps = urlparse(url)
-    location = urlComps.netloc
-    if urlComps.netloc == "":
+    url_comps = urlparse(url)
+    if url_comps.netloc == "":
         return (False, '"{}" does not appear to be a URL'.format(url))
 
     # Check the 'schema' to see if it is an open one. Currently we
     # are just check for http and https.
-    knownProtocols = ["http", "https"]
-    if urlComps.scheme not in set(knownProtocols):
+    known_protocols = ["http", "https"]
+    if url_comps.scheme not in set(known_protocols):
         return (
             False,
             'Unknown or proprietary communications protocol: "{}", known protocols: {}'.format(
-                urlComps.scheme, ", ".join(knownProtocols)
+                url_comps.scheme, ", ".join(known_protocols)
             ),
         )
 
@@ -54,14 +51,15 @@ def isResolvable(url):
     # download it.
     request = urllib.request.Request(url)
     request.get_method = lambda: "HEAD"
-    # Python urllib2 strangly throws an error for an http status, and the response object is returned
-    # by the exception code.
+    # Python urllib2 strangly throws an error for an http status, and the response object is
+    # returned by the exception code.
     try:
         response = urllib.request.urlopen(request)
     except urllib.error.HTTPError as he:
         # An error was encountered resolving the url, check which one so that we can print
         # a more meaningful error message than provided by HTTPError
-        # FYI, HTTP status codes (from FAIR FM_A1.1 https://github.com/FAIRMetrics/Metrics/blob/master/Distributions/FM_A1.1.pdf)
+        # FYI, HTTP status codes from FAIR FM_A1.1
+        # (https://github.com/FAIRMetrics/Metrics/blob/master/Distributions/FM_A1.1.pdf)
         if he.code == 400:
             return (False, "Unable to resolved URL {}: Bad request".format(url))
         elif he.code == 401:
@@ -77,10 +75,13 @@ def isResolvable(url):
             )
     except urllib.error.URLError as ue:
         return (False, ue.reason[1])
-    except Exception as e:
-        return (False, repr(e))
     except OSError as oe:
         return (False, repr(oe))
+    # pylint: disable=W0718
+    except Exception as e:
+        return (False, repr(e))
+    # Disabling this warning for legacy code
+    # pylint: disable=W0702
     except:
         return (False, "Unexpected error:", sys.exc_info()[0])
 
@@ -135,7 +136,7 @@ def run_check(check_xml_path: str, metadata_xml_path: str, check_vars: Dict[str,
 
     # Extract the information from selectors
     for selector in selectors:
-        selector_xpath = selector.xpath("xpath")[0].text
+        # selector_xpath = selector.xpath("xpath")[0].text
         selector_name = selector.xpath("name")[0].text
 
         ns_aware_elem = selector.get("namespaceAware")
@@ -164,6 +165,7 @@ locals().update({json.dumps(check_vars)})
         )
 
         try:
+            # TODO: Investigate for alternative path to executing this check instead of a subprocess
             result = subprocess.run(
                 [sys.executable, "-c", code_str],
                 capture_output=True,
@@ -173,18 +175,15 @@ locals().update({json.dumps(check_vars)})
             result_output["Check Status"] = result.returncode
             result_output["Check Result"] = result.stdout
             return result_output
-
+        # pylint: disable=W0718
         except Exception as e:
             result_output["Check Status"] = 1
-            # pylint: disable=E1101 the subprocess does have this member
+            # The subprocess does have this member
+            # pylint: disable=E1101
             result_output["Check Result"] = e.stderr
             return result_output
     else:
         raise IOError("Check code is unavailable/cannot be found.")
-
-    # with the subprocess, the only way to get the output out is to print to stdout and then parse it
-    # there must be a better way to do this - maybe with a sub environment instead? I'm not sure how this
-    # works in python
 
 
 def is_check_valid(check_doc, metadata_doc):
