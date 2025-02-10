@@ -24,3 +24,5 @@ def test_run_check(
 
     result = run_check(sample_check_file_path, sample_metadata_file_path, check_vars)
     assert result is not None, "Expected a result from the embedded code."
+    assert result["Check Status"] == 0
+    assert result["Check Result"] != ""
