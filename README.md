@@ -45,8 +45,13 @@ To install MetaDIG-py, run the following commands
 
 ```sh
 $ mkvirtualenv -p python3.9 metadigpy // Create a virtual environment
-$ poetry install // Run command to install dependencies
-$ pytest // Restart your IDE if you are having issues executing this command
+(metadigpy) $ poetry install // Run command to install dependencies
+(metadigpy) $ pytest // Restart your IDE if you are having issues executing this command
+```
+- Note, if you run into an issue with installing jep, it is likely due to a backwards
+compatibility issue with `setuptools`. Try downgrading to the version 58.0.0:
+```sh
+(metadigpy) $ pip install setuptools==58.0.0
 ```
 
 ## License
