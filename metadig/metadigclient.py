@@ -52,8 +52,7 @@ class MetaDigPyParser:
 
 def main():
     """Entry point of the Metadig client."""
-    print("The poetry install worked.")
-
+    # Set-up parser and retrieve arguments
     parser = MetaDigPyParser()
     args = parser.get_parser_args()
 
@@ -61,8 +60,17 @@ def main():
     store_path = getattr(args, "hashstore_path")
     check_xml_path = getattr(args, "checkxml_path")
     metadata_doc_path = getattr(args, "metadatadoc_path")
-    print(run_check)
-    print(store_path)
-    print(check_xml_path)
-    print(metadata_doc_path)
+    if run_check:
+        print("Running check")
+        if store_path is None:
+            raise ValueError("'-store_path' option is required")
+        if check_xml_path is None:
+            raise ValueError("'-check_xml' option is required")
+        if check_xml_path is None:
+            raise ValueError("'-metadata_doc' option is required")
+        
+        print(store_path)
+        print(check_xml_path)
+        print(metadata_doc_path)
+
     return
