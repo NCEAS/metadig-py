@@ -3,4 +3,5 @@
 
 def main():
     """Entry point of the Metadig client."""
+    print("The poetry install worked.")
     return
