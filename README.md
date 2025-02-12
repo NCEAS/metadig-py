@@ -54,6 +54,13 @@ compatibility issue with `setuptools`. Try downgrading to the version 58.0.0:
 (metadigpy) $ pip install setuptools==58.0.0
 ```
 
+## How to use the MetaDIG-py command line client
+
+TODO: Discuss how you have to setup a hashstore
+TODO: Discuss how you need to store the data object you're retrieving first
+TODO: Add note about what each piece required is and how it all works together (ex. find_data_pids)
+TODO: Add note about using pip installs for the libraries in the checks run
+
 ## License
 
 ```
