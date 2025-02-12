@@ -105,6 +105,16 @@ def get_data_pids(pid):
     print(pid)
     return
 
+def get_sysmeta_run_check_vars(sysmeta_path: str):
+    """Parse the given sysmeta path and retrieve the identifier and member node.
+
+    :param str sysmeta_path: Path to the system metadata document to read
+    :return: Dictionary containing an identifier and repo node
+    """
+    # metadata_doc = etree.parse(sysmeta_path).getroot()
+    print(sysmeta_path)
+    return
+
 def run_check(check_xml_path: str, metadata_xml_path: str, check_vars: Dict[str, Any]):
     """
     Run a validation check against an XML metadata document.

@@ -1,6 +1,5 @@
 """Test module for the metadig checks module."""
-
-from metadig import run_check
+from metadig import checks
 from metadig.object_store import StoreManager
 
 
@@ -22,7 +21,7 @@ def test_run_check(
     check_vars["dataPids"] = [pid]
     check_vars["storeConfiguration"] = storemanager_props
 
-    result = run_check(sample_check_file_path, sample_metadata_file_path, check_vars)
+    result = checks.run_check(sample_check_file_path, sample_metadata_file_path, check_vars)
     assert result is not None, "Expected a result from the embedded code."
     assert result["Check Status"] == 0
     assert result["Check Result"] is not None
@@ -47,7 +46,7 @@ def test_run_check_multiple_pids(
     check_vars["dataPids"] = [pid, pid_two]
     check_vars["storeConfiguration"] = storemanager_props
 
-    result = run_check(sample_check_file_path, sample_metadata_file_path, check_vars)
+    result = checks.run_check(sample_check_file_path, sample_metadata_file_path, check_vars)
     assert result is not None, "Expected a result from the embedded code."
     assert result["Check Status"] == 0
     assert len(result["Check Result"]) == 2
@@ -71,7 +70,7 @@ def test_run_check_error_missing_pid(
     check_vars["dataPids"] = [pid]
     check_vars["storeConfiguration"] = storemanager_props
 
-    result = run_check(sample_check_file_path, sample_metadata_file_path, check_vars)
+    result = checks.run_check(sample_check_file_path, sample_metadata_file_path, check_vars)
     assert result is not None
     assert result["Check Status"] == 1
     assert result["Check Result"] is not None
@@ -97,7 +96,14 @@ def test_run_check_error_multiple_pids_one_success_one_failure(
     check_vars["dataPids"] = [pid, pid_two]
     check_vars["storeConfiguration"] = storemanager_props
 
-    result = run_check(sample_check_file_path, sample_metadata_file_path, check_vars)
+    result = checks.run_check(sample_check_file_path, sample_metadata_file_path, check_vars)
     print(result)
     assert result is not None
     assert result["Check Status"] == 1
+
+
+def test_get_sysmeta_run_check_vars():
+    """Test that we are able to retrieve the expected identifier and member node
+    from a given sysmeta document."""
+    path = ""
+    checks.get_sysmeta_run_check_vars(path)
