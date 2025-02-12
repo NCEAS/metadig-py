@@ -134,7 +134,7 @@ def read_csv_with_metadata(d_read, fd, skiprows):
         error: error message on exception
         
     """
-    delimiter = "," if fd is None else fd
+    delimiter = "," if fd is None else fd[0]
     header = 0 if skiprows is None else int(skiprows[0]) - 1
     try:
         return pd.read_csv(io.StringIO(d_read), delimiter=delimiter, header=header), None
