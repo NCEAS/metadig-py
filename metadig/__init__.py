@@ -6,6 +6,7 @@ Python package for metadig
 
 __version__ = "1.3.0"
 
+from metadig import checks
 from .checks import getType
 from .checks import isResolvable
 from .checks import run_check
@@ -31,5 +32,6 @@ __all__ = [
     "find_entity_index",
     "read_csv_with_metadata",
     "get_valid_csv",
-    "run_check"
+    "run_check",
+    "checks"
 ]
