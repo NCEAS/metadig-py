@@ -24,6 +24,7 @@ def call():
     from metadig import read_csv_with_metadata
     import pandas as pd
     import io
+    import chardet
 
     manager = StoreManager(storeConfiguration)  
 
@@ -45,7 +46,9 @@ def call():
             continue
 
         # read in all the data
-        d_read = obj.read()
+        detected = chardet.detect(obj.read(1024))
+        encoding = detected["encoding"]
+        d_read = obj.read().decode(encoding, errors = 'replace')
 
         # find which entity file is documented in
         z = find_entity_index(fname, pid, entityNames, ids)
