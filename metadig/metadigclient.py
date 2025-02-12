@@ -73,4 +73,8 @@ def main():
         print(check_xml_path)
         print(metadata_doc_path)
 
+        # TODO: Get datapids for a given pid
+        # TODO: Use HashStore path to get the store configuration
+        # TODO: Create check_vars dict {} to pass to run_check
+
     return
