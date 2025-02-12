@@ -45,6 +45,12 @@ class MetaDigPyParser:
             dest="metadatadoc_path",
             help="Path to document to check (ex. EML metadata doc)",
         )
+        self.parser.add_argument(
+            "-sysmeta",
+            "-sysmeta_doc",
+            dest="sysmeta_path",
+            help="Path to document to the sysmeta to retrieve the identifier and member node",
+        )
 
     def get_parser_args(self):
         """Get command line arguments."""
@@ -60,17 +66,21 @@ def main():
     store_path = getattr(args, "hashstore_path")
     check_xml_path = getattr(args, "checkxml_path")
     metadata_doc_path = getattr(args, "metadatadoc_path")
+    sysmeta_path = getattr(args, "sysmeta_path")
     if run_check:
         print("Running check")
         if store_path is None:
-            raise ValueError("'-store_path' option is required")
+            raise ValueError("'-store_path' arg is required")
         if check_xml_path is None:
-            raise ValueError("'-check_xml' option is required")
+            raise ValueError("'-check_xml' arg is required")
         if check_xml_path is None:
-            raise ValueError("'-metadata_doc' option is required")
+            raise ValueError("'-metadata_doc' arg is required")
+        if sysmeta_path is None:
+            raise ValueError("'-sysmeta_doc' arg is required")
         
         print(store_path)
         print(check_xml_path)
+        print(metadata_doc_path)
         print(metadata_doc_path)
 
         # TODO: Get datapids for a given pid
