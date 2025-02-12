@@ -1,6 +1,8 @@
 """Test module for the metadig checks module."""
 from metadig import checks
 from metadig.object_store import StoreManager
+import os
+import pytest
 
 
 def test_run_check(
@@ -97,7 +99,6 @@ def test_run_check_error_multiple_pids_one_success_one_failure(
     check_vars["storeConfiguration"] = storemanager_props
 
     result = checks.run_check(sample_check_file_path, sample_metadata_file_path, check_vars)
-    print(result)
     assert result is not None
     assert result["Check Status"] == 1
 
@@ -105,5 +106,26 @@ def test_run_check_error_multiple_pids_one_success_one_failure(
 def test_get_sysmeta_run_check_vars():
     """Test that we are able to retrieve the expected identifier and member node
     from a given sysmeta document."""
-    path = ""
-    checks.get_sysmeta_run_check_vars(path)
+    test_data_directory = os.path.join(os.path.dirname(__file__), 'testdata')
+    path = os.path.join(test_data_directory, 'doi:10.18739_A2QJ78081_sysmeta.xml')
+    sm_rn_vars = checks.get_sysmeta_run_check_vars(path)
+    assert sm_rn_vars.get("identifier") == "doi:10.18739/A2QJ78081"
+    assert sm_rn_vars.get("authoritative_member_node") == "urn:node:ARCTIC"
+
+
+def test_get_sysmeta_run_check_vars_missing_elements():
+    """Test that exception is thrown when we are missing expected elements from a sysmeta doc."""
+    test_data_directory = os.path.join(os.path.dirname(__file__), 'testdata')
+    path = os.path.join(test_data_directory, 'sysmeta_missing_elements.xml')
+
+    with pytest.raises(AttributeError):
+        _ = checks.get_sysmeta_run_check_vars(path)
+
+
+def test_get_sysmeta_run_check_vars_empty_elements():
+    """Test that exception is thrown when we are missing expected elements from a sysmeta doc."""
+    test_data_directory = os.path.join(os.path.dirname(__file__), 'testdata')
+    path = os.path.join(test_data_directory, 'sysmeta_empty_elements.xml')
+
+    with pytest.raises(ValueError):
+        _ = checks.get_sysmeta_run_check_vars(path)

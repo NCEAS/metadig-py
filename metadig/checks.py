@@ -106,14 +106,29 @@ def get_data_pids(pid):
     return
 
 def get_sysmeta_run_check_vars(sysmeta_path: str):
-    """Parse the given sysmeta path and retrieve the identifier and member node.
+    """Parse the given sysmeta path and retrieve the identifier and auth. member node.
 
     :param str sysmeta_path: Path to the system metadata document to read
-    :return: Dictionary containing an identifier and repo node
+    :return: Dictionary containing an identifier and member node value
     """
-    # metadata_doc = etree.parse(sysmeta_path).getroot()
-    print(sysmeta_path)
-    return
+    # pylint: disable=I1101
+    sysmeta_doc_root = etree.parse(sysmeta_path).getroot()
+    try:
+        identifier = sysmeta_doc_root.find("identifier").text
+        authoritative_member_node = sysmeta_doc_root.find("authoritativeMemberNode").text
+        if identifier is None:
+            raise ValueError("Element 'identifier' is missing from sysmeta document")
+        if identifier is None:
+            raise ValueError("Element 'authoritativeMemberNode' is missing from sysmeta document")
+    except AttributeError as ae:
+        raise AttributeError(
+            "Elements 'identifier' or 'authoritativeMemberNode' is missing from sysmeta document"
+        ) from ae
+
+    sm_rn_vars = {}
+    sm_rn_vars["identifier"] = identifier
+    sm_rn_vars["authoritative_member_node"] = authoritative_member_node
+    return sm_rn_vars
 
 def run_check(check_xml_path: str, metadata_xml_path: str, check_vars: Dict[str, Any]):
     """
@@ -125,6 +140,7 @@ def run_check(check_xml_path: str, metadata_xml_path: str, check_vars: Dict[str,
     :return: The result of the check function.
     """
     # Load the metadata and check XML files
+    # pylint: disable=I1101
     metadata_doc = etree.parse(metadata_xml_path).getroot()
     metadata_doc_no_ns = etree.parse(metadata_xml_path).getroot()
 
