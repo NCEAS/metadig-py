@@ -68,16 +68,3 @@ def init_hashstore_with_test_data(store):
         "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1", str(obj_path_to_pid_sysmeta)
     )
     return True
-
-# TODO: Refactor these fixtures later when run_checks is working, repeated code
-@pytest.fixture(name="sample_check_file_path")
-def init_sample_check_file():
-    """Return a sample check file from testdata."""
-    test_data_directory = os.path.join(os.path.dirname(__file__), 'testdata')
-    return os.path.join(test_data_directory, 'data.table-text-delimited.glimpse.xml')
-
-@pytest.fixture(name="sample_metadata_file_path")
-def init_sample_metadata_file():
-    """Return a sample metadata file from testdata."""
-    test_data_directory = os.path.join(os.path.dirname(__file__), 'testdata')
-    return os.path.join(test_data_directory, 'doi:10.18739_A2QJ78081.xml')
