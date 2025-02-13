@@ -114,11 +114,15 @@ def get_data_pids(identifier):
 
     # Send the request and read the response
     with urllib.request.urlopen(req) as response:
+         # Read and decode the response
         data = response.read().decode("utf-8")
-
-    print(data)  # Response content
-
-    return
+         # Convert the string to bytes so lxml can parse it
+        xml_bytes = data.encode("utf-8")
+        # Iterate over the response to get all the data pids
+        # pylint: disable=I1101
+        root = etree.fromstring(xml_bytes)
+        data_pids = [elem.text for elem in root.xpath('//doc/str[@name="id"]')]
+        return data_pids
 
 def get_sysmeta_run_check_vars(sysmeta_path: str):
     """Parse the given sysmeta path and retrieve the identifier and auth. member node.
