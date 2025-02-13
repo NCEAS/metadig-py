@@ -137,7 +137,8 @@ def test_get_data_pids():
     path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
     sm_rn_vars = checks.get_sysmeta_run_check_vars(path)
     identifier = sm_rn_vars.get("identifier")
-    data_pids = checks.get_data_pids(identifier)
+    member_node = "urn:node:ARCTIC"
+    data_pids = checks.get_data_pids(identifier, member_node)
     expected_pids = ['urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1', 'doi:10.18739/A2QJ78081']
     for pid in expected_pids:
         assert pid in data_pids

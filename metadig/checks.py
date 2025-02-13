@@ -95,14 +95,19 @@ def isResolvable(url):
         return (False, "Did not resolved the URL {}".format(url))
 
 
-def get_data_pids(identifier):
+def get_data_pids(identifier, member_node):
     """Retrieve the associated data pids for the given pid by querying the appropriate
     member node's solr end point.
 
-    :param str pid: The pid to retrieve data pids for
+    :param str identifier: The persistent identifier to retrieve data pids for
+    :param str member_node: The member node whose URL to query (ex. 'urn:node:ARCTIC')
     :return: List of data pids
     """
-    member_node_url = "https://arcticdata.io/metacat/d1/mn/v2"
+    if member_node == "urn:node:ARCTIC":
+        member_node_url = "https://arcticdata.io/metacat/d1/mn/v2"
+    else:
+        raise ValueError(f"Member node URL is not available for: {member_node}")
+
     encoded_identifier = urllib.parse.quote(identifier)
     solr_query = f"/query/solr/?q=isDocumentedBy:%22{encoded_identifier}%22&fl=id"
     query_url = member_node_url + solr_query
