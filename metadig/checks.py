@@ -107,7 +107,17 @@ def get_data_pids(identifier):
     member_node_url = "https://arcticdata.io/metacat/d1/mn/v2"
     encoded_identifier = urllib.parse.quote(identifier)
     solr_query = f"/query/solr/?q=isDocumentedBy:%22{encoded_identifier}%22&fl=id"
-    print(member_node_url+solr_query)
+    query_url = member_node_url+solr_query
+
+    # Create a request and parse response for the associated data pids (objects)
+    req = urllib.request.Request(query_url)
+
+    # Send the request and read the response
+    with urllib.request.urlopen(req) as response:
+        data = response.read().decode("utf-8")
+
+    print(data)  # Response content
+
     return
 
 def get_sysmeta_run_check_vars(sysmeta_path: str):

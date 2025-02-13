@@ -134,5 +134,8 @@ def test_get_sysmeta_run_check_vars_empty_elements():
 
 def test_get_data_pids():
     """Check that we are able to retrieve data pids from a member node"""
-    checks.get_data_pids("test.pid")
+    path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
+    sm_rn_vars = checks.get_sysmeta_run_check_vars(path)
+    identifier = sm_rn_vars.get("identifier")
+    checks.get_data_pids(identifier)
     assert True
