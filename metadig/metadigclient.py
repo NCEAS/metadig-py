@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 """Metadig Command Line App"""
+import os
+import yaml
 from argparse import ArgumentParser
 from metadig import checks
+
 
 class MetaDigPyParser:
     """Class to set up parsing arguments via argparse."""
@@ -77,20 +80,33 @@ def main():
             raise ValueError("'-metadata_doc' arg is required")
         if sysmeta_path is None:
             raise ValueError("'-sysmeta_doc' arg is required")
-        
-        print(store_path)
-        print(check_xml_path)
-        print(metadata_doc_path)
-        print(sysmeta_path)
 
-        # sysmeta_check_vars = checks.get_sysmeta_run_check_vars(sysmeta_path)
-        # identifier = sysmeta_check_vars.get("identifier")
-        # auth_mn_node = sysmeta_check_vars.get("authoritative_member_node")
-        # data_pids = checks.get_data_pids(identifier, auth_mn_node)
-        # print("Metadig Client:")
-        # print(data_pids)
+        # Read the supplied sysmeta document to get values needed to retrieve data pids
+        sysmeta_check_vars = checks.get_sysmeta_run_check_vars(sysmeta_path)
+        identifier = sysmeta_check_vars.get("identifier")
+        auth_mn_node = sysmeta_check_vars.get("authoritative_member_node")
+        data_pids = checks.get_data_pids(identifier, auth_mn_node)
 
-        # TODO: Use HashStore path to get the store configuration
-        # TODO: Create check_vars dict {} to pass to run_check
+        # Get the store configuration from the given config file at the store_path
+        hashstore_yaml_path = store_path + "/hashstore.yaml"
+        if not os.path.isfile(hashstore_yaml_path):
+            err_msg = "'hashstore.yaml' not found in store root path."
+            raise FileNotFoundError(err_msg)
+
+        storemanager_props = {}
+        try:
+            with open(hashstore_yaml_path, "r", encoding="utf-8") as hs_yaml_file:
+                storemanager_props = yaml.safe_load(hs_yaml_file)
+                storemanager_props["store_type"] = "HashStore"
+        except Exception as ge:
+            raise RuntimeError(
+                f"Unexpected exception while trying to read 'hashstore.yaml' from store_path: {ge}"
+            ) from ge
+
+        # Create check_vars dict
+        check_vars = {}
+        check_vars["dataPids"] = data_pids
+        check_vars["storeConfiguration"] = storemanager_props
+        print(check_vars)
 
     return
