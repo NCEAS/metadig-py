@@ -130,3 +130,9 @@ def test_get_sysmeta_run_check_vars_empty_elements():
     path = get_test_data_path("sysmeta_empty_elements.xml")
     with pytest.raises(ValueError):
         _ = checks.get_sysmeta_run_check_vars(path)
+
+
+def test_get_data_pids():
+    """Check that we are able to retrieve data pids from a member node"""
+    checks.get_data_pids("test.pid")
+    assert True

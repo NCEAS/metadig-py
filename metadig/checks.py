@@ -94,15 +94,20 @@ def isResolvable(url):
     else:
         return (False, "Did not resolved the URL {}".format(url))
 
-def get_data_pids(pid):
-    """Retrieve the associated data pids for the given pid.
+def get_data_pids(identifier):
+    """Retrieve the associated data pids for the given pid by querying the appropriate
+    member node's solr end point.
 
     :param str pid: The pid to retrieve data pids for
     :return: List of data pids
     """
     # TODO: Implement method, this will be called by the client which will be combined with
     # the store configuration to create a 'check_vars' to pass onto 'run_check'
-    print(pid)
+    # https://arcticdata.io/metacat/d1/mn/v2/query/solr/?q=isDocumentedBy:%22doi%3A10.18739%2FA2QJ78081%22&fl=id
+    member_node_url = "https://arcticdata.io/metacat/d1/mn/v2"
+    encoded_identifier = urllib.parse.quote(identifier)
+    solr_query = f"/query/solr/?q=isDocumentedBy:%22{encoded_identifier}%22&fl=id"
+    print(member_node_url+solr_query)
     return
 
 def get_sysmeta_run_check_vars(sysmeta_path: str):
