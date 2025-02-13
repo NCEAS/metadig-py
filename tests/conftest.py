@@ -45,25 +45,39 @@ def init_hashstore(hashstore_props):
 # Create store and put an object in it
 @pytest.fixture
 def init_hashstore_with_test_data(store):
-    """Store two data objects with pids 'test-pid' and 'test-pid-2' and one metadata
-    document with pid 'test-pid'"""
+    """Store data objects and system metadata for tests to run as expected.'"""
+    # Store data and metadata objects for 'object_store' pytest
     current_dir = os.path.dirname(__file__)
     obj_path = os.path.join(current_dir, "testdata", "test-data.csv")
     obj2_path = os.path.join(current_dir, "testdata", "test-data-2.csv")
     meta_path = os.path.join(current_dir, "testdata", "test-pid.xml")
-
-    # Store data and metadata objects for 'object_store' pytest
     store.store_object("test-pid", str(obj_path))
     store.store_object("test-pid-2", str(obj2_path))
     store.store_metadata("test-pid", str(meta_path))
-    # Store data and metadata object for 'checks' pytest
-    # TODO: The data object here may not be suitable tor the actual check that is run
-    # TODO: Determine if specific data object and metadata should be used
+
+    # Store data and metadata object for 'checks' pytest for DOI: doi:10.18739/A2QJ78081
+    # Store the data object for the eml metadata doc
+    doi = "doi:10.18739/A2QJ78081"
+    doi_eml_metadata_doc = "doi:10.18739_A2QJ78081.xml"
+    obj_path_to_pid_eml_meta_doc = os.path.join(current_dir, "testdata", doi_eml_metadata_doc)
+    store.store_object(doi, str(obj_path_to_pid_eml_meta_doc))
+
+    # Store the sysmeta for the eml metadata doc
+    doi = "doi:10.18739/A2QJ78081"
+    doi_eml_metadata_doc = "doi:10.18739_A2QJ78081_sysmeta.xml"
+    obj_path_to_pid_eml_meta_doc_sysmeta = os.path.join(
+        current_dir, "testdata", doi_eml_metadata_doc
+    )
+    store.store_metadata(doi, str(obj_path_to_pid_eml_meta_doc_sysmeta))
+
+    # Store the associated .CSV
     pid_associated_file_name = "the_arctic_plant_aboveground_biomass_synthesis_dataset.csv"
-    pid_sysmeta_name = "urn_uuid_6a7a874a-39b5-4855-85d4-0fdfac795cd1.xml"
     obj_path_to_pid_obj = os.path.join(current_dir, "testdata", pid_associated_file_name)
-    obj_path_to_pid_sysmeta = os.path.join(current_dir, "testdata", pid_sysmeta_name)
     store.store_object("urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1", str(obj_path_to_pid_obj))
+
+    # Store the sysmeta document for the .CSV
+    pid_sysmeta_name = "urn_uuid_6a7a874a-39b5-4855-85d4-0fdfac795cd1.xml"
+    obj_path_to_pid_sysmeta = os.path.join(current_dir, "testdata", pid_sysmeta_name)
     store.store_metadata(
         "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1", str(obj_path_to_pid_sysmeta)
     )
