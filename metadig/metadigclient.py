@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """Metadig Command Line App"""
 from argparse import ArgumentParser
+from metadig import checks
 
 class MetaDigPyParser:
     """Class to set up parsing arguments via argparse."""
@@ -68,12 +69,11 @@ def main():
     metadata_doc_path = getattr(args, "metadatadoc_path")
     sysmeta_path = getattr(args, "sysmeta_path")
     if run_check:
-        print("Running check")
         if store_path is None:
             raise ValueError("'-store_path' arg is required")
         if check_xml_path is None:
             raise ValueError("'-check_xml' arg is required")
-        if check_xml_path is None:
+        if metadata_doc_path is None:
             raise ValueError("'-metadata_doc' arg is required")
         if sysmeta_path is None:
             raise ValueError("'-sysmeta_doc' arg is required")
@@ -81,9 +81,15 @@ def main():
         print(store_path)
         print(check_xml_path)
         print(metadata_doc_path)
-        print(metadata_doc_path)
+        print(sysmeta_path)
 
-        # TODO: Get datapids for a given pid
+        # sysmeta_check_vars = checks.get_sysmeta_run_check_vars(sysmeta_path)
+        # identifier = sysmeta_check_vars.get("identifier")
+        # auth_mn_node = sysmeta_check_vars.get("authoritative_member_node")
+        # data_pids = checks.get_data_pids(identifier, auth_mn_node)
+        # print("Metadig Client:")
+        # print(data_pids)
+
         # TODO: Use HashStore path to get the store configuration
         # TODO: Create check_vars dict {} to pass to run_check
 
