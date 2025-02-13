@@ -112,21 +112,23 @@ def get_data_pids(identifier, member_node):
     solr_query = f"/query/solr/?q=isDocumentedBy:%22{encoded_identifier}%22&fl=id"
     query_url = member_node_url + solr_query
 
-    # Create a request and parse response for the associated data pids (objects)
-    req = urllib.request.Request(query_url)
+    try:
+        # Create a request and parse response for the associated data pids (objects)
+        req = urllib.request.Request(query_url)
 
-    # Send the request and read the response
-    with urllib.request.urlopen(req) as response:
-        # Read and decode the response
-        data = response.read().decode("utf-8")
-        # Convert the string to bytes so lxml can parse it
-        xml_bytes = data.encode("utf-8")
-        # Iterate over the response to get all the data pids
-        # pylint: disable=I1101
-        root = etree.fromstring(xml_bytes)
-        data_pids = [elem.text for elem in root.xpath('//doc/str[@name="id"]')]
-        return data_pids
-
+        # Send the request and read the response
+        with urllib.request.urlopen(req) as response:
+            # Read and decode the response
+            data = response.read().decode("utf-8")
+            # Convert the string to bytes so lxml can parse it
+            xml_bytes = data.encode("utf-8")
+            # Iterate over the response to get all the data pids
+            # pylint: disable=I1101
+            root = etree.fromstring(xml_bytes)
+            data_pids = [elem.text for elem in root.xpath('//doc/str[@name="id"]')]
+            return data_pids
+    except Exception as ge:
+        raise RuntimeError(f"Unexpected exception encountered: {ge}") from ge
 
 def get_sysmeta_run_check_vars(sysmeta_path: str):
     """Parse the given sysmeta path and retrieve the identifier and auth. member node.

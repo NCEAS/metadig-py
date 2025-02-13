@@ -139,6 +139,17 @@ def test_get_data_pids():
     identifier = sm_rn_vars.get("identifier")
     member_node = "urn:node:ARCTIC"
     data_pids = checks.get_data_pids(identifier, member_node)
-    expected_pids = ['urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1', 'doi:10.18739/A2QJ78081']
+    expected_pids = [
+        "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1",
+        "doi:10.18739/A2QJ78081",
+    ]
     for pid in expected_pids:
         assert pid in data_pids
+
+
+def test_get_data_pids_member_node_url_unavailable():
+    """Check that get_data_pids throws an exception when there is no member node available."""
+    identifier = "dou.test.id.eml"
+    member_node = "urn:node:KNB"
+    with pytest.raises(ValueError):
+        _ = checks.get_data_pids(identifier, member_node)
