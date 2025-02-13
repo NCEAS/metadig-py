@@ -98,6 +98,7 @@ def main():
             with open(hashstore_yaml_path, "r", encoding="utf-8") as hs_yaml_file:
                 storemanager_props = yaml.safe_load(hs_yaml_file)
                 storemanager_props["store_type"] = "HashStore"
+                storemanager_props["store_path"] = store_path
         except Exception as ge:
             raise RuntimeError(
                 f"Unexpected exception while trying to read 'hashstore.yaml' from store_path: {ge}"
@@ -107,8 +108,10 @@ def main():
         check_vars = {}
         check_vars["dataPids"] = data_pids
         check_vars["storeConfiguration"] = storemanager_props
-        
+
         # Run the check
+        result = checks.run_check(check_xml_path, metadata_doc_path, check_vars)
+        print(result)
         return
 
 if __name__ == "__main__":
