@@ -1,10 +1,11 @@
 """Test module for the MetaDIG-py client."""
 import os
 import sys
+import ast
 import pytest
 from metadig import metadigclient
 
-def test_metadig_client_run_check(store, init_hashstore_with_test_data):
+def test_metadig_client_run_check(capsys, store, init_hashstore_with_test_data):
     """Confirm metadig runs a check successfully"""
     assert init_hashstore_with_test_data
     client_directory = os.getcwd() + "/metadig"
@@ -29,6 +30,10 @@ def test_metadig_client_run_check(store, init_hashstore_with_test_data):
     sys.path.append(client_directory)
     sys.argv = chs_args
     metadigclient.main()
+
+    result = ast.literal_eval(capsys.readouterr().out)
+    assert result["Check Status"] == 0
+    assert len(result["Check Result"]) == 2
 
 @pytest.mark.parametrize(
     "missing_opt", ["store_path", "check_xml", "metadata_doc", "sysmeta_doc"]
