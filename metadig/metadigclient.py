@@ -107,6 +107,9 @@ def main():
         check_vars = {}
         check_vars["dataPids"] = data_pids
         check_vars["storeConfiguration"] = storemanager_props
-        print(check_vars)
+        
+        # Run the check
+        return
 
-    return
+if __name__ == "__main__":
+    main()
