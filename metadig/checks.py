@@ -94,6 +94,7 @@ def isResolvable(url):
     else:
         return (False, "Did not resolved the URL {}".format(url))
 
+
 def get_data_pids(identifier):
     """Retrieve the associated data pids for the given pid by querying the appropriate
     member node's solr end point.
@@ -101,28 +102,26 @@ def get_data_pids(identifier):
     :param str pid: The pid to retrieve data pids for
     :return: List of data pids
     """
-    # TODO: Implement method, this will be called by the client which will be combined with
-    # the store configuration to create a 'check_vars' to pass onto 'run_check'
-    # https://arcticdata.io/metacat/d1/mn/v2/query/solr/?q=isDocumentedBy:%22doi%3A10.18739%2FA2QJ78081%22&fl=id
     member_node_url = "https://arcticdata.io/metacat/d1/mn/v2"
     encoded_identifier = urllib.parse.quote(identifier)
     solr_query = f"/query/solr/?q=isDocumentedBy:%22{encoded_identifier}%22&fl=id"
-    query_url = member_node_url+solr_query
+    query_url = member_node_url + solr_query
 
     # Create a request and parse response for the associated data pids (objects)
     req = urllib.request.Request(query_url)
 
     # Send the request and read the response
     with urllib.request.urlopen(req) as response:
-         # Read and decode the response
+        # Read and decode the response
         data = response.read().decode("utf-8")
-         # Convert the string to bytes so lxml can parse it
+        # Convert the string to bytes so lxml can parse it
         xml_bytes = data.encode("utf-8")
         # Iterate over the response to get all the data pids
         # pylint: disable=I1101
         root = etree.fromstring(xml_bytes)
         data_pids = [elem.text for elem in root.xpath('//doc/str[@name="id"]')]
         return data_pids
+
 
 def get_sysmeta_run_check_vars(sysmeta_path: str):
     """Parse the given sysmeta path and retrieve the identifier and auth. member node.
