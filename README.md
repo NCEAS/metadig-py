@@ -74,16 +74,32 @@ After you've installed `MetaDIG-py`, you will have access to the command `metadi
 (metadigpy) $ metadigpy -runcheck -store_path=/path/to/hashstore -check_xml=/path/to/check_xml -metadata_doc=/path/to/metadata/doc -sysmeta_doc=/path/to/sysmeta
 ```
 
-But before you can run a check, you must ensure that you have everything in place.
+### How does the MetaDIG-py client run a check with the arguments supplied?
+
+The `metadigclient` processes the system metadata document supplied, which should be for the given eml metadata document. It then extracts the identifier (ex. DOI) and the authoritative member node (MN) (e.g. `urn:node:ARCTIC`). Using this DOI, it queries the MN via an HTTP get request to retrieve the associated data objects/PIDs. These values are then combined into a dictionary with the hashstore configuration properties to pass onto the `run_check` function. 
+
+The `run_check` function parses the check xml provided, validates the check definition, executes the check (which involves retrieving the data objects/pids retrieved from the supplied hashstore path), and lastly prints the final result to stdout.
+
+As of writing this documentation, we have only setup the `metadigclient` to work with the following MN:
+- urn:node:ARCTIC
+
+To have additional nodes set-up, please contact us at support@dataone.org
+
+### How to set-up a data check
+
+To set-up a data check, you must have/prepare the following before you run the respective `metadigpy` client command (above)
+1) A HashStore
+2) A copy of the EML metadata document
+3) A copy of the sysmeta for the EML metadata document
+4) The check you want to run
+
+#### HashStore
 
 TODO: Discuss how you have to setup a hashstore
 TODO: Discuss how you need to store the data object you're retrieving first
 TODO: Add note about what each piece required is and how it all works together (ex. find_data_pids)
 TODO: Add note about using pip installs for the libraries in the checks run
 
-#### How does the MetaDIG-py client run a check with the arguments supplied?
-
-TODO: Explain so it's easier for people to debug if they really have to
 
 
 ## License
