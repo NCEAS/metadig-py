@@ -30,13 +30,18 @@ from metadig import read_sysmeta_element
 Currently, we have the following modules and functions available:
 
 ```py
-"StoreManager",
-"getType",
-"isResolvable",
-"isBlank",
-"toUnicode",
-"read_sysmeta_element",
-"find_eml_entity",
+"StoreManager", # fn
+"getType", # fn
+"isResolvable", # fn
+"isBlank", # fn
+"toUnicode", # fn
+"read_sysmeta_element", # fn
+"find_eml_entity", # fn
+"find_entity_index", # fn
+"read_csv_with_metadata", # fn
+"get_valid_csv", # fn
+"run_check", # fn
+"checks" # Module
 ```
 
 ## Installation
@@ -45,21 +50,41 @@ To install MetaDIG-py, run the following commands
 
 ```sh
 $ mkvirtualenv -p python3.9 metadigpy // Create a virtual environment
-(metadigpy) $ poetry install // Run command to install dependencies
-(metadigpy) $ pytest // Restart your IDE if you are having issues executing this command
+(metadigpy) $ poetry install // Run poetry command to install dependencies
 ```
-- Note, if you run into an issue with installing jep, it is likely due to a backwards
+- Note: If you run into an issue with installing jep, it is likely due to a backwards
 compatibility issue with `setuptools`. Try downgrading to the version 58.0.0:
+  ```sh
+  (metadigpy) $ pip install setuptools==58.0.0
+  ```
+
+To confirm that you have installed `MetaDIG-py` successfully, run `pytest`.
 ```sh
-(metadigpy) $ pip install setuptools==58.0.0
+(metadigpy) $ pytest
+```
+- Tip: you may run `pytest` with the option `-s` (ex. `pytest -s`) to see print statements when running pytests. Not all pytests have print statements, but if you want to extend from what already exists, this may prove to be helpful!
+
+### How to use the MetaDIG-py command line client
+
+The MetaDIG-py command line client was created to help users test python checks without having to spin up the java engine `metadig-engine` and run a check through the dispatcher.
+
+After you've installed `MetaDIG-py`, you will have access to the command `metadigpy`. Please see installation section above if you haven't installed `MetaDIG-py`. Below is what running a check looks like:
+
+```sh
+(metadigpy) $ metadigpy -runcheck -store_path=/path/to/hashstore -check_xml=/path/to/check_xml -metadata_doc=/path/to/metadata/doc -sysmeta_doc=/path/to/sysmeta
 ```
 
-## How to use the MetaDIG-py command line client
+But before you can run a check, you must ensure that you have everything in place.
 
 TODO: Discuss how you have to setup a hashstore
 TODO: Discuss how you need to store the data object you're retrieving first
 TODO: Add note about what each piece required is and how it all works together (ex. find_data_pids)
 TODO: Add note about using pip installs for the libraries in the checks run
+
+#### How does the MetaDIG-py client run a check with the arguments supplied?
+
+TODO: Explain so it's easier for people to debug if they really have to
+
 
 ## License
 
