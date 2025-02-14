@@ -85,22 +85,47 @@ As of writing this documentation, we have only setup the `metadigclient` to work
 
 To have additional nodes set-up, please contact us at support@dataone.org
 
-### How to set-up a data check
+### How to set-up and run a data check
 
 To set-up a data check, you must have/prepare the following before you run the respective `metadigpy` client command (above)
-1) A HashStore
-2) A copy of the EML metadata document
-3) A copy of the sysmeta for the EML metadata document
+1) A HashStore - this step is necessary because `run_check` will look for the data objects in a HashStore after retrieving the data pids.
+2) The data objects associated with the DOI to check stored in HashStore, including the data objects' system metadata.
+2) A copy of the metadata document and its respective system metadata for the DOI.
 4) The check you want to run
 
 #### HashStore
 
-TODO: Discuss how you have to setup a hashstore
-TODO: Discuss how you need to store the data object you're retrieving first
-TODO: Add note about what each piece required is and how it all works together (ex. find_data_pids)
-TODO: Add note about using pip installs for the libraries in the checks run
+HashStore is a python package developed for DataONE services to efficiently access data objects, metadata and system metadata. In order to simulate the process of retrieving data objects with a `metadig` check, we must mimic the environment in which it happens in production. So the requirement of having a HashStore means that we need to create a HashStore and then store data objects and system metadata inside of it. Please see below for an example:
 
+```sh
+# Step 0: Install hashstore via poetry to create an executable script
+(metadigpy) ~/Code $ git clone https://github.com/DataONEorg/hashstore.git /Code/hashstore
 
+(metadigpy) ~/Code/hashstore $ poetry install
+
+# Step 1: Create a HashStore at your desired store path (ex. /var/metacat/hashstore)
+(metadigpy) ~/Code/hashstore $ /path/to/store/ -chs -dp=3 -wp=2 -ap=SHA-256 -nsp="https://ns.dataone.org/service/types/v2.0#SystemMetadata"
+
+# Store a data object
+(metadigpy) ~/Code/hashstore $ /path/to/store/ -storeobject -pid=persistent_identifier -path=/path/to/object
+
+# Store a metadata object
+(metadigpy) ~/Code/hashstore $ /path/to/store/ -storemetadata -pid=persistent_identifier -path=/path/to/metadata/object -formatid=https://ns.dataone.org/service/types/v2.0#SystemMetadata
+```
+
+Learn more about HashStore [here](https://github.com/DataONEorg/hashstore/). 
+
+#### Data objects, system metadata and metadata.
+
+Every data object stored in HashStore will have an equivalent system metadata that describes the basic attributes of the data object. Every dataset also has metadata about the dataset, which usually comes in the form of an EML metadata document. These "files" must all exist in HashStore for a given identifier in order for a check to retrieve what it needs to execute the check code. 
+
+#### Metadata + System Metadata
+
+TODO
+
+#### The Python Check
+
+TODO
 
 ## License
 
