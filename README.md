@@ -104,13 +104,13 @@ HashStore is a python package developed for DataONE services to efficiently acce
 (metadigpy) ~/Code/hashstore $ poetry install
 
 # Step 1: Create a HashStore at your desired store path (ex. /var/metacat/hashstore)
-(metadigpy) ~/Code/hashstore $ /path/to/store/ -chs -dp=3 -wp=2 -ap=SHA-256 -nsp="https://ns.dataone.org/service/types/v2.0#SystemMetadata"
+(metadigpy) ~/Code/hashstore $ hashstore /path/to/store/ -chs -dp=3 -wp=2 -ap=SHA-256 -nsp="https://ns.dataone.org/service/types/v2.0#SystemMetadata"
 
 # Store a data object
-(metadigpy) ~/Code/hashstore $ /path/to/store/ -storeobject -pid=persistent_identifier -path=/path/to/object
+(metadigpy) ~/Code/hashstore $ hashstore /path/to/store/ -storeobject -pid=persistent_identifier -path=/path/to/object
 
 # Store a metadata object
-(metadigpy) ~/Code/hashstore $ /path/to/store/ -storemetadata -pid=persistent_identifier -path=/path/to/metadata/object -formatid=https://ns.dataone.org/service/types/v2.0#SystemMetadata
+(metadigpy) ~/Code/hashstore $ hashstore /path/to/store/ -storemetadata -pid=persistent_identifier -path=/path/to/metadata/object -formatid=https://ns.dataone.org/service/types/v2.0#SystemMetadata
 ```
 
 Learn more about HashStore [here](https://github.com/DataONEorg/hashstore/). 
