@@ -74,26 +74,26 @@ After you've installed `MetaDIG-py`, you will have access to the command `metadi
 (metadigpy) $ metadigpy -runcheck -store_path=/path/to/hashstore -check_xml=/path/to/check_xml -metadata_doc=/path/to/metadata/doc -sysmeta_doc=/path/to/sysmeta
 ```
 
-### How does the MetaDIG-py client run a check with the arguments supplied?
+### How does the MetaDIG-py command line client run a check with the arguments supplied?
 
-The `metadigclient` processes the system metadata document supplied, which should be for the given eml metadata document. It then extracts the identifier (ex. DOI) and the authoritative member node (MN) (e.g. `urn:node:ARCTIC`). Using this DOI, it queries the MN via an HTTP get request to retrieve the associated data objects/PIDs. These values are then combined into a dictionary with the hashstore configuration properties to pass onto the `run_check` function. 
+The `metadigclient` extracts the identifier (ex. DOI) & the authoritative member node (MN) (e.g. `urn:node:ARCTIC`) from the system metadata document supplied for the given eml metadata document. It then passes these values to the `run_check` function, which retrieves the associated data pids and their respective system metadata from the given hashstore.
 
-The `run_check` function parses the check xml provided, validates the check definition, executes the check (which involves retrieving the data objects/pids retrieved from the supplied hashstore path), and lastly prints the final result to stdout.
+The `run_check` function then parses the check xml provided, validates the check definition, executes the check, and lastly prints the final result to stdout.
 
 As of writing this documentation, we have only setup the `metadigclient` to work with the following MN:
 - urn:node:ARCTIC
 
 To have additional nodes set-up, please contact us at support@dataone.org
 
-### How to set-up and run a data check
+### How to set-up and run a data check through the MetaDig-py command line client
 
-To set-up a data check, you must have/prepare the following before you run the respective `metadigpy` client command (above)
+To set-up a data check, you must have/prepare the following before you run the `metadigpy` client command (above)
 1) A HashStore - this step is necessary because `run_check` will look for the data objects in a HashStore after retrieving the data pids.
 2) The data objects associated with the DOI to check stored in HashStore, including the data objects' system metadata.
 2) A copy of the metadata document and its respective system metadata for the DOI.
 4) The check you want to run
 
-#### HashStore
+#### What is HashStore?
 
 HashStore is a python package developed for DataONE services to efficiently access data objects, metadata and system metadata. In order to simulate the process of retrieving data objects with a `metadig` check, we must mimic the environment in which it happens in production. So the requirement of having a HashStore means that we need to create a HashStore and then store data objects and system metadata inside of it. Please see below for an example:
 
@@ -113,19 +113,49 @@ HashStore is a python package developed for DataONE services to efficiently acce
 (metadigpy) ~/Code/hashstore $ hashstore /path/to/store/ -storemetadata -pid=persistent_identifier -path=/path/to/metadata/object -formatid=https://ns.dataone.org/service/types/v2.0#SystemMetadata
 ```
 
-Learn more about HashStore [here](https://github.com/DataONEorg/hashstore/). 
+On your file system, HashStore looks like a folder with data objects and system metadata stored with hashes based on either a content identifier, or a combination of values that create a unique identifier. To interact with a HashStore and learn more, please see the documentation [here](https://github.com/DataONEorg/hashstore/).
 
-#### Data objects, system metadata and metadata.
+#### Why data objects and its associated system metadata must be stored
 
-Every data object stored in HashStore will have an equivalent system metadata that describes the basic attributes of the data object. Every dataset also has metadata about the dataset, which usually comes in the form of an EML metadata document. These "files" must all exist in HashStore for a given identifier in order for a check to retrieve what it needs to execute the check code. 
+During the `run_check` process, after retrieving the data pids for the provided identifier, we then retrieve their associated data objects and system metadata from the provided HashStore. If these 'files' are not found, it could cause errors with the check that you're trying to run or test. Note, every data object stored in HashStore must have an equivalent system metadata, and this system metadata describes the basic attributes of the data object.
 
-#### Metadata + System Metadata
+#### Dataset Metadata + System Metadata
 
-TODO
+Every dataset not only has metadata about the dataset (which usually comes in the form of an EML metadata document) but also system metadata for the metadata. For us to run a `metadig` check at this time, we need both the metadata document and its respective system metadata. The system metadata is parsed for the identifier, which is then used to retrieve the appropriate data pids, which is then used in the check.
 
 #### The Python Check
 
-TODO
+TODO: Review with Jeanette to see how we want to say.
+
+#### Example of the Entire Process via the `MetaDIG-py` command line client
+
+```sh
+$ mkvirtualenv -p python3.9 metadigpy // Create a virtual environment
+(metadigpy) ~/Code $ git clone https://github.com/NCEAS/metadig-py.git ~/Code/metadigpy
+
+(metadigpy) ~/Code $ cd /metadigpy
+
+(metadigpy) ~/Code/metadigpy $ poetry install // Run poetry command to install dependencies
+
+(metadigpy) ~/Code/metadigpy $ git clone https://github.com/DataONEorg/hashstore.git ~/Code/hashstore
+
+(metadigpy) ~/Code $ cd ../hashstore
+
+(metadigpy) ~/Code/hashstore $ poetry install
+
+# Step 1: Create a HashStore at your desired store path (ex. /var/metacat/hashstore)
+(metadigpy) ~/Code/hashstore $ hashstore /path/to/store/ -chs -dp=3 -wp=2 -ap=SHA-256 -nsp="https://ns.dataone.org/service/types/v2.0#SystemMetadata"
+
+# Store a data object
+(metadigpy) ~/Code/hashstore $ hashstore /path/to/store/ -storeobject -pid=persistent_identifier -path=/path/to/object
+
+# Store a metadata object
+(metadigpy) ~/Code/hashstore $ hashstore /path/to/store/ -storemetadata -pid=persistent_identifier -path=/path/to/metadata/object -formatid=https://ns.dataone.org/service/types/v2.0#SystemMetadata
+
+(metadigpy) ~/Code/hashstore $ metadigpy -runcheck -store_path=/path/to/hashstore -check_xml=/path/to/check_xml -metadata_doc=/path/to/metadata/doc -sysmeta_doc=/path/to/sysmeta
+
+(metadigpy) ~/Code/hashstore $ {'Check Status': 0, 'Check Result': ['...RESULT...']}
+```
 
 ## License
 
