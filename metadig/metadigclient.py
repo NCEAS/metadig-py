@@ -81,12 +81,6 @@ def main():
         if sysmeta_path is None:
             raise ValueError("'-sysmeta_doc' arg is required")
 
-        # Read the supplied sysmeta document to get values needed to retrieve data pids
-        sysmeta_check_vars = checks.get_sysmeta_run_check_vars(sysmeta_path)
-        identifier = sysmeta_check_vars.get("identifier")
-        auth_mn_node = sysmeta_check_vars.get("authoritative_member_node")
-        data_pids = checks.get_data_pids(identifier, auth_mn_node)
-
         # Get the store configuration from the given config file at the store_path
         hashstore_yaml_path = store_path + "/hashstore.yaml"
         if not os.path.isfile(hashstore_yaml_path):
@@ -104,13 +98,10 @@ def main():
                 f"Unexpected exception while trying to read 'hashstore.yaml' from store_path: {ge}"
             ) from ge
 
-        # Create check_vars dict
-        check_vars = {}
-        check_vars["dataPids"] = data_pids
-        check_vars["storeConfiguration"] = storemanager_props
-
         # Run the check
-        result = checks.run_check(check_xml_path, metadata_doc_path, check_vars)
+        result = checks.run_check(
+            check_xml_path, metadata_doc_path, sysmeta_path, storemanager_props
+        )
         print(result)
         return
 
