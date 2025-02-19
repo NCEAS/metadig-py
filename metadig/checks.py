@@ -155,13 +155,21 @@ def get_sysmeta_run_check_vars(sysmeta_path: str):
     sm_rn_vars["authoritative_member_node"] = authoritative_member_node
     return sm_rn_vars
 
-def run_check(check_xml_path: str, metadata_xml_path: str, check_vars: Dict[str, Any]):
+
+def run_check(
+    check_xml_path: str,
+    metadata_xml_path: str,
+    metadata_sysmeta_path: str,
+    store_props: Dict[str, Any],
+):
     """
     Run a validation check against an XML metadata document.
 
     :param str check_xml_path: Path to the XML file containing the check configuration.
     :param str metadata_xml_path: Path to the XML metadata document.
-    :param Dict check_vars: Dictionary containing local vars that the check may need.
+    :param str metadata_sysmeta_path: Path to the sysmeta for the XML metadata document
+    :param Dict store_props: Dictionary containing the store properties: store_type, store_path,
+        store_depth, store_width, store_algorithm, store_metadata_namespace
     :return: The result of the check function.
     """
     # Load the metadata and check XML files
@@ -195,6 +203,16 @@ def run_check(check_xml_path: str, metadata_xml_path: str, check_vars: Dict[str,
     if not selectors:
         raise ValueError("No selectors are defined for this check.")
 
+    # Begin retrieving check variables
+    check_vars = {}
+    # Get datapids
+    sysmeta_check_vars = get_sysmeta_run_check_vars(metadata_sysmeta_path)
+    identifier = sysmeta_check_vars.get("identifier")
+    auth_mn_node = sysmeta_check_vars.get("authoritative_member_node")
+    data_pids = get_data_pids(identifier, auth_mn_node)
+    check_vars["dataPids"] = data_pids
+    # Add store properties to check variables
+    check_vars["storeConfiguration"] = store_props
     # Extract the information from selectors
     for selector in selectors:
         # selector_xpath = selector.xpath("xpath")[0].text
