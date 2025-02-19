@@ -1,9 +1,14 @@
+"""Metadig metadata utilities"""
+
 import xml.etree.ElementTree as ET
+import io
+import pandas as pd
 
 
 def read_sysmeta_element(stream, element):
     """
-    Reads and parses a stream of system metadata to find and return the text value of a specified element.
+    Reads and parses a stream of system metadata to find and return the text value
+    of a specified element.
 
     Args:
         stream (BufferedReader): A stream containing system metadata.
@@ -13,7 +18,8 @@ def read_sysmeta_element(stream, element):
         str or None: The text content of the found element, or None if not found.
 
     Raises:
-        ValueError: If there is an error parsing the sysmeta or if the specified element is not found.
+        ValueError: If there is an error parsing the sysmeta or if the specified
+        element is not found.
     """
     try:
         # Parse the XML from the buffered reader
@@ -26,7 +32,7 @@ def read_sysmeta_element(stream, element):
             return elem.text
 
     except ET.ParseError as e:
-        raise ValueError(f"Error parsing XML: {e}, could not find element {element}")
+        raise ValueError(f"Error parsing XML: {e}, could not find element {element}") from e
 
 
 def find_eml_entity(doc, identifier, file_name):
@@ -42,8 +48,9 @@ def find_eml_entity(doc, identifier, file_name):
         fileName (str): File name to match against the entityName or objectName elements.
 
     Returns:
-        xml.etree.Element: The XML element (dataTable or otherEntity) that matches the identifier or fileName,
-        according to the specified priority (id, entityName, objectName). Returns None if no match is found.
+        xml.etree.Element: The XML element (dataTable or otherEntity) that matches the
+        identifier or fileName, according to the specified priority (id, entityName, objectName).
+        Returns None if no match is found.
     """
 
     root = ET.fromstring(doc)
@@ -108,7 +115,7 @@ def find_entity_index(fname, pid, entity_names, ids):
     z = [i for i, x in enumerate(entity_names) if x == fname]
     if not z:
         z = [i for i, x in enumerate(ids) if x == pid.replace(":", "-")]
-    
+
     if len(z) > 1:
         z = z[0]
     return z if z else None
@@ -127,9 +134,10 @@ def read_csv_with_metadata(d_read, fd, skiprows):
         error: error message on exception
         
     """
-    delimiter = "," if fd is None else fd
+    delimiter = "," if fd is None else fd[0]
     header = 0 if skiprows is None else int(skiprows[0]) - 1
     try:
         return pd.read_csv(io.StringIO(d_read), delimiter=delimiter, header=header), None
+    # pylint: disable=W0718
     except Exception as e:
         return None, f"Error reading CSV: {str(e)}"

@@ -13,10 +13,12 @@ hashstore = { git = "https://github.com/dataoneorg/hashstore.git"}
 lxml = "^5.3.0"
 pandas = "^2.2.2"
 
-
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.2"
 black = "^24"
+
+[tool.poetry.scripts]
+metadigpy = "metadig.metadigclient:main"
 
 [build-system]
 requires = ["poetry-core"]

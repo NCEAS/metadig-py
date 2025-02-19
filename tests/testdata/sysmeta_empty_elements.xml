@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns3:systemMetadata xmlns:ns2="http://ns.dataone.org/service/types/v1" xmlns:ns3="http://ns.dataone.org/service/types/v2.0">
+    <serialVersion>1</serialVersion>
+    <identifier></identifier>
+    <formatId>https://eml.ecoinformatics.org/eml-2.2.0</formatId>
+    <size>73220</size>
+    <checksum algorithm="MD5">31809f5d4d373bc39ac09e1cd751c35b</checksum>
+    <submitter>http://orcid.org/0009-0002-4834-9810</submitter>
+    <rightsHolder>http://orcid.org/0000-0001-8947-0479</rightsHolder>
+    <accessPolicy>
+        <allow>
+            <subject>public</subject>
+            <permission>read</permission>
+        </allow>
+        <allow>
+            <subject>CN=arctic-data-admins,DC=dataone,DC=org</subject>
+            <permission>read</permission>
+            <permission>write</permission>
+            <permission>changePermission</permission>
+        </allow>
+    </accessPolicy>
+    <replicationPolicy replicationAllowed="false" numberReplicas="0"/>
+    <obsoletes>urn:uuid:6a3c6f46-6cfd-4275-8cf2-489076ce7d3e</obsoletes>
+    <archived>false</archived>
+    <dateUploaded>2024-07-03T19:46:44.414+00:00</dateUploaded>
+    <dateSysMetadataModified>2024-07-03T19:46:48.880+00:00</dateSysMetadataModified>
+    <originMemberNode>urn:node:ARCTIC</originMemberNode>
+    <authoritativeMemberNode>urn:node:ARCTIC</authoritativeMemberNode>
+    <fileName>The_Arctic_Plant_Aboveground_Biomass_Synthesis_Dat.xml</fileName>
+</ns3:systemMetadata>

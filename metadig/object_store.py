@@ -78,6 +78,8 @@ class StoreManager:
         Args:
             configuration (dict): A dictionary containing configuration options
                 including the 'store_type' that determines the type of store to manage.
+                Required properties: store_type, store_path, store_depth, store_width,
+                store_algorithm, store_metadata_namespace
         """
         self.store = self._create_store(configuration)
 
@@ -198,8 +200,14 @@ class HashStore(ObjectStore):
 
 
 class ObjectNotFoundError(Exception):
-    pass
+    """Custom exception class for when an object is not found."""
+    def __init__(self, message, errors=None):
+        super().__init__(message)
+        self.errors = errors
 
 
 class MetadataNotFoundError(Exception):
-    pass
+    """Custom exception class for when a metadata object is not found."""
+    def __init__(self, message, errors=None):
+        super().__init__(message)
+        self.errors = errors
