@@ -134,10 +134,21 @@ def read_csv_with_metadata(d_read, fd, skiprows):
         error: error message on exception
         
     """
-    delimiter = "," if fd is None else fd[0]
-    header = 0 if skiprows is None else int(skiprows[0]) - 1
+    # Ensure fd is an int or str
+    if isinstance(fd, list):
+        fd = fd[0]  # Extract first element if list
+    if not isinstance(fd, (str, int)):  
+        fd = ","  # Default to comma if invalid type
+
+    # Ensure skiprows is an int
+    if isinstance(skiprows, list):
+        skiprows = skiprows[0]  # Extract first element if list
+    if not isinstance(skiprows, int):  
+        skiprows = 0  # Default to 0 if invalid type
+
+    header = skiprows - 1  
+
     try:
-        return pandas.read_csv(io.StringIO(d_read), delimiter=delimiter, header=header), None
-    # pylint: disable=W0718
+        return pd.read_csv(io.StringIO(d_read), delimiter=fd, header=header), None
     except Exception as e:
         return None, f"Error reading CSV: {str(e)}"
