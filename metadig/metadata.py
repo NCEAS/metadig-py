@@ -2,7 +2,7 @@
 
 import xml.etree.ElementTree as ET
 import io
-import pandas as pd
+import pandas
 
 
 def read_sysmeta_element(stream, element):
@@ -137,7 +137,7 @@ def read_csv_with_metadata(d_read, fd, skiprows):
     delimiter = "," if fd is None else fd[0]
     header = 0 if skiprows is None else int(skiprows[0]) - 1
     try:
-        return pd.read_csv(io.StringIO(d_read), delimiter=delimiter, header=header), None
+        return pandas.read_csv(io.StringIO(d_read), delimiter=delimiter, header=header), None
     # pylint: disable=W0718
     except Exception as e:
         return None, f"Error reading CSV: {str(e)}"
