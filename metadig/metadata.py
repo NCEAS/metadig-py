@@ -149,6 +149,6 @@ def read_csv_with_metadata(d_read, fd, skiprows):
     header = skiprows - 1  
 
     try:
-        return pd.read_csv(io.StringIO(d_read), delimiter=fd, header=header), None
+        return pandas.read_csv(io.StringIO(d_read), delimiter=fd, header=header), None
     except Exception as e:
         return None, f"Error reading CSV: {str(e)}"
