@@ -40,11 +40,11 @@ def call():
 
         # If data object is not available, skip the pid.
         try:
-          obj, sys = manager.get_object(pid)
+            obj, sys = manager.get_object(pid)
         except Exception as e:
-          output_data.append(f"Unexpected Exception: {e}")
-          status_data.append("FAILURE")
-          continue
+            output_data.append(f"Unexpected Exception: {e}")
+            status_data.append("FAILURE")
+            continue
 
         # if file is not text/csv, skip it
         # otherwise get the object and filename
