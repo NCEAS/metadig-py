@@ -48,10 +48,10 @@ def call():
 
         # if file is not text/csv, skip it
         # otherwise get the object and filename
-        obj, fname, status = get_valid_csv(manager, pid)
-        if status == "SKIP":
+        obj, fname, csv_status = get_valid_csv(manager, pid)
+        if csv_status == "SKIP":
             output_data.append(f"{fname} is not a text-delimited table, skipping.")
-            status_data.append(status)
+            status_data.append(csv_status)
             continue
 
         # read in all the data
