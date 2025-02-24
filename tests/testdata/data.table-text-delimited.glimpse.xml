@@ -74,7 +74,6 @@ def call():
             status_data.append("FAILURE")
             continue
 
-
         if isinstance(df, pd.DataFrame):
             summary = df.describe()
             summary_md = summary.to_markdown()
@@ -92,13 +91,15 @@ def call():
     output = output_data
     if successes > 0 and failures == 0:
         status = "SUCCESS"
-        return True
     elif successes == 0 and failures > 0:
         status = "FAILURE"
-        return True
     else:
         status = "FAILURE" 
-        return True
+
+    metadigpy_result["identifiers"] = output_identifiers
+    metadigpy_result["output"] = output_data
+    metadigpy_result["status"] = status
+    return True
 
   ]]></code>
   <selector>
