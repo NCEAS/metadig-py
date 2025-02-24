@@ -15,6 +15,7 @@ def call():
     global status
     global output_identifiers
     global output_type
+    global metadigpy_result
 
     from metadig import StoreManager
     from metadig import read_sysmeta_element
@@ -32,10 +33,18 @@ def call():
     status_data = []
     output_identifiers = []
     output_type = []
+    metadigpy_result = {}
 
     for pid in dataPids:
         output_identifiers.append(pid)
-        obj, sys = manager.get_object(pid)
+
+        # If data object is not available, skip the pid.
+        try:
+          obj, sys = manager.get_object(pid)
+        except Exception as e:
+          output_data.append(f"Unexpected Exception: {e}")
+          status_data.append("FAILURE")
+          continue
 
         # if file is not text/csv, skip it
         # otherwise get the object and filename

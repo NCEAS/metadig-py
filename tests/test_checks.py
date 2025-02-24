@@ -30,6 +30,7 @@ def test_run_check(storemanager_props, init_hashstore_with_test_data):
         sample_sysmeta_file_path,
         storemanager_props,
     )
+    print(result)
     assert result is not None
     assert result["Check Status"] == 0
     assert result["Check Result"] is not None
@@ -78,7 +79,7 @@ def test_run_check_error_missing_pid_objects(storemanager_props, init_hashstore_
         storemanager_props,
     )
     assert result is not None
-    assert result["Check Status"] == 1
+    assert result["Check Status"] == 0
     assert result["Check Result"] is not None
 
 
