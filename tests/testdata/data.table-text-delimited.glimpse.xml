@@ -40,18 +40,16 @@ def call():
 
         # If data object is not available, skip the pid.
         try:
-            obj, sys = manager.get_object(pid)
+          # if file is not text/csv, skip it
+          # otherwise get the object and filename
+          obj, fname, csv_status = get_valid_csv(manager, pid)
+          if csv_status == "SKIP":
+              output_data.append(f"{fname} is not a text-delimited table, skipping.")
+              status_data.append(csv_status)
+              continue
         except Exception as e:
             output_data.append(f"Unexpected Exception: {e}")
             status_data.append("FAILURE")
-            continue
-
-        # if file is not text/csv, skip it
-        # otherwise get the object and filename
-        obj, fname, csv_status = get_valid_csv(manager, pid)
-        if csv_status == "SKIP":
-            output_data.append(f"{fname} is not a text-delimited table, skipping.")
-            status_data.append(csv_status)
             continue
 
         # read in all the data
