@@ -1,7 +1,7 @@
 """Test module for the MetaDIG-py client."""
 import os
 import sys
-import ast
+import json
 import pytest
 from metadig import metadigclient
 
@@ -31,9 +31,13 @@ def test_metadig_client_run_check(capsys, store, init_hashstore_with_test_data):
     sys.argv = chs_args
     metadigclient.main()
 
-    result = ast.literal_eval(capsys.readouterr().out)
-    assert result["Check Status"] == 0
-    assert len(result["Check Result"]) == 2
+    result_data = json.loads(capsys.readouterr().out)
+    assert result_data is not None
+    assert result_data["identifiers"] is not None
+    assert result_data["output"] is not None
+    assert result_data["status"] is not None
+    assert len(result_data["identifiers"]) is 2
+    assert len(result_data["output"]) is 2
 
 @pytest.mark.parametrize(
     "missing_opt", ["store_path", "check_xml", "metadata_doc", "sysmeta_doc"]

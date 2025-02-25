@@ -4,6 +4,7 @@ from metadig import checks
 from metadig.object_store import StoreManager
 import os
 import pytest
+import json
 
 
 def get_test_data_path(file_name):
@@ -30,10 +31,12 @@ def test_run_check(storemanager_props, init_hashstore_with_test_data):
         sample_sysmeta_file_path,
         storemanager_props,
     )
-    print(result)
-    assert result is not None
-    assert result["Check Status"] == 0
-    assert result["Check Result"] is not None
+
+    result_data = json.loads(result)
+    assert result_data is not None
+    assert result_data["identifiers"] is not None
+    assert result_data["output"] is not None
+    assert result_data["status"] is not None
 
 
 def test_run_check_multiple_pids(storemanager_props, init_hashstore_with_test_data):
@@ -54,9 +57,14 @@ def test_run_check_multiple_pids(storemanager_props, init_hashstore_with_test_da
         sample_sysmeta_file_path,
         storemanager_props,
     )
-    assert result is not None
-    assert result["Check Status"] == 0
-    assert len(result["Check Result"]) == 2
+
+    result_data = json.loads(result)
+    assert result_data is not None
+    assert result_data["identifiers"] is not None
+    assert result_data["output"] is not None
+    assert result_data["status"] is not None
+    assert len(result_data["identifiers"]) is 2
+    assert len(result_data["output"]) is 2
 
 
 def test_run_check_error_missing_pid_objects(storemanager_props, init_hashstore_with_test_data):
@@ -78,9 +86,15 @@ def test_run_check_error_missing_pid_objects(storemanager_props, init_hashstore_
         sample_sysmeta_file_path,
         storemanager_props,
     )
-    assert result is not None
-    assert result["Check Status"] == 0
-    assert result["Check Result"] is not None
+
+    result_data = json.loads(result)
+    print(result_data)
+    assert result_data is not None
+    assert result_data["identifiers"] is not None
+    assert result_data["output"] is not None
+    assert result_data["status"] is not None
+    assert len(result_data["identifiers"]) is 7
+    assert len(result_data["output"]) is 7
 
 
 def test_get_sysmeta_run_check_vars():
