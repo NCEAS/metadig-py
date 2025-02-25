@@ -226,12 +226,10 @@ def run_check(
 
         check_vars[selector_name] = variable_list
 
+    # TODO: Clean-up code, this function feels a bit clunky and is a bit difficult to follow
+
     # Execute check function
     result = None
-    result_output = {}
-    # TODO: Clean-up code, we can likely extract this portion of forming the call to another fn
-    # successes, failures and skips are not global variables in the check code, so they cannot
-    # be retrieved at this moment.
     code_elem = check_doc.xpath("code")
     if code_elem:
         code_str = (
@@ -240,28 +238,30 @@ import json
 locals().update({json.dumps(check_vars)})
 """
             + code_elem[0].text
-            + "\ncall()\nprint(output)"
+            + "\ncall()\nprint(metadigpy_result)"
         )
 
         try:
-            # TODO: Investigate for alternative path to executing this check instead of a subprocess
+            # TODO: Refactor with multiprocessing since we are not calling external programs
             result = subprocess.run(
                 [sys.executable, "-c", code_str],
                 capture_output=True,
                 text=True,
                 check=True,
             )
-            result_output["Check Status"] = result.returncode
-            # use ast to form a string that contains python literals (ex. lists, dicts, etc.)
-            result_output["Check Result"] = ast.literal_eval(result.stdout)
-            return result_output
+            # Get python literal string from std.out using ast library
+            python_lit_string = ast.literal_eval(result.stdout)
+            json_output = json.dumps(python_lit_string, indent=4)
+            return json_output
         # pylint: disable=W0718
         except Exception as e:
-            result_output["Check Status"] = 1
-            # The subprocess does have this member
-            # pylint: disable=E1101
-            result_output["Check Result"] = e.stderr
-            return result_output
+            # TODO: Discuss what the output for an unexpected exception should be
+            exception_output = {}
+            exception_output["identifiers"] = [data_pids]
+            exception_output["output"] = [f"Unexpected exception while running check: {e}"]
+            exception_output["status"] = "Unable to execute check."
+            json_output = json.dumps(exception_output, indent=4)
+            return json_output
     else:
         raise IOError("Check code is unavailable/cannot be found.")
 
