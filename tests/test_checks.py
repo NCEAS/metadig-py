@@ -5,6 +5,7 @@ from metadig.object_store import StoreManager
 import os
 import pytest
 import json
+import multiprocessing
 
 
 def get_test_data_path(file_name):
@@ -62,6 +63,57 @@ def test_run_check_v2(storemanager_props, init_hashstore_with_test_data):
     assert result_data["identifiers"] is not None
     assert result_data["output"] is not None
     assert result_data["status"] is not None
+
+
+# TODO: Continue testing multiprocessing with `run_check`
+
+def try_run_check_v2(obj_tuple):
+    """Try running a v2 check
+    """
+    try:
+        result = checks.run_check_v2(*obj_tuple)
+        return result
+    # pylint: disable=W0718
+    except Exception as so_exception:
+        print(so_exception)
+
+
+def test_run_check_v2_multiprocessing(storemanager_props, init_hashstore_with_test_data):
+    """Test that the 'run_check_v2' method successfully executes"""
+    assert init_hashstore_with_test_data
+    manager = StoreManager(storemanager_props)
+    # Confirm no exception is thrown and object and metadata is in place
+    _ = manager.get_object("urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1")
+
+    # Now execute 'run_check' by providing it the required args
+    sample_check_file_path = get_test_data_path("data.table-text-delimited.glimpse.xml")
+    sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
+    sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
+
+    # Set up pool and processes
+    pool = multiprocessing.Pool()
+
+    # Create an array with these values repeated 10 times
+    input_array = [
+        (
+            sample_check_file_path,
+            sample_metadata_file_path,
+            sample_sysmeta_file_path,
+            storemanager_props,
+        )
+        for _ in range(10)
+    ]
+
+    # Call 'obj_type' respective public API methods
+    results = pool.imap(try_run_check_v2, input_array)
+
+    # Close the pool and wait for all processes to complete
+    pool.close()
+    pool.join()
+
+    for result in results:
+        print(result)
+
 
 def test_run_check_multiple_pids(storemanager_props, init_hashstore_with_test_data):
     """Test that the 'run_check' method successfully executes with multiple pids"""
