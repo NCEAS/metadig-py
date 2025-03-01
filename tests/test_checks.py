@@ -68,8 +68,7 @@ def test_run_check_v2(storemanager_props, init_hashstore_with_test_data):
 # TODO: Continue testing multiprocessing with `run_check`
 
 def try_run_check_v2(obj_tuple):
-    """Try running a v2 check
-    """
+    """Executes a 'run_check_v2' function in a try block"""
     try:
         result = checks.run_check_v2(*obj_tuple)
         return result
@@ -79,7 +78,7 @@ def try_run_check_v2(obj_tuple):
 
 
 def test_run_check_v2_multiprocessing(storemanager_props, init_hashstore_with_test_data):
-    """Test that the 'run_check_v2' method successfully executes"""
+    """Test that the 'run_check_v2' function in a multiprocessing setting"""
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)
     # Confirm no exception is thrown and object and metadata is in place
@@ -89,9 +88,6 @@ def test_run_check_v2_multiprocessing(storemanager_props, init_hashstore_with_te
     sample_check_file_path = get_test_data_path("data.table-text-delimited.glimpse.xml")
     sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
     sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
-
-    # Set up pool and processes
-    pool = multiprocessing.Pool()
 
     # Create an array with these values repeated 10 times
     input_array = [
@@ -104,15 +100,18 @@ def test_run_check_v2_multiprocessing(storemanager_props, init_hashstore_with_te
         for _ in range(10)
     ]
 
-    # Call 'obj_type' respective public API methods
+    # Set up pool and processes
+    pool = multiprocessing.Pool()
     results = pool.imap(try_run_check_v2, input_array)
-
-    # Close the pool and wait for all processes to complete
-    pool.close()
+    pool.close() # Close the pool and wait for all processes to complete
     pool.join()
 
     for result in results:
-        print(result)
+        result_data = json.loads(result)
+        assert result_data is not None
+        assert result_data["identifiers"] is not None
+        assert result_data["output"] is not None
+        assert result_data["status"] is not None
 
 
 def test_run_check_multiple_pids(storemanager_props, init_hashstore_with_test_data):
@@ -139,8 +138,8 @@ def test_run_check_multiple_pids(storemanager_props, init_hashstore_with_test_da
     assert result_data["identifiers"] is not None
     assert result_data["output"] is not None
     assert result_data["status"] is not None
-    assert len(result_data["identifiers"]) is 2
-    assert len(result_data["output"]) is 2
+    assert len(result_data["identifiers"]) == 2
+    assert len(result_data["output"]) == 2
 
 
 def test_run_check_error_missing_pid_objects(storemanager_props, init_hashstore_with_test_data):
@@ -169,8 +168,8 @@ def test_run_check_error_missing_pid_objects(storemanager_props, init_hashstore_
     assert result_data["identifiers"] is not None
     assert result_data["output"] is not None
     assert result_data["status"] is not None
-    assert len(result_data["identifiers"]) is 7
-    assert len(result_data["output"]) is 7
+    assert len(result_data["identifiers"]) == 7
+    assert len(result_data["output"]) == 7
 
 
 def test_get_sysmeta_run_check_vars():
