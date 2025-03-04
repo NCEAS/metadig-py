@@ -156,9 +156,10 @@ def read_csv_with_metadata(d_read, fd, header_line):
         if header_line > 0:
             pd_header_val = header_line - 1
     else:
-        raise TypeError("skiprows must be an integer.")
+        raise TypeError("header_line must be an integer.")
 
     try:
         return pandas.read_csv(io.StringIO(d_read), delimiter=fd, header=pd_header_val), None
+    # pylint: disable=W0718
     except Exception as e:
         return None, f"Error reading CSV: {str(e)}"
