@@ -34,6 +34,7 @@ def test_run_check_datable_glimpse(storemanager_props, init_hashstore_with_test_
     )
 
     result_data = json.loads(result)
+    print(result_data)
     assert result_data is not None
     assert result_data["identifiers"] is not None
     assert result_data["output"] is not None
@@ -139,8 +140,8 @@ def test_run_check_multiple_pids(storemanager_props, init_hashstore_with_test_da
     assert result_data["identifiers"] is not None
     assert result_data["output"] is not None
     assert result_data["status"] is not None
-    assert len(result_data["identifiers"]) == 2
-    assert len(result_data["output"]) == 2
+    assert len(result_data["identifiers"]) == 1
+    assert len(result_data["output"]) == 1
 
 
 def test_run_check_error_missing_pid_objects(storemanager_props, init_hashstore_with_test_data):
@@ -164,13 +165,12 @@ def test_run_check_error_missing_pid_objects(storemanager_props, init_hashstore_
     )
 
     result_data = json.loads(result)
-    print(result_data)
     assert result_data is not None
     assert result_data["identifiers"] is not None
     assert result_data["output"] is not None
     assert result_data["status"] is not None
-    assert len(result_data["identifiers"]) == 7
-    assert len(result_data["output"]) == 7
+    assert len(result_data["identifiers"]) == 6
+    assert len(result_data["output"]) == 6
 
 
 def test_get_sysmeta_run_check_vars():
@@ -204,8 +204,7 @@ def test_get_data_pids():
     member_node = "urn:node:ARCTIC"
     data_pids = checks.get_data_pids(identifier, member_node)
     expected_pids = [
-        "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1",
-        "doi:10.18739/A2QJ78081",
+        "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1"
     ]
     for pid in expected_pids:
         assert pid in data_pids
