@@ -1,11 +1,11 @@
 """Test module for the metadig checks module."""
 
-from metadig import checks
-from metadig.object_store import StoreManager
-import os
-import pytest
 import json
 import multiprocessing
+import os
+import pytest
+from metadig import checks
+from metadig.object_store import StoreManager
 
 
 def get_test_data_path(file_name):
@@ -34,7 +34,6 @@ def test_run_check_datable_glimpse(storemanager_props, init_hashstore_with_test_
     )
 
     result_data = json.loads(result)
-    print(result_data)
     assert result_data is not None
     assert result_data["identifiers"] is not None
     assert result_data["output"] is not None
