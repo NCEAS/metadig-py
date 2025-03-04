@@ -50,10 +50,13 @@ def init_hashstore_with_test_data(store):
     current_dir = os.path.dirname(__file__)
     obj_path = os.path.join(current_dir, "testdata", "test-data.csv")
     obj2_path = os.path.join(current_dir, "testdata", "test-data-2.csv")
+    obj3_path = os.path.join(current_dir, "testdata", "test-data-2_3rowstoskip.csv")
     meta_path = os.path.join(current_dir, "testdata", "test-pid.xml")
     store.store_object("test-pid", str(obj_path))
     store.store_object("test-pid-2", str(obj2_path))
+    store.store_object("test-pid-3skip", str(obj3_path))
     store.store_metadata("test-pid", str(meta_path))
+    store.store_metadata("test-pid-3skip", str(meta_path))
 
     # Store data and metadata object for 'checks' pytest for DOI: doi:10.18739/A2QJ78081
     # Store the data object for the eml metadata doc

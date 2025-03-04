@@ -120,14 +120,14 @@ def find_entity_index(fname, pid, entity_names, ids):
         z = z[0]
     return z if z else None
 
-def read_csv_with_metadata(d_read, fd, skiprows):
+def read_csv_with_metadata(d_read, fd, header_line):
     """
     Uses pandas to read in a csv with given field delimiter and header rows to skip
 
     Args:
         d_read: Data as read in from the stream 
         fd (str): Field delimiter from metadata
-        skiprows (int): Number of rows to skip
+        header_line (int): Number of rows to skip
 
     Returns:
         df: Pandas data.frame with data
@@ -140,15 +140,25 @@ def read_csv_with_metadata(d_read, fd, skiprows):
     if not isinstance(fd, (str, int)):  
         fd = ","  # Default to comma if invalid type
 
-    # Ensure skiprows is an int
-    if isinstance(skiprows, list):
-        skiprows = skiprows[0]  # Extract first element if list
-    if not isinstance(skiprows, int):  
-        skiprows = 0  # Default to 0 if invalid type
-
-    header = skiprows - 1  
+    pd_header_val = 0
+    if isinstance(header_line, list):
+        # When a list is provided, the expectation is that this value is coming from the sysmeta
+        # We will extract the first element and cast it into an integer, this number is usually 1
+        try:
+            first_element_from_list = int(header_line[0])
+        except (ValueError, TypeError) as vte:
+            raise ValueError(
+                f"Unable to retrieve a numeric value from skiprows. Details: {vte}"
+            ) from vte
+        # We subtract 1 to standardize this value to pass onto pandas.read_csv
+        pd_header_val = max(0, first_element_from_list - 1) # Ensure it is never negative
+    elif isinstance(header_line, int):
+        if header_line > 0:
+            pd_header_val = header_line - 1
+    else:
+        raise TypeError("skiprows must be an integer.")
 
     try:
-        return pandas.read_csv(io.StringIO(d_read), delimiter=fd, header=header), None
+        return pandas.read_csv(io.StringIO(d_read), delimiter=fd, header=pd_header_val), None
     except Exception as e:
         return None, f"Error reading CSV: {str(e)}"

@@ -1,8 +1,7 @@
 """Test module for 'metadata' module"""
 
+from metadig import metadata
 from metadig import StoreManager
-from metadig import read_sysmeta_element
-from metadig import find_eml_entity
 
 
 def test_read_sysmeta_element(storemanager_props, init_hashstore_with_test_data):
@@ -11,7 +10,7 @@ def test_read_sysmeta_element(storemanager_props, init_hashstore_with_test_data)
     manager = StoreManager(storemanager_props)
     _, sys = manager.get_object("test-pid")
 
-    fid = read_sysmeta_element(sys, "formatId")
+    fid = metadata.read_sysmeta_element(sys, "formatId")
     assert fid == "text/csv"
 
 
@@ -107,14 +106,65 @@ def test_find_entity():
     fname = "file.csv"
     identifier = "identifier-123"
 
-    ent = find_eml_entity(doc + dt, identifier, fname)
+    ent = metadata.find_eml_entity(doc + dt, identifier, fname)
     anames = ent.findall(".//attributeName")
     assert [elem.text for elem in anames] == ["length_1"]
 
-    ent = find_eml_entity(doc + oe, identifier, fname)
+    ent = metadata.find_eml_entity(doc + oe, identifier, fname)
     anames = ent.findall(".//attributeName")
     assert [elem.text for elem in anames] == ["length_1"]
 
-    ent = find_eml_entity(doc + oe2, identifier, fname)
+    ent = metadata.find_eml_entity(doc + oe2, identifier, fname)
     anames = ent.findall(".//attributeName")
     assert [elem.text for elem in anames] == ["length_1"]
+
+
+def test_read_csv_with_metadata(storemanager_props, init_hashstore_with_test_data):
+    """Test that a text delimited document can be read."""
+    assert init_hashstore_with_test_data
+    manager = StoreManager(storemanager_props)
+
+    # the_arctic_plant_aboveground_biomass_synthesis_dataset.csv
+    pid = "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1"
+    obj, _ = manager.get_object(pid)
+
+    d_read = obj.read().decode('utf-8', errors = 'replace')
+    field_delimiter = ","
+    skiprows = 0
+
+    _, error = metadata.read_csv_with_metadata(d_read, field_delimiter, skiprows)
+    assert error is None
+
+
+def test_read_csv_with_metadata_3_rows_to_skip(
+    storemanager_props, init_hashstore_with_test_data
+):
+    """Test that a text delimited document can be read where header line is not the first row."""
+    assert init_hashstore_with_test_data
+    manager = StoreManager(storemanager_props)
+
+    # the_arctic_plant_aboveground_biomass_synthesis_dataset.csv
+    pid = "test-pid-3skip"
+    obj, _ = manager.get_object(pid)
+
+    d_read = obj.read().decode("utf-8", errors="replace")
+    field_delimiter = ","
+    header_line = 4
+
+    df, error = metadata.read_csv_with_metadata(d_read, field_delimiter, header_line)
+    expected_columns = [
+        "Year",
+        "Site",
+        "Species",
+        "Nest_lat",
+        "Nest_lon",
+        "Date",
+        "Num_indiv",
+        "Nest_contents",
+        "Notes",
+    ]
+
+    assert (
+        list(df.columns) == expected_columns
+    ), f"Unexpected column names: {list(df.columns)}"
+    assert error is None
