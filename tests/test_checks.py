@@ -43,7 +43,7 @@ def test_run_check(storemanager_props, init_hashstore_with_test_data):
 # TODO: Continue testing multiprocessing with `run_check`
 
 def try_run_check_v2(obj_tuple):
-    """Executes a 'run_check_v2' function in a try block"""
+    """Executes a 'run_check' function in a try block"""
     try:
         result = checks.run_check(*obj_tuple)
         return result
@@ -53,7 +53,7 @@ def try_run_check_v2(obj_tuple):
 
 
 def test_run_check_with_multiprocessing(storemanager_props, init_hashstore_with_test_data):
-    """Test that the 'run_check_v2' function in a multiprocessing setting"""
+    """Test 'run_check' function in a multiprocessing setting"""
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)
     # Confirm no exception is thrown and object and metadata is in place
