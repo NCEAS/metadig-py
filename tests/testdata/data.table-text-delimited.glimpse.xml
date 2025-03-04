@@ -18,14 +18,9 @@ def call():
     global metadigpy_result
 
     from metadig import StoreManager
-    from metadig import read_sysmeta_element
-    from metadig import find_eml_entity
-    from metadig import get_valid_csv
-    from metadig import find_entity_index
-    from metadig import read_csv_with_metadata
+    import metadig as md
     import pandas as pd
     import io
-    import chardet
 
     manager = StoreManager(storeConfiguration)  
 
@@ -35,17 +30,20 @@ def call():
     output_type = []
     metadigpy_result = {}
 
+    if len(dataPids) == 0:
+      output_data = "No data objects found."
+
     for pid in dataPids:
         output_identifiers.append(pid)
 
         # If data object is not available, skip the pid.
         try:
-          obj, fname, csv_status = get_valid_csv(manager, pid)
           # if file is not text/csv, skip it
           # otherwise get the object and filename
-          if csv_status == "SKIP":
+          obj, fname, status = md.get_valid_csv(manager, pid)
+          if status == "SKIP":
               output_data.append(f"{fname} is not a text-delimited table, skipping.")
-              status_data.append(csv_status)
+              status_data.append(status)
               continue
         except Exception as e:
             output_data.append(f"Unexpected Exception: {e}")
@@ -53,22 +51,20 @@ def call():
             continue
 
         # read in all the data
-        detected = chardet.detect(obj.read(1024))
-        encoding = detected["encoding"]
-        d_read = obj.read().decode(encoding, errors = 'replace')
+        d_read = obj.read().decode('utf-8', errors = 'replace')
 
         # find which entity file is documented in
-        z = find_entity_index(fname, pid, entityNames, ids)
+        z = md.find_entity_index(fname, pid, entityNames, ids)
         if z is None:
             output_data.append(f"{fname} does not appear to be documented in the metadata.")
             status_data.append("FAILURE")
             continue
         z = z[0]
-        
+
         # try to read in the file
-        df, error = read_csv_with_metadata(d_read, fieldDelimiter[z], headerLines[z])
+        df, error = md.read_csv_with_metadata(d_read, fieldDelimiter[z], headerLines if isinstance(headerLines, int) else headerLines[z])
         if error:
-            output_data.append(f"{fname} is unable to be read as a table.")
+            output_data.append(f"{fname} is unable to be read as a table. {error}")
             status_data.append("FAILURE")
             continue
 
