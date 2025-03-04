@@ -125,7 +125,7 @@ Every dataset not only has metadata about the dataset (which usually comes in th
 
 #### The Python Check
 
-TODO: Review with Jeanette to see how we want to say.
+TODO: Discuss how a python check is created, and link to `metadig-checks` for more info.
 
 #### Example of the Entire Process via the `MetaDIG-py` command line client
 
