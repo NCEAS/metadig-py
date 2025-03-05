@@ -68,7 +68,7 @@ def test_run_check_datatable_well_formed(storemanager_props, init_hashstore_with
 
 
 def test_run_check_dataformat_congruent(storemanager_props, init_hashstore_with_test_data):
-    """Test 'run_check' with 'data.table-text-delimited.well-formed.xml' python check."""
+    """Test 'run_check' with 'data.format.congruent.xml' python check."""
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)
     # Confirm no exception is thrown and object and metadata is in place
