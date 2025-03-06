@@ -7,6 +7,7 @@ import urllib.request
 import urllib.error
 import urllib.parse
 import ast
+from pathlib import Path
 from urllib.parse import urlparse
 from typing import Dict, Any
 from lxml import etree
@@ -209,6 +210,8 @@ def run_check(
     identifier = sysmeta_check_vars.get("identifier")
     auth_mn_node = sysmeta_check_vars.get("authoritative_member_node")
     data_pids = get_data_pids(identifier, auth_mn_node)
+    document = Path(metadata_xml_path).read_text(encoding="utf-8")
+    check_vars["document"] = document
     check_vars["dataPids"] = data_pids
     check_vars["storeConfiguration"] = store_props
     # Extract the information from selectors
