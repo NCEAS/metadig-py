@@ -59,14 +59,14 @@ def init_hashstore_with_test_data(store):
     store.store_metadata("test-pid-3skip", str(meta_path))
 
     # Store data and metadata object for 'checks' pytest for DOI: doi:10.18739/A2QJ78081
-    # Store the data object for the eml metadata doc
     doi = "doi:10.18739/A2QJ78081"
+
+    # Store the data object for the eml metadata doc
     doi_eml_metadata_doc = "doi:10.18739_A2QJ78081.xml"
     obj_path_to_pid_eml_meta_doc = os.path.join(current_dir, "testdata", doi_eml_metadata_doc)
     store.store_object(doi, str(obj_path_to_pid_eml_meta_doc))
 
     # Store the sysmeta for the eml metadata doc
-    doi = "doi:10.18739/A2QJ78081"
     doi_eml_metadata_doc = "doi:10.18739_A2QJ78081_sysmeta.xml"
     obj_path_to_pid_eml_meta_doc_sysmeta = os.path.join(
         current_dir, "testdata", doi_eml_metadata_doc
@@ -84,4 +84,54 @@ def init_hashstore_with_test_data(store):
     store.store_metadata(
         "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1", str(obj_path_to_pid_sysmeta)
     )
+
+    # Store data and metadata object for 'checks' pytest for DOI: doi:10.18739/A2RJ48X0F
+    # We will physically alter the data to have normalization issues
+    nmi_doi = "doi:10.18739/A2RJ48X0F"
+
+    # Store the data object for the eml metadata doc
+    nmi_doi_eml_metadata_doc = "doi:10.18739_A2RJ48X0F.xml"
+    nmi_obj_path_to_pid_eml_meta_doc = os.path.join(
+        current_dir, "testdata", nmi_doi_eml_metadata_doc
+    )
+    store.store_object(nmi_doi, str(nmi_obj_path_to_pid_eml_meta_doc))
+
+    # Store the sysmeta for the eml metadata doc
+    nmi_doi_eml_metadata_doc = "doi:10.18739_A2QJ78081_sysmeta.xml"
+    nmi_obj_path_to_pid_eml_meta_doc_sysmeta = os.path.join(
+        current_dir, "testdata", nmi_doi_eml_metadata_doc
+    )
+    store.store_metadata(nmi_doi, str(nmi_obj_path_to_pid_eml_meta_doc_sysmeta))
+
+    # Store the associated .CSV
+    nmi_pid_associated_file_name = "SKQ2020309T_Chla_modified.csv"
+    nmi_obj_path_to_pid_obj = os.path.join(
+        current_dir, "testdata", nmi_pid_associated_file_name
+    )
+    store.store_object(
+        "urn:uuid:a4aadc85-9fa4-46c9-9642-46066cf7a691", str(nmi_obj_path_to_pid_obj)
+    )
+
+    # Store the sysmeta document for the .CSV
+    nmi_pid_sysmeta_name = "urn_uuid_a4aadc85-9fa4-46c9-9642-46066cf7a691.xml"
+    nmi_obj_path_to_pid_sysmeta = os.path.join(current_dir, "testdata", nmi_pid_sysmeta_name)
+    store.store_metadata(
+        "urn:uuid:a4aadc85-9fa4-46c9-9642-46066cf7a691", str(nmi_obj_path_to_pid_sysmeta)
+    )
+
+    # Store other related files to the dataset (must be present in hashstore)
+    other_pid_associated_file_name = "SKQ2020309T_Chlorophyll_Pigments_README.pdf"
+    other_obj_path_to_pid_obj = os.path.join(
+        current_dir, "testdata", other_pid_associated_file_name
+    )
+    store.store_object(
+        "urn:uuid:60101459-96a2-41ea-b9e7-0dd80ecde3ce", str(other_obj_path_to_pid_obj)
+    )
+
+    other_pid_sysmeta_name = "urn_uuid_60101459-96a2-41ea-b9e7-0dd80ecde3ce.xml"
+    other_obj_path_to_pid_sysmeta = os.path.join(current_dir, "testdata", other_pid_sysmeta_name)
+    store.store_metadata(
+        "urn:uuid:60101459-96a2-41ea-b9e7-0dd80ecde3ce", str(other_obj_path_to_pid_sysmeta)
+    )
+
     return True

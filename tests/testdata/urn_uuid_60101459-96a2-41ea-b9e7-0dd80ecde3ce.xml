@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns3:systemMetadata xmlns:ns2="http://ns.dataone.org/service/types/v1" xmlns:ns3="http://ns.dataone.org/service/types/v2.0">
+    <serialVersion>0</serialVersion>
+    <identifier>urn:uuid:60101459-96a2-41ea-b9e7-0dd80ecde3ce</identifier>
+    <formatId>application/pdf</formatId>
+    <size>67728</size>
+    <checksum algorithm="MD5">74b64928054ab17794ada7a6fb167aee</checksum>
+    <submitter>http://orcid.org/0000-0002-0649-9821</submitter>
+    <rightsHolder>http://orcid.org/0000-0002-0649-9821</rightsHolder>
+    <accessPolicy>
+        <allow>
+            <subject>public</subject>
+            <permission>read</permission>
+        </allow>
+        <allow>
+            <subject>CN=arctic-data-admins,DC=dataone,DC=org</subject>
+            <permission>read</permission>
+            <permission>write</permission>
+            <permission>changePermission</permission>
+        </allow>
+    </accessPolicy>
+    <replicationPolicy replicationAllowed="false" numberReplicas="0"/>
+    <archived>false</archived>
+    <dateUploaded>2025-02-10T20:39:54.645+00:00</dateUploaded>
+    <dateSysMetadataModified>2025-03-14T17:57:19.278+00:00</dateSysMetadataModified>
+    <originMemberNode>urn:node:ARCTIC</originMemberNode>
+    <authoritativeMemberNode>urn:node:ARCTIC</authoritativeMemberNode>
+    <fileName>SKQ2020309T_Chlorophyll_Pigments_README.pdf</fileName>
+</ns3:systemMetadata>
