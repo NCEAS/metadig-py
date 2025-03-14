@@ -94,6 +94,33 @@ def test_run_check_datatable_variables_congruent(storemanager_props, init_hashst
     assert result_data["status"] is not None
 
 
+def test_run_check_dataformat_normalized(storemanager_props, init_hashstore_with_test_data):
+    """Test 'run_check' with 'data.table-text-delimited.normalized.xml' python check."""
+    assert init_hashstore_with_test_data
+    manager = StoreManager(storemanager_props)
+    # Confirm no exception is thrown and object and metadata is in place
+    _ = manager.get_object("urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1")
+
+    # Now execute 'run_check' by providing it the required args
+    sample_check_file_path = get_test_data_path("data.table-text-delimited.normalized.xml")
+    sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
+    sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
+
+    result = checks.run_check(
+        sample_check_file_path,
+        sample_metadata_file_path,
+        sample_sysmeta_file_path,
+        storemanager_props,
+    )
+
+    result_data = json.loads(result)
+    assert result_data is not None
+    assert result_data["identifiers"] is not None
+    assert result_data["output"] is not None
+    assert "is normalized" in result_data["output"][0]
+    assert result_data["status"] is not None
+
+
 def test_run_check_dataformat_congruent(storemanager_props, init_hashstore_with_test_data):
     """Test 'run_check' with 'data.format.congruent.xml' python check."""
     assert init_hashstore_with_test_data
