@@ -83,7 +83,8 @@ class StoreManager:
         """
         self.store = self._create_store(configuration)
 
-    def _create_store(self, configuration):
+    @staticmethod
+    def _create_store(configuration):
         """
         Creates and returns an instance of the appropriate store class
         based on the 'store_type' value in the configuration.
