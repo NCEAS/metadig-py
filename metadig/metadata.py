@@ -92,10 +92,12 @@ def get_valid_csv(manager, pid):
         
     """
     obj, sys = manager.get_object(pid)
-    fname = read_sysmeta_element(sys, "fileName")
-    if read_sysmeta_element(sys, "formatId") != "text/csv":
-        return None, fname, "SKIP"
-    sys.close()
+    try:
+        fname = read_sysmeta_element(sys, "fileName")
+        if read_sysmeta_element(sys, "formatId") != "text/csv":
+            return None, fname, "SKIP"
+    finally:
+        sys.close()
     return obj, fname, "VALID"
 
 def find_entity_index(fname, pid, entity_names, ids):
