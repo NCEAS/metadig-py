@@ -15,7 +15,7 @@ python checks for suites in [metadig-checks](https://github.com/NCEAS/metadig-ch
 ## Introduction
 
 The MetaDIG-py client package contains python modules that users can call when writing checks
-for their `metadig-checks`. By importing this package, users get access to all available helper
+for their [`metadig-checks`](https://github.com/NCEAS/metadig-checks). By importing this package, users get access to all available helper
 functions and classes, such as `object_store.py` which enables users to write checks that
 efficiently retrieves data objects to work with.
 
@@ -49,8 +49,8 @@ Currently, we have the following modules and functions available:
 To install MetaDIG-py, run the following commands
 
 ```sh
-$ mkvirtualenv -p python3.9 metadigpy // Create a virtual environment
-(metadigpy) $ poetry install // Run poetry command to install dependencies
+$ mkvirtualenv -p python3.9 metadigpy # Create a virtual environment
+(metadigpy) $ poetry install # Run poetry command to install dependencies
 ```
 - Note: If you run into an issue with installing jep, it is likely due to a backwards
 compatibility issue with `setuptools`. Try downgrading to the version 58.0.0:
@@ -62,7 +62,7 @@ To confirm that you have installed `MetaDIG-py` successfully, run `pytest`.
 ```sh
 (metadigpy) $ pytest
 ```
-- Tip: you may run `pytest` with the option `-s` (ex. `pytest -s`) to see print statements when running pytests. Not all pytests have print statements, but if you want to extend from what already exists, this may prove to be helpful!
+- Tip: You may run `pytest` with the option `-s` (ex. `pytest -s`) to see print statements. Not all pytests have print statements, but if you want to extend from what already exists, this may prove to be helpful!
 
 ### How to use the MetaDIG-py command line client
 
@@ -80,12 +80,12 @@ The `metadigclient` extracts the identifier (ex. DOI) & the authoritative member
 
 The `run_check` function then parses the check xml provided, validates the check definition, executes the check, and lastly prints the final result to stdout.
 
-As of writing this documentation, we have only setup the `metadigclient` to work with the following MN:
+As of writing this documentation, we have only set up the `metadigclient` to work with the following MN:
 - urn:node:ARCTIC
 
-To have additional nodes set-up, please contact us at support@dataone.org
+To have additional nodes set up, please contact us at support@dataone.org
 
-### How to set-up and run a data check through the MetaDig-py command line client
+### How to set up and run a data check through the MetaDig-py command line client
 
 To set-up a data check, you must have/prepare the following before you run the `metadigpy` client command (above)
 1) A HashStore - this step is necessary because `run_check` will look for the data objects in a HashStore after retrieving the data pids.
@@ -160,7 +160,7 @@ $ mkvirtualenv -p python3.9 metadigpy // Create a virtual environment
 ## License
 
 ```
-Copyright [2022] [Regents of the University of California]
+Copyright 2022-2025 [Regents of the University of California]
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
