@@ -1,0 +1,1483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="urn:uuid:6a3c6f46-6cfd-4275-8cf2-489076ce7d3e" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd" system="knb">
+  <dataset id="urn-uuid-ed45252a-9a12-4fbb-9e83-3a04580f1850">
+    <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+    <creator id="7272094465751100">
+      <individualName>
+        <givenName>Logan T.</givenName>
+        <surName>Berner</surName>
+      </individualName>
+      <organizationName>Northern Arizona University</organizationName>
+      <positionName>Assistant Research Professor</positionName>
+      <address>
+        <city>Flagstaff</city>
+        <administrativeArea>Arizona</administrativeArea>
+        <country>USA</country>
+      </address>
+      <electronicMailAddress>logan.berner@nau.edu</electronicMailAddress>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0001-8947-0479</userId>
+    </creator>
+    <creator id="2359733778883052">
+      <individualName>
+        <givenName>Kathleen	M.</givenName>
+        <surName>Orndahl</surName>
+      </individualName>
+      <organizationName>Northern Arizona University</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-4873-4375</userId>
+    </creator>
+    <creator id="5170076365150620">
+      <individualName>
+        <givenName>Melissa</givenName>
+        <surName>Rose</surName>
+      </individualName>
+      <organizationName>Northern Arizona University</organizationName>
+    </creator>
+    <creator id="6944937081286565">
+      <individualName>
+        <givenName>Mikkel</givenName>
+        <surName>Tamstorf</surName>
+      </individualName>
+      <organizationName>Aarhus University</organizationName>
+    </creator>
+    <creator id="7204547516877376">
+      <individualName>
+        <givenName>Marie F.</givenName>
+        <surName>Arndal</surName>
+      </individualName>
+      <organizationName>Aarhus University</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0001-7980-8691</userId>
+    </creator>
+    <creator id="6883565746352595">
+      <individualName>
+        <givenName>Heather D.</givenName>
+        <surName>Alexander</surName>
+      </individualName>
+      <organizationName>Auburn University</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0003-1307-8483</userId>
+    </creator>
+    <creator id="2721092232542435">
+      <individualName>
+        <givenName>Dedi</givenName>
+        <surName>Yang</surName>
+      </individualName>
+      <organizationName>Brookhaven National Laboratory</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0003-1705-7823</userId>
+    </creator>
+    <creator id="9142914729770098">
+      <individualName>
+        <givenName>Seeta</givenName>
+        <surName>Sistla</surName>
+      </individualName>
+      <organizationName>Cal Poly</organizationName>
+    </creator>
+    <creator id="3337426691219620">
+      <individualName>
+        <givenName>Elyn R.</givenName>
+        <surName>Humphreys</surName>
+      </individualName>
+      <organizationName>Carleton University</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-5397-2802</userId>
+    </creator>
+    <creator id="4847565299447282">
+      <individualName>
+        <givenName>Michael M.</givenName>
+        <surName>Loranty</surName>
+      </individualName>
+      <organizationName>Colgate University</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0001-8851-7386</userId>
+    </creator>
+    <creator id="9512417170474972">
+      <individualName>
+        <givenName>Sarah M.</givenName>
+        <surName>Ludwig</surName>
+      </individualName>
+      <organizationName>Columbia University</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-2873-479X</userId>
+    </creator>
+    <creator id="1389317895438560">
+      <individualName>
+        <givenName>Johanna</givenName>
+        <surName>Nyman</surName>
+      </individualName>
+      <organizationName>Cornell University</organizationName>
+    </creator>
+    <creator id="1874702565557783">
+      <individualName>
+        <givenName>Sari</givenName>
+        <surName>Juutinen</surName>
+      </individualName>
+      <organizationName>Finnish Meteorological Institute</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-7752-1950</userId>
+    </creator>
+    <creator id="6074947074496354">
+      <individualName>
+        <givenName>Mika</givenName>
+        <surName>Aurela</surName>
+      </individualName>
+      <organizationName>Finnish Meteorological Institute</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-4046-7225</userId>
+    </creator>
+    <creator id="7144952815955566">
+      <individualName>
+        <givenName>Konsta</givenName>
+        <surName>Happonen</surName>
+      </individualName>
+      <organizationName>Finnish Youth Research Society</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-3164-8868</userId>
+    </creator>
+    <creator id="7400576329599140">
+      <individualName>
+        <givenName>Juha</givenName>
+        <surName>Mikola</surName>
+      </individualName>
+      <organizationName>Natural Resources Institute Finland</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-4336-2648</userId>
+    </creator>
+    <creator id="1704350286731407">
+      <individualName>
+        <givenName>Michelle C.</givenName>
+        <surName>Mack</surName>
+      </individualName>
+      <organizationName>Northern Arizona University</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0003-1279-4242</userId>
+    </creator>
+    <creator id="7592198240432168">
+      <individualName>
+        <givenName>Mathew R.</givenName>
+        <surName>Vankoughnett</surName>
+      </individualName>
+      <organizationName>Nova Scotia Community College</organizationName>
+    </creator>
+    <creator id="3119282626470592">
+      <individualName>
+        <givenName>Colleen M.</givenName>
+        <surName>Iversen</surName>
+      </individualName>
+      <organizationName>Oak Ridge National Laboratory</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0001-8293-3450</userId>
+    </creator>
+    <creator id="1990727124290360">
+      <individualName>
+        <givenName>Verity G.</givenName>
+        <surName>Salmon</surName>
+      </individualName>
+      <organizationName>Oak Ridge National Laboratory</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-2188-551X</userId>
+    </creator>
+    <creator id="3016684399494299">
+      <individualName>
+        <givenName>Jitendra</givenName>
+        <surName>Kumar</surName>
+      </individualName>
+      <organizationName>Oak Ridge National Laboratory</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-0159-0546</userId>
+    </creator>
+    <creator id="6344523270234198">
+      <individualName>
+        <givenName>Paul</givenName>
+        <surName>Grogan</surName>
+      </individualName>
+      <organizationName>Queen's University</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-7379-875X</userId>
+    </creator>
+    <creator id="4525100461200200">
+      <individualName>
+        <givenName>Ryan K.</givenName>
+        <surName>Danby</surName>
+      </individualName>
+      <organizationName>Queen's University</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-8295-3790</userId>
+    </creator>
+    <creator id="1383415302198686">
+      <individualName>
+        <givenName>Neal A.</givenName>
+        <surName>Scott</surName>
+      </individualName>
+      <organizationName>Queen's University</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-2965-4185</userId>
+    </creator>
+    <creator id="8528566656971423">
+      <individualName>
+        <givenName>Grace</givenName>
+        <surName>Pold</surName>
+      </individualName>
+      <organizationName>Swedish University of Agricultural Sciences</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-7536-3944</userId>
+    </creator>
+    <creator id="5862436538091369">
+      <individualName>
+        <givenName>Johan</givenName>
+        <surName>Olofsson</surName>
+      </individualName>
+      <organizationName>Umeå University</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-6943-1218</userId>
+    </creator>
+    <creator id="2902595370114965">
+      <individualName>
+        <givenName>Matthias B.</givenName>
+        <surName>Siewert</surName>
+      </individualName>
+      <organizationName>Umeå University</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0003-2890-8873</userId>
+    </creator>
+    <creator id="8874226868630425">
+      <individualName>
+        <givenName>Lucas</givenName>
+        <surName>Deschamps</surName>
+      </individualName>
+      <organizationName>Université du Québec à Trois-Rivières</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-6533-6440</userId>
+    </creator>
+    <creator id="4448147644971128">
+      <individualName>
+        <givenName>Esther</givenName>
+        <surName>Lévesque</surName>
+      </individualName>
+      <organizationName>Université du Québec à Trois-Rivières</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-1119-6032</userId>
+    </creator>
+    <creator id="2763494021273425">
+      <individualName>
+        <givenName>Vincent</givenName>
+        <surName>Maire</surName>
+      </individualName>
+      <organizationName>Université du Québec à Trois-Rivières</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-3245-2568</userId>
+    </creator>
+    <creator id="2049235431976872">
+      <individualName>
+        <givenName>Amélie</givenName>
+        <surName>Morneault</surName>
+      </individualName>
+      <organizationName>Université du Québec à Trois-Rivières</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-2491-921X</userId>
+    </creator>
+    <creator id="9898612310328322">
+      <individualName>
+        <givenName>Gilles</givenName>
+        <surName>Gauthier</surName>
+      </individualName>
+      <organizationName>Université Laval</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-2624-3508</userId>
+    </creator>
+    <creator id="9669212911701588">
+      <individualName>
+        <givenName>Charles</givenName>
+        <surName>Gignac</surName>
+      </individualName>
+      <organizationName>Université Laval</organizationName>
+    </creator>
+    <creator id="8233089204851167">
+      <individualName>
+        <givenName>Stéphane</givenName>
+        <surName>Boudreau</surName>
+      </individualName>
+      <organizationName>Université Laval</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-1035-6452</userId>
+    </creator>
+    <creator id="3385043293665550">
+      <individualName>
+        <givenName>Anna</givenName>
+        <surName>Gaspard</surName>
+      </individualName>
+      <organizationName>Université Laval</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0003-4463-8228</userId>
+    </creator>
+    <creator id="6000964762176488">
+      <individualName>
+        <givenName>Alexander</givenName>
+        <surName>Kholodov</surName>
+      </individualName>
+      <organizationName>University of Alaska Fairbanks</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-7878-8008</userId>
+    </creator>
+    <creator id="9991637082556156">
+      <individualName>
+        <givenName>M. Syndonia</givenName>
+        <surName>Bret-Harte</surName>
+      </individualName>
+      <organizationName>University of Alaska Fairbanks</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0001-5151-3947</userId>
+    </creator>
+    <creator id="2301093815336559">
+      <individualName>
+        <givenName>Heather E.</givenName>
+        <surName>Greaves</surName>
+      </individualName>
+      <organizationName>University of Alaska Fairbanks</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-8800-019X</userId>
+    </creator>
+    <creator id="8137312129111702">
+      <individualName>
+        <givenName>Donald</givenName>
+        <surName>Walker</surName>
+      </individualName>
+      <organizationName>University of Alaska Fairbanks</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0001-9840-8378</userId>
+    </creator>
+    <creator id="6788890793991089">
+      <individualName>
+        <givenName>Henni</givenName>
+        <surName>Ylänne</surName>
+      </individualName>
+      <organizationName>University of Eastern Finland</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-0842-6757</userId>
+    </creator>
+    <creator id="1912085671562200">
+      <individualName>
+        <givenName>Fiona M.</givenName>
+        <surName>Gregory</surName>
+      </individualName>
+      <organizationName>University of Alberta</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-8782-6854</userId>
+    </creator>
+    <creator id="3478441575728909">
+      <individualName>
+        <givenName>Anders</givenName>
+        <surName>Michelsen</surName>
+      </individualName>
+      <organizationName>University of Copenhagen</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-9541-8658</userId>
+    </creator>
+    <creator id="6903445450385199">
+      <individualName>
+        <givenName>Timo</givenName>
+        <surName>Kumpula</surName>
+      </individualName>
+      <organizationName>University of Eastern Finland</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-2716-7420</userId>
+    </creator>
+    <creator id="1217884319292554">
+      <individualName>
+        <givenName>Miguel</givenName>
+        <surName>Villoslada</surName>
+      </individualName>
+      <organizationName>University of Eastern Finland</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0001-7777-6577</userId>
+    </creator>
+    <creator id="8138521642177054">
+      <individualName>
+        <givenName>Miska</givenName>
+        <surName>Luoto</surName>
+      </individualName>
+      <organizationName>University of Helsinki</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0001-6203-5143</userId>
+    </creator>
+    <creator id="5111899081668772">
+      <individualName>
+        <givenName>Tarmo</givenName>
+        <surName>Virtanen</surName>
+      </individualName>
+      <organizationName>University of Helsinki</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0001-8660-2464</userId>
+    </creator>
+    <creator id="9014178065810702">
+      <individualName>
+        <givenName>Bruce C.</givenName>
+        <surName>Forbes</surName>
+      </individualName>
+      <organizationName>University of Lapland</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-4593-5083</userId>
+    </creator>
+    <creator id="7607552359123768">
+      <individualName>
+        <givenName>Natalie</givenName>
+        <surName>Baillargeon</surName>
+      </individualName>
+      <organizationName>University of Massachusetts Amherst</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-0201-775X</userId>
+    </creator>
+    <creator id="4912820690153236">
+      <individualName>
+        <givenName>Norbert</givenName>
+        <surName>Hölzel</surName>
+      </individualName>
+      <organizationName>University of Münster</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-6367-3400</userId>
+    </creator>
+    <creator id="5020041926830010">
+      <individualName>
+        <givenName>Howard</givenName>
+        <surName>Epstein</surName>
+      </individualName>
+      <organizationName>University of Virginia</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0003-2817-4486</userId>
+    </creator>
+    <creator id="4938011149785756">
+      <individualName>
+        <givenName>Ramona J.</givenName>
+        <surName>Heim</surName>
+      </individualName>
+      <organizationName>University of Zurich</organizationName>
+    </creator>
+    <creator id="2233839889675436">
+      <individualName>
+        <givenName>Andrew</givenName>
+        <surName>Bunn</surName>
+      </individualName>
+      <organizationName>Western Washington University</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0001-9027-2162</userId>
+    </creator>
+    <creator id="4387292242302658">
+      <individualName>
+        <givenName>Robert M.</givenName>
+        <surName>Holmes</surName>
+      </individualName>
+      <organizationName>Woodwell Climate Research Center</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-6413-9154</userId>
+    </creator>
+    <creator id="9607942277728800">
+      <individualName>
+        <givenName>Jacqueline K.Y.</givenName>
+        <surName>Hung</surName>
+      </individualName>
+      <organizationName>Woodwell Climate Research Center</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0001-5245-0896</userId>
+    </creator>
+    <creator id="5551845046582202">
+      <individualName>
+        <givenName>Susan M.</givenName>
+        <surName>Natali</surName>
+      </individualName>
+      <organizationName>Woodwell Climate Research Center</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-3010-2994</userId>
+    </creator>
+    <creator id="5588354073588328">
+      <individualName>
+        <givenName>Anna-Maria</givenName>
+        <surName>Virkkala</surName>
+      </individualName>
+      <organizationName>Woodwell Climate Research Center</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0003-4877-2918</userId>
+    </creator>
+    <creator id="5389326151530951">
+      <individualName>
+        <givenName>Scott J.</givenName>
+        <surName>Goetz</surName>
+      </individualName>
+      <organizationName>Northern Arizona University</organizationName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-6326-4308</userId>
+    </creator>
+    <associatedParty id="3660862612390144">
+      <individualName>
+        <givenName>Logan</givenName>
+        <surName>Berner</surName>
+      </individualName>
+      <organizationName>Northern Arizona University</organizationName>
+      <positionName>Assistant Research Professor</positionName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0001-8947-0479</userId>
+      <role>principalInvestigator</role>
+    </associatedParty>
+    <associatedParty id="7612540590796544">
+      <individualName>
+        <givenName>Scott M.</givenName>
+        <surName>Goetz</surName>
+      </individualName>
+      <organizationName>Northern Arizona University</organizationName>
+      <positionName>Regent's Professor</positionName>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-6326-4308</userId>
+      <role>principalInvestigator</role>
+    </associatedParty>
+    <pubDate>2024</pubDate>
+    <abstract>
+      <para>Plant biomass is a fundamental ecosystem attribute that is sensitive to rapid climatic changes occurring in the Arctic. Nevertheless, measuring plant biomass in the Arctic is logistically challenging and resource intensive. Lack of accessible field data hinders efforts to understand the amount, composition, distribution, and changes in plant biomass in these northern ecosystems. Here, we present The Arctic Plant Aboveground Biomass Synthesis Dataset, which includes field measurements of lichen, bryophyte, herb, shrub, and/or tree aboveground biomass grams per meter squared (g/m^2) on 2327 sample plots in seven countries. We created the synthesis dataset by assembling and harmonizing 32 individual datasets. Aboveground biomass was primarily quantified by harvesting sample plots during mid- to late-summer, though tree and often tall shrub biomass were quantified using surveys and allometric models. Each biomass measurement is associated with metadata including sample date, location, method, data source, and other information. This unique dataset can be leveraged to monitor, map, and model plant biomass across the rapidly warming Arctic.</para>
+    </abstract>
+    <keywordSet>
+      <keyword>Biomass</keyword>
+      <keyword>Community Structure</keyword>
+      <keyword>Arctic Tundra</keyword>
+      <keyword>Boreal Forest / Taiga</keyword>
+      <keyword>Montane Shrubland</keyword>
+      <keywordThesaurus>NASA Global Change Master Directory (GCMD)</keywordThesaurus>
+    </keywordSet>
+    <keywordSet>
+      <keyword>Plant Aboveground Biomass</keyword>
+      <keyword>Vegetation</keyword>
+      <keywordThesaurus>None</keywordThesaurus>
+    </keywordSet>
+    <intellectualRights>
+      <para>This work is dedicated to the public domain under the Creative Commons Universal 1.0 Public Domain Dedication. To view a copy of this dedication, visit https://creativecommons.org/publicdomain/zero/1.0/.</para>
+    </intellectualRights>
+    <coverage>
+      <geographicCoverage>
+        <geographicDescription>Pan-Arctic, including the High Arctic, Low Arctic, Oroarctic, and Subarctic</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-180</westBoundingCoordinate>
+          <eastBoundingCoordinate>180</eastBoundingCoordinate>
+          <northBoundingCoordinate>80.6</northBoundingCoordinate>
+          <southBoundingCoordinate>56.3</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <temporalCoverage>
+        <rangeOfDates>
+          <beginDate>
+            <calendarDate>1998</calendarDate>
+          </beginDate>
+          <endDate>
+            <calendarDate>2022</calendarDate>
+          </endDate>
+        </rangeOfDates>
+      </temporalCoverage>
+      <taxonomicCoverage>
+        <generalTaxonomicCoverage>Vegetation was partitioned into five plant functional types: lichen, bryophyte, herb, shrub, and tree</generalTaxonomicCoverage>
+        <taxonomicClassification>
+          <taxonRankName>kingdom</taxonRankName>
+          <taxonRankValue>Plantae</taxonRankValue>
+        </taxonomicClassification>
+      </taxonomicCoverage>
+    </coverage>
+    <annotation>
+      <propertyURI label="Data Sensitivity Category">http://purl.dataone.org/odo/SENSO_00000005</propertyURI>
+      <valueURI label="Non-sensitive data">http://purl.dataone.org/odo/SENSO_00000002</valueURI>
+    </annotation>
+    <annotation>
+      <propertyURI label="theme">http://www.w3.org/ns/dcat#theme</propertyURI>
+      <valueURI label="Ecology">https://purl.dataone.org/odo/ADCAD_00023</valueURI>
+    </annotation>
+    <annotation>
+      <propertyURI label="theme">http://www.w3.org/ns/dcat#theme</propertyURI>
+      <valueURI label="Plant Science">https://purl.dataone.org/odo/ADCAD_00021</valueURI>
+    </annotation>
+    <contact id="2066196229903818">
+      <individualName>
+        <givenName>Logan</givenName>
+        <surName>Berner</surName>
+      </individualName>
+      <organizationName>Northern Arizona University</organizationName>
+      <positionName>Assistant Research Professor</positionName>
+      <address>
+        <city>Flagstaff</city>
+        <administrativeArea>Arizona</administrativeArea>
+      </address>
+      <electronicMailAddress>logan.berner@nau.edu</electronicMailAddress>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0001-8947-0479</userId>
+    </contact>
+    <publisher id="2602169878096651">
+      <organizationName>NSF Arctic Data Center</organizationName>
+      <electronicMailAddress>support@arcticdata.io</electronicMailAddress>
+      <onlineUrl>http://arcticdata.io</onlineUrl>
+      <userId directory="unknown">Q77285095</userId>
+    </publisher>
+    <methods>
+      <methodStep>
+        <description>
+          <section>
+            <title>Ethical Research Practices</title>
+            <para>This synthesis dataset includes field measurements of plant biomass that were derived from 32 individual dataset that various research teams collected across the Arctic. Each research team was responsible for following ethical research practices including obtaining research permits and permissions and ensuring the safety of team members. Authorship on the synthesis dataset was offered to all individuals who played a key role in collecting, processing, or managing the individual datasets.</para>
+          </section>
+        </description>
+      </methodStep>
+      <methodStep>
+        <description>
+          <para>To create the synthesis dataset, we assembled, harmonized, and screened individual datasets and then merged the harmonized datasets, added completeness flags, and performed further quality assurance. We harmonized plot-level plant biomass measurements and metadata from individual datasets using custom scripts written in R. Among other steps, we aggregated measurements of aboveground biomass into five plant functional types, including lichen, bryophyte, herb, shrub, and tree. We also harmonized sample dates, spatial coordinates, area, and method, and provide unique site and plot codes as well as a citation to each individual dataset. Further details are provided in the associated peer-reviewed Data Descriptor paper (Berner et al. 2024).</para>
+        </description>
+      </methodStep>
+      <sampling>
+        <studyExtent>
+          <description>
+            <para>The synthesis dataset has measurements of plant aboveground biomass by functional type from 2327 sample plots.</para>
+            <para>Geographically, sample plots were located across seven of the eight Arctic nations and all bioclimatic zones. Most sample plots were from the USA (25%), Finland (25%) and Canada (20%), followed by Russia (16%), Sweden (6%), Greenland (6%), and Norway (2%). Currently, the synthesis dataset does not include sample plots from the Arctic nation of Iceland. In terms of bioclimatic zones, sample plots were located most often in the Oroarctic (39%), followed by the Low Arctic (32%), High Arctic (16%), and Subarctic (13%). Specific sampling locations were chosen based on the study deign of individual research projects.</para>
+            <para>Temporally, the synthesis dataset includes sample plots that were measured from 1998 to 2022. Most sample plots were measured once during mid- to late-summer in a single year.</para>
+            <para>Further details are provided in Berner et al. (2024).</para>
+          </description>
+        </studyExtent>
+        <samplingDescription>
+          <para>Plant aboveground biomass was quantified for most functional types by harvesting sample plots during mid- to late-summer. Typically, non-tree vascular plants rooted in a sample plot were clipped at the moss or ground surface and sorted into functional types (e.g., herbs, shrubs) or finer taxonomic groupings (e.g., species). If present, lichen and the green portion of mosses and other bryophytes were then harvested. Samples were dried to a constant weight typically at 50 – 60 Celsius (°C) using a drying oven and weighed using a digital scale. Trees and tall shrubs are challenging to harvest and process; therefore, tree and often tall shrub aboveground biomass were quantified on sample plots by (1) measuring the diameter of each stem at the ground surface or chest height, (2) predicting stem dry weight from stem diameter using allometric models, and (3) summing stem dry weight across all stems on the sample plot. For some sample plots, dwarf to low shrubs were harvested while tall shrubs were surveyed. The synthesis dataset includes the sampling date and quantification method for each plant biomass measurement.</para>
+          <para>Plant biomass is expressed as grams of oven-dried aboveground live biomass per square meter of ground surface (i.e., g/m^2); however, the actual area of each sample plot widely varied among individual datasets and plant functional types. For instance, bryophytes and lichens are small and particularly time consuming to harvest, thus sample plots typically were about 0.1 square meter (m2). In several cases, bryophyte and lichen biomass were upscaled using targeted harvests and measurements of functional type cover on a larger sample plot. Herbs and shrubs were typically harvested from sample plots that were about 0.25 m2, while tall shrub and tree biomass were quantified by surveying sample plots up to 25 m2 and 100 m2, respectively. The synthesis dataset therefore includes the area (m2) of the sample plot that was used when measuring plant biomass for each functional type.</para>
+          <para>Further details are provided in Berner et al. (2024).</para>
+        </samplingDescription>
+      </sampling>
+    </methods>
+    <project>
+      <title>The Arctic Plant Aboveground Biomass Synthesis Dataset</title>
+      <personnel>
+        <individualName>
+          <givenName>Scott J</givenName>
+          <surName>Goetz</surName>
+        </individualName>
+        <role>coPrincipalInvestigator</role>
+      </personnel>
+      <personnel>
+        <individualName>
+          <givenName>Christa</givenName>
+          <surName>Mulder</surName>
+        </individualName>
+        <role>coPrincipalInvestigator</role>
+      </personnel>
+      <personnel>
+        <individualName>
+          <givenName>Jeremy B</givenName>
+          <surName>Jones</surName>
+        </individualName>
+        <role>coPrincipalInvestigator</role>
+      </personnel>
+      <personnel>
+        <individualName>
+          <givenName>Todd J</givenName>
+          <surName>Brinkman</surName>
+        </individualName>
+        <role>coPrincipalInvestigator</role>
+      </personnel>
+      <personnel>
+        <individualName>
+          <givenName>Teresa N</givenName>
+          <surName>Hollingsworth</surName>
+        </individualName>
+        <role>coPrincipalInvestigator</role>
+      </personnel>
+      <personnel>
+        <individualName>
+          <givenName>Logan T</givenName>
+          <surName>Berner</surName>
+        </individualName>
+        <role>principalInvestigator</role>
+      </personnel>
+      <personnel>
+        <individualName>
+          <givenName>Michael</givenName>
+          <surName>Loranty</surName>
+        </individualName>
+        <role>principalInvestigator</role>
+      </personnel>
+      <personnel>
+        <individualName>
+          <givenName>Michelle C</givenName>
+          <surName>Mack</surName>
+        </individualName>
+        <role>principalInvestigator</role>
+      </personnel>
+      <award>
+        <funderName>National Science Foundation</funderName>
+        <funderIdentifier>https://doi.org/10.13039/100000001</funderIdentifier>
+        <awardNumber>2127273</awardNumber>
+        <title>NNA Research: Collaborative Research: Fate of the Caribou: from local knowledge to range-wide dynamics in the changing Arctic</title>
+        <awardUrl>https://www.nsf.gov/awardsearch/showAward?AWD_ID=2127273</awardUrl>
+      </award>
+      <award>
+        <funderName>National Science Foundation</funderName>
+        <funderIdentifier>https://doi.org/10.13039/100000001</funderIdentifier>
+        <awardNumber>1417745</awardNumber>
+        <title>Collaborative Research:  Vegetation And Ecosystem Impacts On Permafrost Vulnerability</title>
+        <awardUrl>https://www.nsf.gov/awardsearch/showAward?AWD_ID=1417745</awardUrl>
+      </award>
+      <award>
+        <funderName>National Science Foundation</funderName>
+        <funderIdentifier>https://doi.org/10.13039/100000001</funderIdentifier>
+        <awardNumber>2224776</awardNumber>
+        <title>LTER: Changing Disturbances, Ecological Legacies, and the Future of the Alaskan Boreal Forest</title>
+        <awardUrl>https://www.nsf.gov/awardsearch/showAward?AWD_ID=2224776</awardUrl>
+      </award>
+      <award>
+        <funderName>National Science Foundation</funderName>
+        <funderIdentifier>https://doi.org/10.13039/100000001</funderIdentifier>
+        <awardNumber>1636476</awardNumber>
+        <title>LTER: Cross-scale controls over responses of the Alaskan boreal forest to changing disturbance regimes</title>
+        <awardUrl>https://www.nsf.gov/awardsearch/showAward?AWD_ID=1636476</awardUrl>
+      </award>
+      <award>
+        <funderName>NASA Early Career Investigator Program in Earth Science</funderName>
+        <awardNumber>80NSSC21K1364</awardNumber>
+        <title>MAPPING PLANT BIOMASS DISTRIBUTION AND CHANGE ACROSS THE RAPIDLY WARMING ARCTIC TUNDRA BIOME</title>
+      </award>
+      <award>
+        <funderName>NASA Arctic Boreal Vulnerability Experiment</funderName>
+        <awardNumber>80NSSC22K1247</awardNumber>
+        <title>Mapping and modeling attributes of an Arctic and boreal biome shift: Phase-3 applications within the ABoVE domain (Research Project)</title>
+      </award>
+      <award>
+        <funderName>NASA Terrestrial Ecology Program</funderName>
+        <awardNumber>NNX12AK83G</awardNumber>
+        <title>QUANTIFYING THRESHOLDS IN ARETIC TUNDRA VEGRTATION STRUCTURE AND ECOSYSTEM FUNCTION USING LIDAR AND MULTISPECTRAL REMOTE SENSING</title>
+      </award>
+      <award>
+        <funderName>NASA Earth Science Fellowship</funderName>
+        <awardNumber>NNX15AP04H</awardNumber>
+        <title>MULTISENSOR FUSION FOR MAPPING OF LOW-STATURE ARCTIC VEGETATION COMMUNITIES AND WOODY BIOMASS</title>
+      </award>
+      <award>
+        <funderName>NASA Land Cover Land Use Change Program</funderName>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>NSF Biocomplexity Program</funderName>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>DOE Biological and Environmental Research Program (The Next Generation Ecosystem Experiments in the Arctic)</funderName>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>POLAR Knowledge Canada (POLAR)</funderName>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>Natural Sciences and Engineering Research Council of Canada (NSERC)</funderName>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>Northern Scientific Training Program (NSTP)</funderName>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>International Polar Year (IPY)</funderName>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>ArcticNet</funderName>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>Queens University</funderName>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>Fonds de Recherche du Québec-Nature et technologies</funderName>
+        <awardNumber>FRQNT-2018-PR-208107</awardNumber>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>Natural Resources Canada Polar Continental Shelf Program (NRC PCSP)</funderName>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>Faculté des sciences de l’agriculture et de l’alimentation of Université Laval</funderName>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>Québec Ministère de la Forêt, de la Faune et des Parcs</funderName>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>Independent Research Fund Denmark</funderName>
+        <awardNumber>0135-00140B, 2032-00064B</awardNumber>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>Swedish Research Council</funderName>
+        <awardNumber>2021-05767</awardNumber>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>Otto Malm foundation</funderName>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>Nordenskiöld samfundet</funderName>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>Societas Pro Fauna et Flora Fennica</funderName>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>Academy of Finland</funderName>
+        <awardNumber>330319</awardNumber>
+        <title>Land use as a modulator of land cover transitions and the ecosystem–atmosphere carbon balance (LANDMOD)</title>
+      </award>
+      <award>
+        <funderName>Academy of Finland</funderName>
+        <awardNumber>330845</awardNumber>
+        <title>Towards mechanistic understanding of reindeer impacts on wetland carbon balance (ReindeerPaths)</title>
+      </award>
+      <award>
+        <funderName>Academy of Finland</funderName>
+        <awardNumber>1342890</awardNumber>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>Academy of Finland</funderName>
+        <awardNumber>256991</awardNumber>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>Finnish Center of Excellence Program</funderName>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>European Seventh Framework Programme (EU FP7)</funderName>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+      <award>
+        <funderName>European Commission Research and Innovation</funderName>
+        <awardNumber>869471</awardNumber>
+        <title>The Arctic Plant Aboveground Biomass Synthesis Dataset, Pan-Arctic, 1998-2022</title>
+      </award>
+    </project>
+    <dataTable id="urn-uuid-6a7a874a-39b5-4855-85d4-0fdfac795cd1" system="https://tools.ietf.org/html/rfc4122">
+      <entityName>the_arctic_plant_aboveground_biomass_synthesis_dataset_v1_2.csv</entityName>
+      <entityDescription>Aboveground biomass data by plant functional type for sample plots across the Arctic</entityDescription>
+      <physical>
+        <objectName>the_arctic_plant_aboveground_biomass_synthesis_dataset.csv</objectName>
+        <size unit="bytes">7141370</size>
+        <authentication method="MD5">b680c66c0c7388eb10573bfd2724ec35</authentication>
+        <dataFormat>
+          <textFormat>
+            <numHeaderLines>1</numHeaderLines>
+            <recordDelimiter>
+</recordDelimiter>
+            <attributeOrientation>column</attributeOrientation>
+            <simpleDelimited>
+              <fieldDelimiter>,</fieldDelimiter>
+            </simpleDelimited>
+          </textFormat>
+        </dataFormat>
+        <distribution>
+          <online>
+            <url function="download">https://cn.dataone.org/cn/v2/resolve/urn:uuid:240fb28d-7638-4165-8649-5458cbb87dfe</url>
+          </online>
+        </distribution>
+      </physical>
+      <attributeList>
+        <attribute id="PCbW3h1yILDDydLl18we0ArTfmTbg3">
+          <attributeName>dataset_id</attributeName>
+          <attributeLabel>Dataset ID</attributeLabel>
+          <attributeDefinition>Identifier for individual dataset that was assigned upon intake</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="data source">http://purl.dataone.org/odo/ECSO_00002744</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="xG20M9zG3e9o4FFFrBBWboXTg4ymiQ">
+          <attributeName>contributor</attributeName>
+          <attributeLabel>Contributor</attributeLabel>
+          <attributeDefinition>Name(s) of data contributor(s)</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="name of person">http://purl.dataone.org/odo/ECSO_00002998</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="0ZS10MmbLamHoZ53PP6tqxf5m1XlTS">
+          <attributeName>country</attributeName>
+          <attributeLabel>Country</attributeLabel>
+          <attributeDefinition>Abbreviation of country where field data were collected</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="study location name">http://purl.dataone.org/odo/ECSO_00002768</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="SGqGINPUm8liFRQGWulxF3vyKONET0">
+          <attributeName>locale</attributeName>
+          <attributeLabel>Locale</attributeLabel>
+          <attributeDefinition>Name of the general area where field data were collected</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="study location name">http://purl.dataone.org/odo/ECSO_00002768</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="8xre7cuIFrMJC0cHk0kgpWrdb2v7tU">
+          <attributeName>site_id</attributeName>
+          <attributeLabel>Site ID</attributeLabel>
+          <attributeDefinition>Site identifier that is unique within an individual dataset</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="site identifier">http://purl.dataone.org/odo/ECSO_00002997</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="ocAPaxosThf9S27qTZtLc1Iur9Bnrk">
+          <attributeName>site_code</attributeName>
+          <attributeLabel>Site code</attributeLabel>
+          <attributeDefinition>Site code that is unique within the synthesis dataset based on concatenation of country, locale, and site_id</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="site identifier">http://purl.dataone.org/odo/ECSO_00002997</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="hiyQP0QEZKNGEC3v5VIKKMdAlzK0QV">
+          <attributeName>plot_id</attributeName>
+          <attributeLabel>Plot ID</attributeLabel>
+          <attributeDefinition>Plot identifier that is unique within an individual site</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="plot identifier">http://purl.dataone.org/odo/ECSO_00002432</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="NwJTP5F23bxnqIX1yRgTUEhQbSE13l">
+          <attributeName>plot_code</attributeName>
+          <attributeLabel>Plot code</attributeLabel>
+          <attributeDefinition>Plot code that is unique within the synthesis dataset based on concatenation of country, locale, site_id, and plot_id</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="plot identifier">http://purl.dataone.org/odo/ECSO_00002432</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="7n6TzdSWawMh99458aQJbVnfcClxSA">
+          <attributeName>coord_type</attributeName>
+          <attributeLabel>Coordinate type</attributeLabel>
+          <attributeDefinition>Were GPS coordinates available for the field site, or sample plot?</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <enumeratedDomain>
+                  <codeDefinition>
+                    <code>site</code>
+                    <definition>Coordinates are available for the field site</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>plot</code>
+                    <definition>Coordinates are available for the sample plot</definition>
+                  </codeDefinition>
+                </enumeratedDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="study location identifier">http://purl.dataone.org/odo/ECSO_00002767</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="RO81DFAoQss589dN0R1Q63LeFkJfqc">
+          <attributeName>latitude</attributeName>
+          <attributeLabel>Latitude</attributeLabel>
+          <attributeDefinition>Site or plot latitude in decimal degrees (WGS84)</attributeDefinition>
+          <measurementScale>
+            <interval>
+              <unit>
+                <standardUnit>degree</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </interval>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="latitude coordinate">http://purl.dataone.org/odo/ECSO_00002130</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="STExcyxIdqA47UIJbIWhG6yuJTivPO">
+          <attributeName>longitude</attributeName>
+          <attributeLabel>Longitude</attributeLabel>
+          <attributeDefinition>Site or plot longitude in decimal degrees (WGS84)</attributeDefinition>
+          <measurementScale>
+            <interval>
+              <unit>
+                <standardUnit>degree</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </interval>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="longitude coordinate">http://purl.dataone.org/odo/ECSO_00002132</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="ywDKiKfNnfisuKglhsUa1qQ7nvdk5V">
+          <attributeName>year</attributeName>
+          <attributeLabel>Year</attributeLabel>
+          <attributeDefinition>Year when field data was collected</attributeDefinition>
+          <measurementScale>
+            <dateTime>
+              <formatString>YYYY</formatString>
+            </dateTime>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="year of measurement">http://purl.dataone.org/odo/ECSO_00002050</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="pvLHlwhtN4qoHeU6eu1MxFDWZOTNoc">
+          <attributeName>month</attributeName>
+          <attributeLabel>Month</attributeLabel>
+          <attributeDefinition>Month when field data was collected</attributeDefinition>
+          <measurementScale>
+            <dateTime>
+              <formatString>MM</formatString>
+            </dateTime>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="month of year">http://purl.dataone.org/odo/ECSO_00002047</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="oi4Jt4ZXZc7uZ0QPW1LTl6fNGcMwxd">
+          <attributeName>day</attributeName>
+          <attributeLabel>Day</attributeLabel>
+          <attributeDefinition>Day of month when field data was collected</attributeDefinition>
+          <measurementScale>
+            <dateTime>
+              <formatString>DD</formatString>
+            </dateTime>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="day of month">http://purl.dataone.org/odo/ECSO_00002122</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="TrWDDgqtefgUHHf3ZJSc3Tk5oiUlxd">
+          <attributeName>pft</attributeName>
+          <attributeLabel>Plant functional type</attributeLabel>
+          <attributeDefinition>Plant functional type following Chapin et al. (1996)</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <enumeratedDomain>
+                  <codeDefinition>
+                    <code>lichen</code>
+                    <definition>Fungus engaged in mutualistic symbiosis with photosynthesizing algae and/or cyanobacteria</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>bryophyte</code>
+                    <definition>Non-vascular plants including mosses, liverworts, and hornworts</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>herb</code>
+                    <definition>Vascular non-woody plants including sedges, grasses, and forbs</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>shrub</code>
+                    <definition>Multi-stem vascular woody plants with deciduous or evergreen leaves</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>tree</code>
+                    <definition>Single-stem vascular woody plants with deciduous or evergreen leaves</definition>
+                  </codeDefinition>
+                </enumeratedDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="functional group classification">http://purl.dataone.org/odo/ECSO_00003068</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="iUd4e5yPLAcRcM5q5yVfnFIUwF4AIf">
+          <attributeName>plot_area_m2</attributeName>
+          <attributeLabel>Plot area (m^2)</attributeLabel>
+          <attributeDefinition>Plot area used to harvest or survey vegetation</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>meterSquared</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="Sampling Site Area">http://purl.dataone.org/odo/ECSO_00001152</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="5dNdWUH3dUJq6TQTvsMz1hw3FFvUyE">
+          <attributeName>method</attributeName>
+          <attributeLabel>Method</attributeLabel>
+          <attributeDefinition>Method used to determine biomass dry weight</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <enumeratedDomain>
+                  <codeDefinition>
+                    <code>harvest</code>
+                    <definition>plant biomass was harvested</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>survey</code>
+                    <definition>plant biomass was surveyed</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>harvest + survey</code>
+                    <definition>plant biomass was both harvested and surveyed</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>unmeasured</code>
+                    <definition>plant biomass was not measured</definition>
+                  </codeDefinition>
+                </enumeratedDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="treatment measurement type">http://purl.dataone.org/odo/ECSO_00002426</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="nMU4rWLJsq8CwhtX5blJemZTfmd6dP">
+          <attributeName>biomass_dry_weight_g</attributeName>
+          <attributeLabel>Biomass dry weight (g)</attributeLabel>
+          <attributeDefinition>Aboveground biomass on sample plot in units of grams of oven-dried live biomass. Most users will likely want to focus on the attribute "biomass_density_gm2" which provides aboveground biomass in terms of gram per square meter.</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>gram</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="Dry Weight Biomass">http://purl.dataone.org/odo/ECSO_00001153</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="2RFFtvbu6BeWIla5CPZBx8oHoITTif">
+          <attributeName>biomass_density_gm2</attributeName>
+          <attributeLabel>Aboveground biomass (g m^2)</attributeLabel>
+          <attributeDefinition>Aboveground biomass on sample plot in units of grams of oven-dried live biomass per square meter of ground surface</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>gramPerMeterSquared</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="Aboveground Biomass">http://purl.dataone.org/odo/ECSO_00001135</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="lz8A3o00q1q1GZ0JeszwH1mon6TbSD">
+          <attributeName>vegetation_description</attributeName>
+          <attributeLabel>Vegetation description</attributeLabel>
+          <attributeDefinition>Non-standardized description of the vegetation community where sampling occurred</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="type of vegetation">http://purl.dataone.org/odo/ECSO_00002207</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="w1tpJqOOpQOzX1HbAeMAWJifgbhE6X">
+          <attributeName>site_description</attributeName>
+          <attributeLabel>Site description</attributeLabel>
+          <attributeDefinition>Description of the field site where sampling occurred</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="type of site location">http://purl.dataone.org/odo/ECSO_00002170</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="OnrvqnTmbazPpS29MTxX2E00vqS0Wo">
+          <attributeName>bioclim_zone</attributeName>
+          <attributeLabel>Bioclimatic zone</attributeLabel>
+          <attributeDefinition>Bioclimatic zone in which the sample plot occurred</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <enumeratedDomain>
+                  <codeDefinition>
+                    <code>High Arctic</code>
+                    <definition>Zone of northernmost Arctic tundra</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>Low Arctic</code>
+                    <definition>Zone north of treeline with Arctic tundra</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>Oroarctic</code>
+                    <definition>Zone of mountainous Arctic tundra</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>Subarctic</code>
+                    <definition>Zone of subarctic tundra and forest </definition>
+                  </codeDefinition>
+                </enumeratedDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="type of site location">http://purl.dataone.org/odo/ECSO_00002170</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="C1MzT4dgP4yXQTADgTOeIbh8xRLkiH">
+          <attributeName>mat_degC</attributeName>
+          <attributeLabel>Mean annual temperature (degrees C)</attributeLabel>
+          <attributeDefinition>Mean annual temperature (1981-2010) from the Chelsa Bioclim dataset</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>celsius</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="Air Temperature">http://purl.dataone.org/odo/ECSO_00001225</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="BfQwMosI1ksq4TFhliwxRwCarZhV5I">
+          <attributeName>gdd_degC</attributeName>
+          <attributeLabel>Growing degree days (degrees C)</attributeLabel>
+          <attributeDefinition>Mean annual growing degree days (1981-2010) with a 0°C base from the Chelsa Bioclim dataset</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>celsius</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="Air Temperature">http://purl.dataone.org/odo/ECSO_00001225</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="Ru8Nd7D2lQ9ofbacpmeO94V3v6CJrp">
+          <attributeName>map_mm</attributeName>
+          <attributeLabel>Mean Annual Precipitation (mm)</attributeLabel>
+          <attributeDefinition>Mean annual precipitation (1981-2010) from the Chelsa Bioclim dataset</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>millimeter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="Precipitation Rate">http://purl.dataone.org/odo/ECSO_00001162</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="lZDKuH9xnTzGENbv2L0iF4PDgDN2ZB">
+          <attributeName>community_measured</attributeName>
+          <attributeLabel>Community measured</attributeLabel>
+          <attributeDefinition>Were lichen, bryophyte, herb, shrub, and tree biomass measured on the sample plot? If true, then these data can be used to calculate total aboveground biomass.</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <enumeratedDomain>
+                  <codeDefinition>
+                    <code>true</code>
+                    <definition>Lichen, bryophyte, herb, shrub, and tree biomass were measured on the sample plot</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>false</code>
+                    <definition>Lichen, bryophyte, herb, shrub, and/or tree biomass were not measured on the sample plot</definition>
+                  </codeDefinition>
+                </enumeratedDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+        <attribute id="9mkL1VuZP2wa8xFsCqqElXPGZGBtvI">
+          <attributeName>plants_measured</attributeName>
+          <attributeLabel>Plants measured</attributeLabel>
+          <attributeDefinition>Were bryophyte, herb, shrub, and tree biomass measured on the sample plot? (true or false)</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <enumeratedDomain>
+                  <codeDefinition>
+                    <code>true</code>
+                    <definition>Bryophyte, herb, shrub, and tree biomass were measured on the sample plot</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>false</code>
+                    <definition>Bryophyte, herb, shrub, and/or tree biomass were not measured on the sample plot</definition>
+                  </codeDefinition>
+                </enumeratedDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+        <attribute id="6v8vF0Jb8asd4RwJTcWpZgCiEzDlzF">
+          <attributeName>nontree_plants_measured</attributeName>
+          <attributeLabel>Non-tree plants measured</attributeLabel>
+          <attributeDefinition>Were lichen, bryophyte, herb, and shrub biomass measured on the sample plot? (true or false)</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <enumeratedDomain>
+                  <codeDefinition>
+                    <code>true</code>
+                    <definition>Lichen, bryophyte, herb, and shrub biomass were measured on the sample plot</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>false</code>
+                    <definition>Lichen, bryophyte, herb, and/or shrub biomass were not measured on the sample plot</definition>
+                  </codeDefinition>
+                </enumeratedDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+        <attribute id="n7UpOBD98FrESJoBiZqTnKwQAL8bxc">
+          <attributeName>vascular_measured</attributeName>
+          <attributeLabel>Vascular measured</attributeLabel>
+          <attributeDefinition>Were herb, shrub, and tree biomass measured on the sample plot? (true or false)</attributeDefinition>
+          <measurementScale>
+            <ordinal>
+              <nonNumericDomain>
+                <enumeratedDomain>
+                  <codeDefinition>
+                    <code>true</code>
+                    <definition>Herb, shrub, and tree biomass were measured on the sample plot</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>false</code>
+                    <definition>Herb, shrub, and/or tree biomass were not measured on the sample plot</definition>
+                  </codeDefinition>
+                </enumeratedDomain>
+              </nonNumericDomain>
+            </ordinal>
+          </measurementScale>
+        </attribute>
+        <attribute id="l59N0MwNDVqDh2bTiHdWsfh4beEzJs">
+          <attributeName>woody_measured</attributeName>
+          <attributeLabel>Woody measured</attributeLabel>
+          <attributeDefinition>Were shrub and tree biomass measured on the sample plot? (true or false)</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <enumeratedDomain>
+                  <codeDefinition>
+                    <code>true</code>
+                    <definition>All shrubs and trees were measured on the sample plot</definition>
+                  </codeDefinition>
+                  <codeDefinition>
+                    <code>false</code>
+                    <definition>All shrubs and trees were not measured on the sample plot</definition>
+                  </codeDefinition>
+                </enumeratedDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+        <attribute id="WTrRFXMTzbpUkEDhybCGz95spGXSw5">
+          <attributeName>citation</attributeName>
+          <attributeLabel>Citation</attributeLabel>
+          <attributeDefinition>Full citation to the original data source</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+        <attribute id="WncNpIClmyVVRGC3TikO7z6J9mqzwz">
+          <attributeName>citation_short</attributeName>
+          <attributeLabel>Citation shortened</attributeLabel>
+          <attributeDefinition>Shortened citation to the original data source</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+        <attribute id="xzT1gS4moS24iDyMFVgSZ4FqDUzCEf">
+          <attributeName>notes</attributeName>
+          <attributeLabel>Notes</attributeLabel>
+          <attributeDefinition>Miscellaneous notes</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Any text</definition>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+      </attributeList>
+    </dataTable>
+  </dataset>
+</eml:eml>
