@@ -87,7 +87,7 @@ To have additional nodes set up, please contact us at support@dataone.org
 
 ### How to set up and run a data check through the MetaDig-py command line client
 
-To set-up a data check, you must have/prepare the following before you run the `metadigpy` client command (above)
+To set up a data check, you must have/prepare the following before you run the `metadigpy` client command (above)
 1) A HashStore - this step is necessary because `run_check` will look for the data objects in a HashStore after retrieving the data pids.
 2) The data objects associated with the DOI to check stored in HashStore, including the data objects' system metadata.
 2) A copy of the metadata document and its respective system metadata for the DOI.
