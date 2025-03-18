@@ -23,7 +23,7 @@ def isBlank(obj):
     # - a string
     # - a boolean (i.e. "Yes", "Y", "No", "No") - this type isn't expected for award
     # - a java.util.ArrayList (multiple values, each typed as int, boolean or string)
-    if isinstance(obj, int) or isinstance(obj, float) or isinstance(obj, int):
+    if isinstance(obj, int) or isinstance(obj, float):
         return False
     elif isinstance(obj, str):
         # If award is a string, check that it is not all whitespace
@@ -77,7 +77,7 @@ def toUnicode(obj, *argv):
     The input obj can be either a Jython variable type or a Python variable
     type. The obj is converted to a Python unicode obj. When ArrayLists and
     lists are evaluated, each element is inspected and converted to unicode.
-    Convertering all variables to unicode, ensures that the quality check code has less
+    Converting all variables to unicode, ensures that the quality check code has less
     checking that it has to do, and also to remove any reference to jython objs in the
     check code (in the future, a pure Python scripting engine may be used).
 
