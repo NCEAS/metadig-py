@@ -1,12 +1,10 @@
 """Metadig check utilities"""
 
 import json
-import subprocess
 import sys
 import urllib.request
 import urllib.error
 import urllib.parse
-import ast
 from pathlib import Path
 from urllib.parse import urlparse
 from typing import Dict, Any
