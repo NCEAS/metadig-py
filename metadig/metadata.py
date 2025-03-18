@@ -45,11 +45,11 @@ def find_eml_entity(doc, identifier, file_name):
     Args:
         doc (str): XML document as a string.
         identifier (str): Identifier to match against the id element.
-        fileName (str): File name to match against the entityName or objectName elements.
+        file_name (str): File name to match against the entityName or objectName elements.
 
     Returns:
         xml.etree.Element: The XML element (dataTable or otherEntity) that matches the
-        identifier or fileName, according to the specified priority (id, entityName, objectName).
+        identifier or file_name, according to the specified priority (id, entityName, objectName).
         Returns None if no match is found.
     """
 
@@ -78,7 +78,7 @@ def find_eml_entity(doc, identifier, file_name):
 
 def get_valid_csv(manager, pid):
     """
-    Returns an input stream for a given pid if the file is a csv file, along with it's
+    Returns an input stream for a given pid if the file is a csv file, along with its
     filename and a status.
 
     Args:
@@ -95,6 +95,7 @@ def get_valid_csv(manager, pid):
     fname = read_sysmeta_element(sys, "fileName")
     if read_sysmeta_element(sys, "formatId") != "text/csv":
         return None, fname, "SKIP"
+    sys.close()
     return obj, fname, "VALID"
 
 def find_entity_index(fname, pid, entity_names, ids):
@@ -106,7 +107,7 @@ def find_entity_index(fname, pid, entity_names, ids):
         fname (str): Filename of the file to match.
         pid (str): Identifier of file to match.
         entity_names: List of entity names to search for filename in
-        ids: List of idenfitiers to search for identifier in
+        ids: List of identifiers to search for identifier in
 
     Returns:
         z: Index of matching entity in documentation.
