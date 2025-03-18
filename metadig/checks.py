@@ -52,7 +52,7 @@ def isResolvable(url):
     # download it.
     request = urllib.request.Request(url)
     request.get_method = lambda: "HEAD"
-    # Python urllib2 strangly throws an error for an http status, and the response object is
+    # Python urllib2 strangely throws an error for an http status, and the response object is
     # returned by the exception code.
     try:
         response = urllib.request.urlopen(request)
@@ -96,7 +96,7 @@ def isResolvable(url):
         return (False, "Did not resolved the URL {}".format(url))
 
 
-def get_data_pids(identifier, member_node):
+def get_data_pids(identifier: str, member_node: str):
     """Retrieve the associated data pids for the given pid by querying the appropriate
     member node's solr end point.
 
