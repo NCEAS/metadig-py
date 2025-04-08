@@ -159,7 +159,10 @@ def read_csv_with_metadata(d_read, fd, header_line):
         if header_line > 0:
             pd_header_val = header_line - 1
     else:
-        raise TypeError("header_line must be an integer.")
+        raise TypeError(
+            f"header_line must be an integer. Detected type: {type(header_line)}"
+            + f". Value: {header_line}"
+        )
 
     try:
         return pandas.read_csv(io.StringIO(d_read), delimiter=fd, header=pd_header_val), None
