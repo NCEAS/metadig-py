@@ -115,12 +115,16 @@ def find_entity_index(fname, pid, entity_names, ids):
         z: Index of matching entity in documentation.
         
     """
+    # Checks all elements in entity_names to find matches with fname
     z = [i for i, x in enumerate(entity_names) if x == fname]
+    # If z is empty, we will try to match by pid instead
     if not z:
         z = [i for i, x in enumerate(ids) if x == pid.replace(":", "-")]
 
+    # If there are multiple matches, we will return the first one
     if len(z) > 1:
         z = z[0]
+    # If a single match is found, [0] is the value returned
     return z if z else None
 
 def read_csv_with_metadata(d_read, fd, header_line):
