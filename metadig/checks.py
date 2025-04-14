@@ -120,14 +120,17 @@ def get_data_pids(identifier: str, member_node: str):
             # Iterate over the response to get all the data pids
             # pylint: disable=I1101
             root = etree.fromstring(xml_bytes)
-            data_pids = [
-                elem.text
-                for elem in root.xpath('//doc/str[@name="id"]')
-                if elem.text != identifier
-            ]
-            return data_pids
+
     except Exception as ge:
         raise RuntimeError(f"Unexpected exception encountered: {ge}") from ge
+
+    # Iterate over the doc list and return a list of the data pids
+    data_pids = [
+        elem.text
+        for elem in root.xpath('//doc/str[@name="id"]')
+        if elem.text != identifier
+    ]
+    return data_pids
 
 
 def get_member_node_url(member_node: str):
