@@ -323,7 +323,7 @@ def test_get_data_pids():
 def test_get_data_pids_member_node_url_unavailable():
     """Check that get_data_pids throws an exception when there is no member node available."""
     identifier = "dou.test.id.eml"
-    member_node = "urn:node:KNB"
+    member_node = "urn:node:DOU"
     with pytest.raises(ValueError):
         _ = checks.get_data_pids(identifier, member_node)
 

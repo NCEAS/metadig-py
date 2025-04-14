@@ -102,11 +102,7 @@ def get_data_pids(identifier: str, member_node: str):
     :param str member_node: The member node whose URL to query (ex. 'urn:node:ARCTIC')
     :return: List of data pids
     """
-    if member_node == "urn:node:ARCTIC":
-        member_node_url = "https://arcticdata.io/metacat/d1/mn/v2"
-    else:
-        raise ValueError(f"Member node URL is not available for: {member_node}")
-
+    member_node_url = get_member_node_url(member_node)
     encoded_identifier = urllib.parse.quote(identifier)
     solr_query = f"/query/solr/?q=isDocumentedBy:%22{encoded_identifier}%22&fl=id"
     query_url = member_node_url + solr_query
