@@ -164,8 +164,9 @@ def get_member_node_url(member_node: str):
                     return v2_base_url
 
             if not found:
-                print(f"BaseUrl not found for member node: {member_node}.")
-
+                raise ValueError(f"Base Url not found for member node: {member_node}.")
+    except ValueError as ve:
+        raise ve
     except Exception as ge:
         raise RuntimeError(f"Unexpected exception encountered: {ge}") from ge
 
