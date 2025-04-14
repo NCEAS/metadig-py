@@ -135,7 +135,8 @@ def get_data_pids(identifier: str, member_node: str):
 
 
 def get_member_node_url(member_node: str):
-    """Retrieve the associated member node's baseUrl from the CN
+    """Retrieve the associated member node's baseUrl from the CN. Note, we append '/v2'
+    to the Base URL retrieved.
 
     :param str identifier: The persistent identifier to retrieve data pids for
     :return: baseUrl to the member node
@@ -159,7 +160,8 @@ def get_member_node_url(member_node: str):
                 node_id = node.findtext("identifier")
                 if node_id == member_node:
                     base_url = node.findtext("baseURL")
-                    return base_url
+                    v2_base_url = base_url + "/v2"
+                    return v2_base_url
 
             if not found:
                 print(f"BaseUrl not found for member node: {member_node}.")
