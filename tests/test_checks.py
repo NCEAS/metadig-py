@@ -326,3 +326,10 @@ def test_get_data_pids_member_node_url_unavailable():
     member_node = "urn:node:KNB"
     with pytest.raises(ValueError):
         _ = checks.get_data_pids(identifier, member_node)
+
+
+def test_get_member_node_url():
+    """Check that get_member_node_url returns the expected baseUrl."""
+    member_node = "urn:node:ARCTIC"
+    base_url = checks.get_member_node_url(member_node)
+    assert base_url == "https://arcticdata.io/metacat/d1/mn"

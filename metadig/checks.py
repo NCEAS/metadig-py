@@ -133,6 +133,41 @@ def get_data_pids(identifier: str, member_node: str):
     except Exception as ge:
         raise RuntimeError(f"Unexpected exception encountered: {ge}") from ge
 
+
+def get_member_node_url(member_node: str):
+    """Retrieve the associated member node's baseUrl from the CN
+
+    :param str identifier: The persistent identifier to retrieve data pids for
+    :return: baseUrl to the member node
+    """
+    try:
+        url = "https://cn.dataone.org/cn/v2/node"
+
+        # Create and send the request
+        req = urllib.request.Request(url)
+
+        with urllib.request.urlopen(req) as response:
+            data = response.read().decode("utf-8")
+            # Convert the string to bytes so lxml can parse it
+            xml_bytes = data.encode("utf-8")
+            # pylint: disable=I1101
+            root = etree.fromstring(xml_bytes)
+
+            # Find the matching node and retrieve the baseURL
+            found = False
+            for node in root.findall(".//node"):
+                node_id = node.findtext("identifier")
+                if node_id == member_node:
+                    base_url = node.findtext("baseURL")
+                    return base_url
+
+            if not found:
+                print(f"BaseUrl not found for member node: {member_node}.")
+
+    except Exception as ge:
+        raise RuntimeError(f"Unexpected exception encountered: {ge}") from ge
+
+
 def get_sysmeta_run_check_vars(sysmeta_path: str):
     """Parse the given sysmeta path and retrieve the identifier and auth. member node.
 
