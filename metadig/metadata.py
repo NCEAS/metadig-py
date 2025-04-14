@@ -113,7 +113,7 @@ def find_entity_index(fname, pid, entity_names, ids):
 
     Returns:
         z: Index of matching entity in documentation.
-        
+
     """
     # Checks all elements in entity_names to find matches with fname
     z = [i for i, x in enumerate(entity_names) if x == fname]
@@ -144,7 +144,7 @@ def read_csv_with_metadata(d_read, fd, header_line):
     # Ensure fd is an int or str
     if isinstance(fd, list):
         fd = fd[0]  # Extract first element if list
-    if not isinstance(fd, (str, int)):  
+    if not isinstance(fd, (str, int)):
         fd = ","  # Default to comma if invalid type
 
     pd_header_val = 0
@@ -168,10 +168,6 @@ def read_csv_with_metadata(d_read, fd, header_line):
             + f" Detected type: {type(header_line)}. Value: {header_line}"
         )
         return None, error_msg
-        # raise TypeError(
-        #     f"header_line must be an integer. Detected type: {type(header_line)}"
-        #     + f". Value: {header_line}"
-        # )
 
     try:
         return pandas.read_csv(io.StringIO(d_read), delimiter=fd, header=pd_header_val), None
