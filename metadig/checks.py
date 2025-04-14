@@ -134,7 +134,7 @@ def get_member_node_url(member_node: str):
     """Retrieve the associated member node's baseUrl from the CN. Note, we append '/v2'
     to the Base URL retrieved.
 
-    :param str identifier: The persistent identifier to retrieve data pids for
+    :param str member_node: The persistent identifier to retrieve data pids for
     :return: baseUrl to the member node
     """
     try:
@@ -150,21 +150,18 @@ def get_member_node_url(member_node: str):
             # pylint: disable=I1101
             root = etree.fromstring(xml_bytes)
 
-            # Find the matching node and retrieve the baseURL
-            found = False
-            for node in root.findall(".//node"):
-                node_id = node.findtext("identifier")
-                if node_id == member_node:
-                    base_url = node.findtext("baseURL")
-                    v2_base_url = base_url + "/v2"
-                    return v2_base_url
-
-            if not found:
-                raise ValueError(f"Base Url not found for member node: {member_node}.")
-    except ValueError as ve:
-        raise ve
     except Exception as ge:
         raise RuntimeError(f"Unexpected exception encountered: {ge}") from ge
+
+    # Find the matching node and return its baseURL
+    for node in root.findall(".//node"):
+        node_id = node.findtext("identifier")
+        if node_id == member_node:
+            base_url = node.findtext("baseURL")
+            v2_base_url = base_url + "/v2"
+            return v2_base_url
+    raise ValueError(f"Base Url not found for member node: {member_node}.")
+
 
 
 def get_sysmeta_run_check_vars(sysmeta_path: str):
