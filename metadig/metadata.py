@@ -113,14 +113,18 @@ def find_entity_index(fname, pid, entity_names, ids):
 
     Returns:
         z: Index of matching entity in documentation.
-        
+
     """
+    # Checks all elements in entity_names to find matches with fname
     z = [i for i, x in enumerate(entity_names) if x == fname]
+    # If z is empty, we will try to match by pid instead
     if not z:
         z = [i for i, x in enumerate(ids) if x == pid.replace(":", "-")]
 
+    # If there are multiple matches, we will return the first one
     if len(z) > 1:
         z = z[0]
+    # If a single match is found, [0] is the value returned
     return z if z else None
 
 def read_csv_with_metadata(d_read, fd, header_line):
@@ -140,7 +144,7 @@ def read_csv_with_metadata(d_read, fd, header_line):
     # Ensure fd is an int or str
     if isinstance(fd, list):
         fd = fd[0]  # Extract first element if list
-    if not isinstance(fd, (str, int)):  
+    if not isinstance(fd, (str, int)):
         fd = ","  # Default to comma if invalid type
 
     pd_header_val = 0
@@ -159,7 +163,11 @@ def read_csv_with_metadata(d_read, fd, header_line):
         if header_line > 0:
             pd_header_val = header_line - 1
     else:
-        raise TypeError("header_line must be an integer.")
+        error_msg = (
+            "Unable to read CSV, cannot determine 'header_line'. It must be an integer."
+            + f" Detected type: {type(header_line)}. Value: {header_line}"
+        )
+        return None, error_msg
 
     try:
         return pandas.read_csv(io.StringIO(d_read), delimiter=fd, header=pd_header_val), None
