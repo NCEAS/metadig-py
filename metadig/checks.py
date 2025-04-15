@@ -242,10 +242,10 @@ def run_check(
     identifier = sysmeta_check_vars.get("identifier")
     auth_mn_node = sysmeta_check_vars.get("authoritative_member_node")
     data_pids = get_data_pids(identifier, auth_mn_node)
-    # TODO: Determine if we should always include this or not
+    # TODO: Potential Optimization Point
     # 'document' is available if the check is executed through the metadig-engine
-    # This is the only check at this time that requires it, and seems like we're
-    # adding a lot of overhead for just one check.
+    # `variables-congruent` is the only check at this time that requires it, and seems
+    # like we're adding a lot of overhead for just one check.
     # if "data.table-text-delimited.variables-congruent" == check_id:
     document = Path(metadata_xml_path).read_text(encoding="utf-8")
     check_vars["document"] = document

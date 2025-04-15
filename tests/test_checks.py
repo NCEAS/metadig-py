@@ -147,6 +147,7 @@ def test_run_check_dataformat_normalized_data_is_not_normalized(storemanager_pro
     assert result_data["identifiers"] is not None
     assert result_data["output"] is not None
     # TODO: Revise how this determines that a failure is found (ex. 4 errors found)
+    # After implementing the `normalized` check
     # assert "duplicate columns found" in result_data["output"][0]
     assert result_data["status"] is not None
 
@@ -177,7 +178,6 @@ def test_run_check_dataformat_congruent(storemanager_props, init_hashstore_with_
     assert "matches its media type and extension" in result_data["output"][0]
     assert result_data["status"] is not None
 
-# TODO: Continue testing multiprocessing with `run_check`
 
 def try_run_check(obj_tuple):
     """Executes a 'run_check' function in a try block"""
