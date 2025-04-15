@@ -102,11 +102,7 @@ def get_data_pids(identifier: str, member_node: str):
     :param str member_node: The member node whose URL to query (ex. 'urn:node:ARCTIC')
     :return: List of data pids
     """
-    if member_node == "urn:node:ARCTIC":
-        member_node_url = "https://arcticdata.io/metacat/d1/mn/v2"
-    else:
-        raise ValueError(f"Member node URL is not available for: {member_node}")
-
+    member_node_url = get_member_node_url(member_node)
     encoded_identifier = urllib.parse.quote(identifier)
     solr_query = f"/query/solr/?q=isDocumentedBy:%22{encoded_identifier}%22&fl=id"
     query_url = member_node_url + solr_query
@@ -124,14 +120,52 @@ def get_data_pids(identifier: str, member_node: str):
             # Iterate over the response to get all the data pids
             # pylint: disable=I1101
             root = etree.fromstring(xml_bytes)
-            data_pids = [
-                elem.text
-                for elem in root.xpath('//doc/str[@name="id"]')
-                if elem.text != identifier
-            ]
-            return data_pids
+
     except Exception as ge:
         raise RuntimeError(f"Unexpected exception encountered: {ge}") from ge
+
+    # Iterate over the doc list and return a list of the data pids
+    data_pids = [
+        elem.text
+        for elem in root.xpath('//doc/str[@name="id"]')
+        if elem.text != identifier
+    ]
+    return data_pids
+
+
+def get_member_node_url(member_node: str):
+    """Retrieve the associated member node's baseUrl from the CN. Note, we append '/v2'
+    to the Base URL retrieved.
+
+    :param str member_node: The persistent identifier to retrieve data pids for
+    :return: baseUrl to the member node
+    """
+    try:
+        url = "https://cn.dataone.org/cn/v2/node"
+
+        # Create and send the request
+        req = urllib.request.Request(url)
+
+        with urllib.request.urlopen(req) as response:
+            data = response.read().decode("utf-8")
+            # Convert the string to bytes so lxml can parse it
+            xml_bytes = data.encode("utf-8")
+            # pylint: disable=I1101
+            root = etree.fromstring(xml_bytes)
+
+    except Exception as ge:
+        raise RuntimeError(f"Unexpected exception encountered: {ge}") from ge
+
+    # Find the matching node and return its baseURL
+    for node in root.findall(".//node"):
+        node_id = node.findtext("identifier")
+        if node_id == member_node:
+            base_url = node.findtext("baseURL")
+            v2_base_url = base_url + "/v2"
+            return v2_base_url
+    raise ValueError(f"Base Url not found for member node: {member_node}.")
+
+
 
 def get_sysmeta_run_check_vars(sysmeta_path: str):
     """Parse the given sysmeta path and retrieve the identifier and auth. member node.

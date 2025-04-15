@@ -323,6 +323,20 @@ def test_get_data_pids():
 def test_get_data_pids_member_node_url_unavailable():
     """Check that get_data_pids throws an exception when there is no member node available."""
     identifier = "dou.test.id.eml"
-    member_node = "urn:node:KNB"
+    member_node = "urn:node:DOU"
     with pytest.raises(ValueError):
         _ = checks.get_data_pids(identifier, member_node)
+
+
+def test_get_member_node_url():
+    """Check that get_member_node_url returns the expected Base URL."""
+    member_node = "urn:node:ARCTIC"
+    base_url = checks.get_member_node_url(member_node)
+    assert base_url == "https://arcticdata.io/metacat/d1/mn/v2"
+
+
+def test_get_member_node_url_not_found():
+    """Check that get_member_node_url raises ValueError when Base URL is not found."""
+    member_node = "urn:node:DOU"
+    with pytest.raises(ValueError):
+        checks.get_member_node_url(member_node)
