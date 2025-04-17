@@ -13,7 +13,7 @@ def call():
   global datasetLicense
          
   import metadig.variable as mvar
-  
+
   displayNchars = 40
   # A dataset license is not present
   if 'datasetLicense' not in globals() or datasetLicense is None:
