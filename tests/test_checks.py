@@ -28,6 +28,22 @@ def test_run_check_metadata_resource_license():
     result_data = json.loads(result)
     assert result_data["status"] == "SUCCESS"
 
+
+def test_run_check_metadata_entity_attributename():
+    """Test that 'run_check' can run a metadata check that contains subselectors."""
+    sample_check_file_path = get_test_data_path("entity.attributeName.differs-2.0.0.xml")
+    sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
+    sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
+
+    result = checks.run_check(
+        sample_check_file_path,
+        sample_metadata_file_path,
+        sample_sysmeta_file_path
+    )
+    result_data = json.loads(result)
+    assert result_data["status"] == "SUCCESS"
+
+
 def test_run_check_datatable_glimpse(storemanager_props, init_hashstore_with_test_data):
     """Test 'run_check' with 'data.table-text-delimited.glimpse.xml' python check."""
     assert init_hashstore_with_test_data
