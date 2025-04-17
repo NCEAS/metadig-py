@@ -346,17 +346,27 @@ def select_nodes(context_node, selector_context):
     if selector_context is None:
         return []
     values = []
+    # The main xpath string
     selector_xpath = selector_context.xpath("xpath")[0].text
+    # A list of sub_selector nodes
     sub_selector = selector_context.xpath("subSelector")
 
+    # Apply the xpath, selecting the top-level nodes to check
     selected_nodes = context_node.xpath(selector_xpath)
+
+    # At this point, selected_nodes could be a list of nodes, an empty list or a boolean
+    if isinstance(selected_nodes, bool):
+        # If it's a boolean, wrap the result of the expression into a list
+        return [selected_nodes]
     if not selected_nodes:
+        # If it's empty or false, return an empty list of values
         return values
 
     for node in selected_nodes:
         if sub_selector:
             value = select_nodes(node, sub_selector[0])
         else:
+            # If there is no sub_selector, we extract the final value
             if hasattr(node, 'text') and node.text is not None:
                 text_val = node.text
             else:
