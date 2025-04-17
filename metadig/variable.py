@@ -1,7 +1,6 @@
 """Functions to manipulate python variables
 
-The functions in variable.py are used to inspect, filter and convert Python
-objs.
+The functions in variable.py are used to inspect, filter and convert Python objs.
 """
 
 import re
