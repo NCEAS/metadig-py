@@ -5,7 +5,7 @@ python checks for suites in [metadig-checks](https://github.com/NCEAS/metadig-ch
 
 ## Contributors
 
-- **Author**: Jeanette Clark, Dou Mok
+- **Author**: Jeanette Clark, Dou Mok, Peter Slaughter
 - **License**: [Apache 2](http://opensource.org/licenses/Apache-2.0)
 - [Package source code on GitHub](https://github.com/NCEAS/metadig-py)
 - [**Submit Bugs and feature requests**](https://github.com/NCEAS/metadig-py/issues)
