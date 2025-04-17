@@ -283,6 +283,27 @@ def run_check(
         raise IOError("Check code is unavailable/cannot be found.")
 
 
+def run_suite():
+    """Run a metadig-check suite which can contain multiple checks."""
+    # Get the dataset metadata document
+    # Get the data pids related to the dataset
+    # Get the checks from the suite
+    # Run each check for each data pid
+    # Get the results and put together the output
+    # Include:
+    # - Timestamp
+    # - Object Identifier
+    # - Suite ID
+    # - Run Status (ex. Error, Success)
+    # - Run description (any additional info that might help)
+    # - Sysmeta of metadata doc:
+    # -- Origin Member Node
+    # -- Rights Holder
+    # -- Groups
+    # -- Date Uploaded
+    # -- Format ID 
+    # -- Obsoleted By
+
 def is_check_valid(check_doc, metadata_doc):
     """
     Check if the given check document is valid for the metadata document.
