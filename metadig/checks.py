@@ -7,7 +7,7 @@ import urllib.error
 import urllib.parse
 from pathlib import Path
 from urllib.parse import urlparse
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from lxml import etree
 
 def getType(object_to_check):
@@ -197,7 +197,7 @@ def run_check(
     check_xml_path: str,
     metadata_xml_path: str,
     metadata_sysmeta_path: str,
-    store_props: Dict[str, Any],
+    store_props: Optional[Dict[str, Any]] = None,
 ):
     """
     Run a validation check against an XML metadata document.
@@ -267,9 +267,20 @@ def run_check(
         exec_code_string = code_elem[0].text + "\ncall()"
         try:
             exec(exec_code_string, check_vars)
-            json_output = json.dumps(
-                check_vars.get("metadigpy_result", "No MetadDIG-py result."), indent=4
-            )
+            # json_output = json.dumps(
+            #     check_vars.get("metadigpy_result", "No MetadDIG-py result."), indent=4
+            # )
+            metadigpy_result = check_vars.get("metadigpy_result")
+            if metadigpy_result is None:
+                # If there is no metadigpy_result, it is not a data-suite check, so we
+                # fallback to the existing global variables.
+                fallback = {
+                    "output": check_vars.get("output", "No output."),
+                    "status": check_vars.get("status", "No status.")
+                }
+                json_output = json.dumps(fallback, indent=4)
+            else:
+                json_output = json.dumps(metadigpy_result, indent=4)
             return json_output
         # pylint: disable=W0718
         except Exception as e:
