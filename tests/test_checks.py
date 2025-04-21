@@ -14,6 +14,36 @@ def get_test_data_path(file_name):
     return os.path.join(test_data_directory, file_name)
 
 
+def test_run_check_metadata_resource_license():
+    """Test that 'run_check' can run a metadata check."""
+    sample_check_file_path = get_test_data_path("resource.license.present-2.0.0.xml")
+    sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
+    sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
+
+    result = checks.run_check(
+        sample_check_file_path,
+        sample_metadata_file_path,
+        sample_sysmeta_file_path
+    )
+    result_data = json.loads(result)
+    assert result_data["status"] == "SUCCESS"
+
+
+def test_run_check_metadata_entity_attributename():
+    """Test that 'run_check' can run a metadata check that contains subselectors."""
+    sample_check_file_path = get_test_data_path("entity.attributeName.differs-2.0.0.xml")
+    sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
+    sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
+
+    result = checks.run_check(
+        sample_check_file_path,
+        sample_metadata_file_path,
+        sample_sysmeta_file_path
+    )
+    result_data = json.loads(result)
+    assert result_data["status"] == "SUCCESS"
+
+
 def test_run_check_datatable_glimpse(storemanager_props, init_hashstore_with_test_data):
     """Test 'run_check' with 'data.table-text-delimited.glimpse.xml' python check."""
     assert init_hashstore_with_test_data
@@ -142,7 +172,6 @@ def test_run_check_dataformat_normalized_data_is_not_normalized(storemanager_pro
     )
 
     result_data = json.loads(result)
-    print(result_data)
     assert result_data is not None
     assert result_data["identifiers"] is not None
     assert result_data["output"] is not None

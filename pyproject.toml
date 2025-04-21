@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "metadig"
-version = "1.3.0"
+version = "3.0.0"
 description='Metadig Quality Engine Python Library'
-authors = ["Peter Slaughter <slaughter@nceas.ucsb.edu>","Jeanette Clark <jclark@nceas.ucsb.edu>"]
+authors = ["Peter Slaughter <slaughter@nceas.ucsb.edu>","Jeanette Clark <jclark@nceas.ucsb.edu>", "Dou Mok <douming.mok@gmail.com>"]
 readme = "README.md"
 packages = [{include = "metadig"}]
 

@@ -1,7 +1,6 @@
 """Functions to manipulate python variables
 
-The functions in variable.py are used to inspect, filter and convert Python
-objs.
+The functions in variable.py are used to inspect, filter and convert Python objs.
 """
 
 import re
@@ -10,7 +9,18 @@ try:
     from java.util import ArrayList
     from java.math import BigDecimal
 except ImportError:
-    pass
+    # If there is an issue with importing python recognized java classes from
+    # the Jython environment, we will attempt to create the classes necessary
+    # to proceed with the check.
+    class ArrayList(list):
+        """In Python, the equivalent of a Java 'ArrayList' is a list."""
+        def get(self, index):
+            """In Java, .get(index) is used to access elements, so we add a
+            custom function to maintain syntax consistency."""
+            return self[index]
+
+    from decimal import Decimal
+    BigDecimal = Decimal
 
 
 # Check if an object is blank or undefined.

@@ -7,7 +7,7 @@ import urllib.error
 import urllib.parse
 from pathlib import Path
 from urllib.parse import urlparse
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from lxml import etree
 
 def getType(object_to_check):
@@ -197,7 +197,7 @@ def run_check(
     check_xml_path: str,
     metadata_xml_path: str,
     metadata_sysmeta_path: str,
-    store_props: Dict[str, Any],
+    store_props: Optional[Dict[str, Any]] = None,
 ):
     """
     Run a validation check against an XML metadata document.
@@ -267,9 +267,20 @@ def run_check(
         exec_code_string = code_elem[0].text + "\ncall()"
         try:
             exec(exec_code_string, check_vars)
-            json_output = json.dumps(
-                check_vars.get("metadigpy_result", "No MetadDIG-py result."), indent=4
-            )
+            # json_output = json.dumps(
+            #     check_vars.get("metadigpy_result", "No MetadDIG-py result."), indent=4
+            # )
+            metadigpy_result = check_vars.get("metadigpy_result")
+            if metadigpy_result is None:
+                # If there is no metadigpy_result, it is not a data-suite check, so we
+                # fallback to the existing global variables.
+                fallback = {
+                    "output": check_vars.get("output", "No output."),
+                    "status": check_vars.get("status", "No status.")
+                }
+                json_output = json.dumps(fallback, indent=4)
+            else:
+                json_output = json.dumps(metadigpy_result, indent=4)
             return json_output
         # pylint: disable=W0718
         except Exception as e:
@@ -356,17 +367,27 @@ def select_nodes(context_node, selector_context):
     if selector_context is None:
         return []
     values = []
+    # The main xpath string
     selector_xpath = selector_context.xpath("xpath")[0].text
+    # A list of sub_selector nodes
     sub_selector = selector_context.xpath("subSelector")
 
+    # Apply the xpath, selecting the top-level nodes to check
     selected_nodes = context_node.xpath(selector_xpath)
+
+    # At this point, selected_nodes could be a list of nodes, an empty list or a boolean
+    if isinstance(selected_nodes, bool):
+        # If it's a boolean, wrap the result of the expression into a list
+        return [selected_nodes]
     if not selected_nodes:
+        # If it's empty or false, return an empty list of values
         return values
 
     for node in selected_nodes:
         if sub_selector:
             value = select_nodes(node, sub_selector[0])
         else:
+            # If there is no sub_selector, we extract the final value
             if hasattr(node, 'text') and node.text is not None:
                 text_val = node.text
             else:

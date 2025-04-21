@@ -5,7 +5,7 @@ python checks for suites in [metadig-checks](https://github.com/NCEAS/metadig-ch
 
 ## Contributors
 
-- **Author**: Jeanette Clark, Dou Mok
+- **Author**: Jeanette Clark, Dou Mok, Peter Slaughter
 - **License**: [Apache 2](http://opensource.org/licenses/Apache-2.0)
 - [Package source code on GitHub](https://github.com/NCEAS/metadig-py)
 - [**Submit Bugs and feature requests**](https://github.com/NCEAS/metadig-py/issues)
@@ -15,9 +15,34 @@ python checks for suites in [metadig-checks](https://github.com/NCEAS/metadig-ch
 ## Introduction
 
 The MetaDIG-py client package contains python modules that users can call when writing checks
-for their [`metadig-checks`](https://github.com/NCEAS/metadig-checks). By importing this package, users get access to all available helper
-functions and classes, such as `object_store.py` which enables users to write checks that
-efficiently retrieves data objects to work with.
+for their [`metadig-checks`](https://github.com/NCEAS/metadig-checks). By importing this
+package, users get access to all available helper functions and classes, such as `object_store.py`
+which enables users to write checks that efficiently retrieves data objects to work with.
+
+
+## How do I run a metadata check?
+
+To run a metadata check, pass the check.xml, metadata file path and metadata's system metadata's file path to the `run_check` function.
+
+```py
+from metadig import checks
+
+check_file_path = "/path/to/resource.license.present-2.0.0.xml"
+metadata_file_path = "path/to/metadata:data_file.xml"
+sysmeta_file_path = "path/to/metadata:data_sysmeta_file.xml"
+
+result = checks.run_check(
+    check_file_path,
+    metadata_file_path
+    sysmeta_file_path
+)
+print(result)
+
+{
+    "output": "The resource license 'This work is dedicated to the public dom...' was found.",
+    "status": "SUCCESS"
+}
+```
 
 ## How do I import the `MetaDIG-py` library to my check?
 
@@ -78,7 +103,7 @@ After you've installed `MetaDIG-py`, you will have access to the command `metadi
 
 The `metadigclient` extracts the identifier (ex. DOI) & the authoritative member node (MN) (e.g. `urn:node:ARCTIC`) from the system metadata document supplied for the given eml metadata document. It then passes these values to the `run_check` function, which retrieves the associated data pids and their respective system metadata from the given hashstore.
 
-The `run_check` function then parses the check xml provided, validates the check definition, executes the check, and lastly prints the final result to stdout.
+The `run_check` function then parses the check xml provided, validates the check definition, executes the check, and lastly prints the final result to stdout. 
 
 As of writing this documentation, we have only set up the `metadigclient` to work with the following MN:
 - urn:node:ARCTIC
@@ -94,6 +119,8 @@ To set up a data check, you must have/prepare the following before you run the `
 4) The check you want to run
 
 #### What is HashStore?
+
+  * **Note**: A HashStore is only required if you are running data quality checks
 
 HashStore is a python package developed for DataONE services to efficiently access data objects, metadata and system metadata. In order to simulate the process of retrieving data objects with a `metadig` check, we must mimic the environment in which it happens in production. So the requirement of having a HashStore means that we need to create a HashStore and then store data objects and system metadata inside of it. Please see below for an example:
 
