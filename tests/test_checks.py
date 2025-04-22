@@ -312,6 +312,16 @@ def test_run_check_error_missing_pid_objects(storemanager_props, init_hashstore_
     assert len(result_data["output"]) == 6
 
 
+def test_run_suite():
+    """Check that run_suite can execute a suite of checks successfully."""
+    sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
+    sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
+    suite_path = get_test_data_path("FAIR-suite-0.4.0.xml")
+
+    checks.run_suite(suite_path, sample_metadata_file_path, sample_sysmeta_file_path)
+
+
+
 def test_get_sysmeta_run_check_vars():
     """Test that we are able to retrieve the expected identifier and member node
     from a given sysmeta document."""
@@ -376,4 +386,3 @@ def test_does_file_exist():
     path_that_does_not_exist = "/this/path/does/not/exist"
     with pytest.raises(FileNotFoundError):
         checks.does_file_exist(path_that_does_not_exist)
-        

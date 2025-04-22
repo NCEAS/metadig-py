@@ -314,7 +314,14 @@ def run_suite(
     does_file_exist(metadata_xml_path)
     does_file_exist(metadata_sysmeta_path)
 
-    # Read the suite_path & get the check names
+    # Read the suite_path & get the checks to run
+    # pylint: disable=I1101
+    suite_doc = etree.parse(suite_path).getroot()
+    for elem in suite_doc.iter():
+        print(f"Tag: {elem.tag}")
+        if elem.text and elem.text.strip():
+            print(f"Text: {elem.text.strip()}")
+
 
     # Create check dictionary (which will be used to parallelize operations)
     # Get the check path and confirm it exists/does not exist
