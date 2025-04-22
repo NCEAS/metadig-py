@@ -317,9 +317,11 @@ def test_run_suite():
     sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
     sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
     suite_path = get_test_data_path("FAIR-suite-0.4.0.xml")
+    checks_path = get_test_data_path("checks")
 
-    checks.run_suite(suite_path, sample_metadata_file_path, sample_sysmeta_file_path)
-
+    checks.run_suite(
+        suite_path, checks_path, sample_metadata_file_path, sample_sysmeta_file_path
+    )
 
 
 def test_get_sysmeta_run_check_vars():

@@ -296,6 +296,7 @@ def run_check(
 
 def run_suite(
     suite_path: str,
+    checks_path: str,
     metadata_xml_path: str,
     metadata_sysmeta_path: str,
     store_props: Optional[Dict[str, Any]] = None,
@@ -303,6 +304,7 @@ def run_suite(
     """Run a metadig-check suite which can contain multiple checks.
     
     :param str suite_path: Path to the suite xml containing the checks to run.
+    :param str checks_path: Path to the checks found in the suite to be executed.
     :param str metadata_xml_path: Path to the XML metadata document.
     :param str metadata_sysmeta_path: Path to the sysmeta for the XML metadata document
     :param Dict store_props: Dictionary containing the store properties: store_type, store_path,
@@ -317,15 +319,28 @@ def run_suite(
     # Read the suite_path & get the checks to run
     # pylint: disable=I1101
     suite_doc = etree.parse(suite_path).getroot()
-    for elem in suite_doc.iter():
-        print(f"Tag: {elem.tag}")
-        if elem.text and elem.text.strip():
-            print(f"Text: {elem.text.strip()}")
 
+    # Create list of checks to run
+    checks_to_run_list = []
+    # And a list of messages to include if there are issues
+    additional_run_comments = []
+    for check in suite_doc.findall("check"):
+        check_id = check.find("id").text
+        check_id_path = checks_path + f"/{check_id}.xml"
+        try:
+            # This matches the signature of the 'run_check' function
+            does_file_exist(check_id_path)
+            check_tuple_item = (
+                    check_id_path,
+                    metadata_xml_path,
+                    metadata_sysmeta_path,
+                )
+            checks_to_run_list.append(check_tuple_item)
+        except FileNotFoundError:
+            additional_run_comments.append(f"Check not found: {check_id_path}")
+    print(checks_to_run_list)
+    print(additional_run_comments)
 
-    # Create check dictionary (which will be used to parallelize operations)
-    # Get the check path and confirm it exists/does not exist
-    # Add it to a dictionary
     # Use multiprocessing to iterate over the dictionary to execute checks
     # Collect and format results
     # Include:
