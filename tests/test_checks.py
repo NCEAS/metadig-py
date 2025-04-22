@@ -312,15 +312,22 @@ def test_run_check_error_missing_pid_objects(storemanager_props, init_hashstore_
     assert len(result_data["output"]) == 6
 
 
-def test_run_suite():
+def test_run_suite(storemanager_props, init_hashstore_with_test_data):
     """Check that run_suite can execute a suite of checks successfully."""
+    assert init_hashstore_with_test_data
+
     sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
     sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
-    suite_path = get_test_data_path("FAIR-suite-0.4.0.xml")
+    # suite_path = get_test_data_path("FAIR-suite-0.4.0.xml")
+    suite_path = get_test_data_path("data-suite.xml")
     checks_path = get_test_data_path("checks")
 
     checks.run_suite(
-        suite_path, checks_path, sample_metadata_file_path, sample_sysmeta_file_path
+        suite_path,
+        checks_path,
+        sample_metadata_file_path,
+        sample_sysmeta_file_path,
+        storemanager_props,
     )
 
 

@@ -1,6 +1,7 @@
 """Metadig check utilities"""
 
 import os
+import multiprocessing
 import json
 import sys
 import urllib.request
@@ -294,6 +295,16 @@ def run_check(
         raise IOError("Check code is unavailable/cannot be found.")
 
 
+def try_run_check(obj_tuple):
+    """Executes a 'run_check' function in a try block that can be called by multiprocessing"""
+    try:
+        result = run_check(*obj_tuple)
+        return result
+    # pylint: disable=W0718
+    except Exception as so_exception:
+        print(so_exception)
+
+
 def run_suite(
     suite_path: str,
     checks_path: str,
@@ -336,6 +347,7 @@ def run_suite(
                     check_id_path,
                     metadata_xml_path,
                     metadata_sysmeta_path,
+                    store_props
                 )
             checks_to_run_list.append(check_tuple_item)
         else:
@@ -345,6 +357,14 @@ def run_suite(
         raise RuntimeError("No checks to run. Details: " + additional_run_comments)
 
     # TODO: Use multiprocessing to iterate over the dictionary to execute checks
+    # Set up multiprocessing pool
+    pool = multiprocessing.Pool()
+    results = pool.imap(try_run_check, checks_to_run_list)
+    pool.close() # Close the pool and wait for all processes to complete
+    pool.join()
+
+    for result in results:
+        print(result)
 
     # TODO: Collect and format results
     # Include:
