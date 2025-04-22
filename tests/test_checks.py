@@ -44,59 +44,6 @@ def test_run_check_metadata_entity_attributename():
     assert result_data["status"] == "SUCCESS"
 
 
-def test_run_check_datatable_glimpse(storemanager_props, init_hashstore_with_test_data):
-    """Test 'run_check' with 'data.table-text-delimited.glimpse.xml' python check."""
-    assert init_hashstore_with_test_data
-    manager = StoreManager(storemanager_props)
-    # Confirm no exception is thrown and object and metadata is in place
-    _ = manager.get_object("urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1")
-
-    # Now execute 'run_check' by providing it the required args
-    sample_check_file_path = get_test_data_path("checks/data.table-text-delimited.glimpse.xml")
-    sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
-    sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
-
-    result = checks.run_check(
-        sample_check_file_path,
-        sample_metadata_file_path,
-        sample_sysmeta_file_path,
-        storemanager_props,
-    )
-
-    result_data = json.loads(result)
-    assert result_data is not None
-    assert result_data["identifiers"] is not None
-    assert result_data["output"] is not None
-    assert result_data["status"] is not None
-
-
-def test_run_check_datatable_well_formed(storemanager_props, init_hashstore_with_test_data):
-    """Test 'run_check' with 'data.table-text-delimited.well-formed.xml' python check."""
-    assert init_hashstore_with_test_data
-    manager = StoreManager(storemanager_props)
-    # Confirm no exception is thrown and object and metadata is in place
-    _ = manager.get_object("urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1")
-
-    # Now execute 'run_check' by providing it the required args
-    sample_check_file_path = get_test_data_path("checks/data.table-text-delimited.well-formed.xml")
-    sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
-    sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
-
-    result = checks.run_check(
-        sample_check_file_path,
-        sample_metadata_file_path,
-        sample_sysmeta_file_path,
-        storemanager_props,
-    )
-
-    result_data = json.loads(result)
-    assert result_data is not None
-    assert result_data["identifiers"] is not None
-    assert result_data["output"] is not None
-    assert "is able to be parsed" in result_data["output"][0]
-    assert result_data["status"] is not None
-
-
 def test_run_check_datatable_variables_congruent(storemanager_props, init_hashstore_with_test_data):
     """Test 'run_check' with 'data.table-text-delimited.variables-congruent.xml' python check."""
     assert init_hashstore_with_test_data
@@ -124,101 +71,7 @@ def test_run_check_datatable_variables_congruent(storemanager_props, init_hashst
     assert result_data["status"] is not None
 
 
-def test_run_check_dataformat_normalized(storemanager_props, init_hashstore_with_test_data):
-    """Test 'run_check' with 'data.table-text-delimited.normalized.xml' python check."""
-    assert init_hashstore_with_test_data
-    manager = StoreManager(storemanager_props)
-    # Confirm no exception is thrown and object and metadata is in place
-    _ = manager.get_object("urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1")
-
-    # Now execute 'run_check' by providing it the required args
-    sample_check_file_path = get_test_data_path("checks/data.table-text-delimited.normalized.xml")
-    sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
-    sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
-
-    result = checks.run_check(
-        sample_check_file_path,
-        sample_metadata_file_path,
-        sample_sysmeta_file_path,
-        storemanager_props,
-    )
-
-    result_data = json.loads(result)
-    assert result_data is not None
-    assert result_data["identifiers"] is not None
-    assert result_data["output"] is not None
-    assert "is normalized" in result_data["output"][0]
-    assert result_data["status"] is not None
-
-
-def test_run_check_dataformat_normalized_data_is_not_normalized(storemanager_props, init_hashstore_with_test_data):
-    """Test 'run_check' with 'data.table-text-delimited.normalized.xml' returns expected
-    output when data is normalized and issues are found."""
-    assert init_hashstore_with_test_data
-    manager = StoreManager(storemanager_props)
-    # Confirm no exception is thrown and object and metadata is in place
-    _ = manager.get_object("urn:uuid:60101459-96a2-41ea-b9e7-0dd80ecde3ce")
-
-    # Now execute 'run_check' by providing it the required args
-    sample_check_file_path = get_test_data_path("checks/data.table-text-delimited.normalized.xml")
-    sample_metadata_file_path = get_test_data_path("doi:10.18739_A2RJ48X0F.xml")
-    sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2RJ48X0F_sysmeta.xml")
-
-    result = checks.run_check(
-        sample_check_file_path,
-        sample_metadata_file_path,
-        sample_sysmeta_file_path,
-        storemanager_props,
-    )
-
-    result_data = json.loads(result)
-    assert result_data is not None
-    assert result_data["identifiers"] is not None
-    assert result_data["output"] is not None
-    # TODO: Revise how this determines that a failure is found (ex. 4 errors found)
-    # After implementing the `normalized` check
-    # assert "duplicate columns found" in result_data["output"][0]
-    assert result_data["status"] is not None
-
-
-def test_run_check_dataformat_congruent(storemanager_props, init_hashstore_with_test_data):
-    """Test 'run_check' with 'data.format.congruent.xml' python check."""
-    assert init_hashstore_with_test_data
-    manager = StoreManager(storemanager_props)
-    # Confirm no exception is thrown and object and metadata is in place
-    _ = manager.get_object("urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1")
-
-    # Now execute 'run_check' by providing it the required args
-    sample_check_file_path = get_test_data_path("checks/data.format.congruent.xml")
-    sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
-    sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
-
-    result = checks.run_check(
-        sample_check_file_path,
-        sample_metadata_file_path,
-        sample_sysmeta_file_path,
-        storemanager_props,
-    )
-
-    result_data = json.loads(result)
-    assert result_data is not None
-    assert result_data["identifiers"] is not None
-    assert result_data["output"] is not None
-    assert "matches its media type and extension" in result_data["output"][0]
-    assert result_data["status"] is not None
-
-
-def try_run_check(obj_tuple):
-    """Executes a 'run_check' function in a try block"""
-    try:
-        result = checks.run_check(*obj_tuple)
-        return result
-    # pylint: disable=W0718
-    except Exception as so_exception:
-        print(so_exception)
-
-
-def test_run_check_with_multiprocessing(storemanager_props, init_hashstore_with_test_data):
+def test_try_run_check_with_multiprocessing(storemanager_props, init_hashstore_with_test_data):
     """Test 'run_check' function in a multiprocessing setting"""
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)
@@ -226,7 +79,9 @@ def test_run_check_with_multiprocessing(storemanager_props, init_hashstore_with_
     _ = manager.get_object("urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1")
 
     # Now execute 'run_check' by providing it the required args
-    sample_check_file_path = get_test_data_path("checks/data.table-text-delimited.glimpse.xml")
+    sample_check_file_path = get_test_data_path(
+        "checks/data.table-text-delimited.variables-congruent.xml"
+    )
     sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
     sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
 
@@ -243,7 +98,7 @@ def test_run_check_with_multiprocessing(storemanager_props, init_hashstore_with_
 
     # Set up pool and processes
     pool = multiprocessing.Pool()
-    results = pool.imap(try_run_check, input_array)
+    results = pool.imap(checks.try_run_check, input_array)
     pool.close() # Close the pool and wait for all processes to complete
     pool.join()
 
@@ -263,7 +118,9 @@ def test_run_check_multiple_pids(storemanager_props, init_hashstore_with_test_da
     _ = manager.get_object("urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1")
 
     # Now execute 'run_check' by providing it the required args
-    sample_check_file_path = get_test_data_path("checks/data.table-text-delimited.glimpse.xml")
+    sample_check_file_path = get_test_data_path(
+        "checks/data.table-text-delimited.variables-congruent.xml"
+    )
     sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
     sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
 
@@ -291,7 +148,9 @@ def test_run_check_error_missing_pid_objects(storemanager_props, init_hashstore_
     _ = manager.get_object("urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1")
 
     # Now execute 'run_check' by providing it the required args
-    sample_check_file_path = get_test_data_path("checks/data.table-text-delimited.glimpse.xml")
+    sample_check_file_path = get_test_data_path(
+        "checks/data.table-text-delimited.variables-congruent.xml"
+    )
     sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
     # The sysmeta below is for another DOI, which will return pids that are not stored
     sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2DF6K53C_sysmeta.xml")
