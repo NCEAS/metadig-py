@@ -327,16 +327,15 @@ def run_suite(
     for check in suite_doc.findall("check"):
         check_id = check.find("id").text
         check_id_path = checks_path + f"/{check_id}.xml"
-        try:
-            # This matches the signature of the 'run_check' function
-            does_file_exist(check_id_path)
+        # This matches the signature of the 'run_check' function
+        if does_file_exist(check_id_path):
             check_tuple_item = (
                     check_id_path,
                     metadata_xml_path,
                     metadata_sysmeta_path,
                 )
             checks_to_run_list.append(check_tuple_item)
-        except FileNotFoundError:
+        else:
             additional_run_comments.append(f"Check not found: {check_id_path}")
     print(checks_to_run_list)
     print(additional_run_comments)
@@ -454,5 +453,7 @@ def select_nodes(context_node, selector_context):
 
 def does_file_exist(path_to_check: str):
     """Check to see whether the file exists in the system."""
-    if not os.path.isfile(path_to_check):
-        raise FileNotFoundError(f"Could not locate file at: {path_to_check}")
+    if os.path.isfile(path_to_check):
+        return True
+    else:
+        return False
