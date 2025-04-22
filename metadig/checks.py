@@ -166,7 +166,6 @@ def get_member_node_url(member_node: str):
     raise ValueError(f"Base Url not found for member node: {member_node}.")
 
 
-
 def get_sysmeta_run_check_vars(sysmeta_path: str):
     """Parse the given sysmeta path and retrieve the identifier and auth. member node.
 
@@ -294,26 +293,46 @@ def run_check(
         raise IOError("Check code is unavailable/cannot be found.")
 
 
-def run_suite():
-    """Run a metadig-check suite which can contain multiple checks."""
-    # Get the dataset metadata document
-    # Get the data pids related to the dataset
-    # Get the checks from the suite
-    # Run each check for each data pid
-    # Get the results and put together the output
+def run_suite(
+    suite_path: str,
+    metadata_xml_path: str,
+    metadata_sysmeta_path: str,
+    store_props: Optional[Dict[str, Any]] = None,
+):
+    """Run a metadig-check suite which can contain multiple checks.
+    
+    :param str suite_path: Path to the suite xml containing the checks to run.
+    :param str metadata_xml_path: Path to the XML metadata document.
+    :param str metadata_sysmeta_path: Path to the sysmeta for the XML metadata document
+    :param Dict store_props: Dictionary containing the store properties: store_type, store_path,
+        store_depth, store_width, store_algorithm, store_metadata_namespace
+    :return: The result of the suite function.
+    """
+    # Confirm files exist at the given paths
+    # Raise exception if there is an issue
+    # Read the suite_path & get the check names
+    # Create check dictionary (which will be used to parallelize operations)
+    # Get the check path and confirm it exists/does not exist
+    # Add it to a dictionary
+    # Use multiprocessing to iterate over the dictionary to execute checks
+    # Collect and format results
     # Include:
     # - Timestamp
     # - Object Identifier
-    # - Suite ID
+    # - Suite ID (ex. FAIR-suite-0.4.0)
     # - Run Status (ex. Error, Success)
-    # - Run description (any additional info that might help)
+    # - Run description (any additional info that might help, missing checks, etc.)
     # - Sysmeta of metadata doc:
     # -- Origin Member Node
     # -- Rights Holder
     # -- Groups
     # -- Date Uploaded
-    # -- Format ID 
+    # -- Format ID
     # -- Obsoleted By
+    # - Result for Each Check
+    # -- Output
+    # -- Status
+
 
 def is_check_valid(check_doc, metadata_doc):
     """
