@@ -369,3 +369,11 @@ def test_get_member_node_url_not_found():
     member_node = "urn:node:DOU"
     with pytest.raises(ValueError):
         checks.get_member_node_url(member_node)
+
+
+def test_does_file_exist():
+    """Test that exceptions are raised when a file cannot be found at the given path."""
+    path_that_does_not_exist = "/this/path/does/not/exist"
+    with pytest.raises(FileNotFoundError):
+        checks.does_file_exist(path_that_does_not_exist)
+        

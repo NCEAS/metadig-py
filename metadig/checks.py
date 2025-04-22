@@ -1,5 +1,6 @@
 """Metadig check utilities"""
 
+import os
 import json
 import sys
 import urllib.request
@@ -309,8 +310,12 @@ def run_suite(
     :return: The result of the suite function.
     """
     # Confirm files exist at the given paths
-    # Raise exception if there is an issue
+    does_file_exist(suite_path)
+    does_file_exist(metadata_xml_path)
+    does_file_exist(metadata_sysmeta_path)
+
     # Read the suite_path & get the check names
+
     # Create check dictionary (which will be used to parallelize operations)
     # Get the check path and confirm it exists/does not exist
     # Add it to a dictionary
@@ -423,3 +428,9 @@ def select_nodes(context_node, selector_context):
         values.append(value)
 
     return values
+
+
+def does_file_exist(path_to_check: str):
+    """Check to see whether the file exists in the system."""
+    if not os.path.isfile(path_to_check):
+        raise FileNotFoundError(f"Could not locate file at: {path_to_check}")
