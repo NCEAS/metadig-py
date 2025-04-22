@@ -312,9 +312,12 @@ def run_suite(
     :return: The result of the suite function.
     """
     # Confirm files exist at the given paths
-    does_file_exist(suite_path)
-    does_file_exist(metadata_xml_path)
-    does_file_exist(metadata_sysmeta_path)
+    if not does_file_exist(suite_path):
+        raise FileNotFoundError(f"Suite path not found: {suite_path}")
+    if not does_file_exist(metadata_xml_path):
+        raise FileNotFoundError(f"Metadata not found: {metadata_xml_path}")
+    if not does_file_exist(metadata_sysmeta_path):
+        raise FileNotFoundError(f"Metadata sysmeta not found: {metadata_sysmeta_path}")
 
     # Read the suite_path & get the checks to run
     # pylint: disable=I1101
@@ -337,11 +340,13 @@ def run_suite(
             checks_to_run_list.append(check_tuple_item)
         else:
             additional_run_comments.append(f"Check not found: {check_id_path}")
-    print(checks_to_run_list)
-    print(additional_run_comments)
 
-    # Use multiprocessing to iterate over the dictionary to execute checks
-    # Collect and format results
+    if not checks_to_run_list:
+        raise RuntimeError("No checks to run. Details: " + additional_run_comments)
+
+    # TODO: Use multiprocessing to iterate over the dictionary to execute checks
+
+    # TODO: Collect and format results
     # Include:
     # - Timestamp
     # - Object Identifier
