@@ -177,8 +177,8 @@ def test_run_suite(storemanager_props, init_hashstore_with_test_data):
 
     sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
     sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
-    # suite_path = get_test_data_path("FAIR-suite-0.4.0.xml")
-    suite_path = get_test_data_path("data-suite.xml")
+    suite_path = get_test_data_path("FAIR-suite-0.4.0.xml")
+    # suite_path = get_test_data_path("data-suite.xml")
     checks_path = get_test_data_path("checks")
 
     checks.run_suite(
