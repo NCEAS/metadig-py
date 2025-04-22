@@ -14,7 +14,7 @@ def test_metadig_client_run_check(capsys, store, init_hashstore_with_test_data):
     test_store_path = str(store.root)
     run_check_opt = "-runcheck"
     hashstore_path_opt = f"-store_path={test_store_path}"
-    check_xml_path_opt = f"-check_xml={test_dir}/data.table-text-delimited.glimpse.xml"
+    check_xml_path_opt = f"-check_xml={test_dir}/checks/data.table-text-delimited.glimpse.xml"
     metadata_doc_path_opt = f"-metadata_doc={test_dir}/doi:10.18739_A2QJ78081.xml"
     sysmeta_doc_path_opt = f"-sysmeta_doc={test_dir}/doi:10.18739_A2QJ78081_sysmeta.xml"
 
