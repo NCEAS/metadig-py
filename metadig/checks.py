@@ -368,11 +368,20 @@ def run_suite(
     pool.close() # Close the pool and wait for all processes to complete
     pool.join()
 
+    # Get the list of check results
+    check_results = []
     for result, check_id in results:
-        print(result)
-        print(check_id)
+        result_data = json.loads(result)
+        check_results.append({
+            "check_id": check_id,
+            "identifiers": result_data.get("identifiers", ["N/A"]),
+            "output": result_data.get("output"),
+            "status": result_data.get("status"),
+        })
+    print(check_results)
 
-    # TODO: Collect and format results
+    # TODO: Format results
+    # formatted_results = []
     # Include:
     # - Timestamp
     # - Object Identifier
