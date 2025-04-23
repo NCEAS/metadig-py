@@ -180,6 +180,10 @@ def get_sysmeta_run_check_vars(sysmeta_path: str):
     try:
         identifier = sysmeta_doc_root.find("identifier").text
         authoritative_member_node = sysmeta_doc_root.find("authoritativeMemberNode").text
+        rights_holder = sysmeta_doc_root.find("rightsHolder").text
+        date_uploaded = sysmeta_doc_root.find("dateUploaded").text
+        format_id = sysmeta_doc_root.find("formatId").text
+        obsoletes = sysmeta_doc_root.find("obsoletes").text
         if identifier is None:
             raise ValueError("Element 'identifier' is missing from sysmeta document")
         if identifier is None:
@@ -192,6 +196,10 @@ def get_sysmeta_run_check_vars(sysmeta_path: str):
     sm_rn_vars = {}
     sm_rn_vars["identifier"] = identifier
     sm_rn_vars["authoritative_member_node"] = authoritative_member_node
+    sm_rn_vars["rights_holder"] = rights_holder
+    sm_rn_vars["date_uploaded"] = date_uploaded
+    sm_rn_vars["format_id"] = format_id
+    sm_rn_vars["obsoletes"] = obsoletes
     return sm_rn_vars
 
 
@@ -384,24 +392,20 @@ def run_suite(
     suite_name = suite_path.rsplit("/", 1)[-1]
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     metadata_sysmeta = get_sysmeta_run_check_vars(metadata_sysmeta_path)
-    print(metadata_sysmeta)
-    identifier = metadata_sysmeta.get("identifier")
-    auth_mn_node = metadata_sysmeta.get("authoritative_member_node")
     sysmeta = {
-        "origin_member_node": auth_mn_node,
-        "rights_holder": "",
-        "groups": "",
-        "date_uploaded": "",
-        "format_id": "",
-        "obsoletes": "",
+        "origin_member_node": metadata_sysmeta.get("authoritative_member_node"),
+        "rights_holder": metadata_sysmeta.get("rights_holder"),
+        "date_uploaded": metadata_sysmeta.get("date_uploaded"),
+        "format_id": metadata_sysmeta.get("format_id"),
+        "obsoletes": metadata_sysmeta.get("obsoletes"),
     }
     suite_results = {
         "suite": suite_name,
         "timestamp": timestamp,
-        "object_identifier": identifier,
+        "object_identifier": metadata_sysmeta.get("identifier"),
         "run_status": "SUCCESS" if check_results else "FAILURE",
         "run_comments": additional_run_comments,
-        "sysmeta": "",
+        "sysmeta": sysmeta,
         "results": check_results
     }
     return suite_results
