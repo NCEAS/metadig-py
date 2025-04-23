@@ -408,7 +408,7 @@ def run_suite(
         "sysmeta": sysmeta,
         "results": check_results
     }
-    json_suite_results = json.dumps(suite_results)
+    json_suite_results = json.dumps(suite_results, indent=4)
     return json_suite_results
 
 
