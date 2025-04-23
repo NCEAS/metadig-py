@@ -102,12 +102,13 @@ def test_try_run_check_with_multiprocessing(storemanager_props, init_hashstore_w
     pool.close() # Close the pool and wait for all processes to complete
     pool.join()
 
-    for result in results:
+    for result, check_id in results:
         result_data = json.loads(result)
         assert result_data is not None
         assert result_data["identifiers"] is not None
         assert result_data["output"] is not None
         assert result_data["status"] is not None
+        assert check_id == "data.table-text-delimited.variables-congruent.xml"
 
 
 def test_run_check_multiple_pids(storemanager_props, init_hashstore_with_test_data):

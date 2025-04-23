@@ -296,10 +296,16 @@ def run_check(
 
 
 def try_run_check(obj_tuple):
-    """Executes a 'run_check' function in a try block that can be called by multiprocessing"""
+    """Executes a 'run_check' function in a try block that can be called by multiprocessing.
+
+    :param str obj_tuple: a tuple containing the arguments for the 'run_check' function:
+        check_xml_path, metadata_xml_path, metadata_sysmeta_path, store_props
+    :return: The results of the check, and the check_id
+    """
     try:
         result = run_check(*obj_tuple)
-        return result
+        check_id = obj_tuple[0].rsplit("/", 1)[-1]
+        return result, check_id
     # pylint: disable=W0718
     except Exception as so_exception:
         print(so_exception)
@@ -356,15 +362,15 @@ def run_suite(
     if not checks_to_run_list:
         raise RuntimeError("No checks to run. Details: " + additional_run_comments)
 
-    # TODO: Use multiprocessing to iterate over the dictionary to execute checks
     # Set up multiprocessing pool
     pool = multiprocessing.Pool()
     results = pool.imap(try_run_check, checks_to_run_list)
     pool.close() # Close the pool and wait for all processes to complete
     pool.join()
 
-    for result in results:
+    for result, check_id in results:
         print(result)
+        print(check_id)
 
     # TODO: Collect and format results
     # Include:
