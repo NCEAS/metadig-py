@@ -11,6 +11,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 from typing import Dict, Any, Optional
 from lxml import etree
+from datetime import datetime
 
 def getType(object_to_check):
     """Checks and prints the argument's object type."""
@@ -378,26 +379,32 @@ def run_suite(
             "output": result_data.get("output"),
             "status": result_data.get("status"),
         })
-    print(check_results)
 
     # TODO: Format results
-    # formatted_results = []
-    # Include:
-    # - Timestamp
-    # - Object Identifier
-    # - Suite ID (ex. FAIR-suite-0.4.0)
-    # - Run Status (ex. Error, Success)
-    # - Run description (any additional info that might help, missing checks, etc.)
-    # - Sysmeta of metadata doc:
-    # -- Origin Member Node
-    # -- Rights Holder
-    # -- Groups
-    # -- Date Uploaded
-    # -- Format ID
-    # -- Obsoleted By
-    # - Result for Each Check
-    # -- Output
-    # -- Status
+    suite_name = suite_path.rsplit("/", 1)[-1]
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    metadata_sysmeta = get_sysmeta_run_check_vars(metadata_sysmeta_path)
+    print(metadata_sysmeta)
+    identifier = metadata_sysmeta.get("identifier")
+    auth_mn_node = metadata_sysmeta.get("authoritative_member_node")
+    sysmeta = {
+        "origin_member_node": auth_mn_node,
+        "rights_holder": "",
+        "groups": "",
+        "date_uploaded": "",
+        "format_id": "",
+        "obsoletes": "",
+    }
+    suite_results = {
+        "suite": suite_name,
+        "timestamp": timestamp,
+        "object_identifier": identifier,
+        "run_status": "SUCCESS" if check_results else "FAILURE",
+        "run_comments": additional_run_comments,
+        "sysmeta": "",
+        "results": check_results
+    }
+    return suite_results
 
 
 def is_check_valid(check_doc, metadata_doc):
