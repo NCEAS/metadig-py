@@ -182,13 +182,19 @@ def test_run_suite(storemanager_props, init_hashstore_with_test_data):
     # suite_path = get_test_data_path("data-suite.xml")
     checks_path = get_test_data_path("checks")
 
-    checks.run_suite(
+    suite_results = checks.run_suite(
         suite_path,
         checks_path,
         sample_metadata_file_path,
         sample_sysmeta_file_path,
         storemanager_props,
     )
+
+    suite_data = json.loads(suite_results)
+    assert suite_data["suite"] is not None
+    assert suite_data["run_status"] == "SUCCESS"
+    assert suite_data["sysmeta"] is not None
+    assert suite_data["results"] is not None
 
 
 def test_get_sysmeta_vars():

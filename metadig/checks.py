@@ -409,7 +409,8 @@ def run_suite(
         "sysmeta": sysmeta,
         "results": check_results
     }
-    return suite_results
+    json_suite_results = json.dumps(suite_results)
+    return json_suite_results
 
 
 def is_check_valid(check_doc, metadata_doc):
