@@ -191,33 +191,33 @@ def test_run_suite(storemanager_props, init_hashstore_with_test_data):
     )
 
 
-def test_get_sysmeta_run_check_vars():
+def test_get_sysmeta_vars():
     """Test that we are able to retrieve the expected identifier and member node
     from a given sysmeta document."""
     path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
-    sm_rn_vars = checks.get_sysmeta_run_check_vars(path)
+    sm_rn_vars = checks.get_sysmeta_vars(path)
     assert sm_rn_vars.get("identifier") == "doi:10.18739/A2QJ78081"
     assert sm_rn_vars.get("authoritative_member_node") == "urn:node:ARCTIC"
 
 
-def test_get_sysmeta_run_check_vars_missing_elements():
+def test_get_sysmeta_vars_missing_elements():
     """Test that exception is thrown when we are missing expected elements from a sysmeta doc."""
     path = get_test_data_path("sysmeta_missing_elements.xml")
     with pytest.raises(AttributeError):
-        _ = checks.get_sysmeta_run_check_vars(path)
+        _ = checks.get_sysmeta_vars(path)
 
 
-def test_get_sysmeta_run_check_vars_empty_elements():
+def test_get_sysmeta_vars_empty_elements():
     """Test that exception is thrown when we an expected elements from a sysmeta doc is empty."""
     path = get_test_data_path("sysmeta_empty_elements.xml")
     with pytest.raises(ValueError):
-        _ = checks.get_sysmeta_run_check_vars(path)
+        _ = checks.get_sysmeta_vars(path)
 
 
 def test_get_data_pids():
     """Check that we are able to retrieve data pids from a member node"""
     path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
-    sm_rn_vars = checks.get_sysmeta_run_check_vars(path)
+    sm_rn_vars = checks.get_sysmeta_vars(path)
     identifier = sm_rn_vars.get("identifier")
     member_node = "urn:node:ARCTIC"
     data_pids = checks.get_data_pids(identifier, member_node)

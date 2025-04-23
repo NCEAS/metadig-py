@@ -169,8 +169,9 @@ def get_member_node_url(member_node: str):
     raise ValueError(f"Base Url not found for member node: {member_node}.")
 
 
-def get_sysmeta_run_check_vars(sysmeta_path: str):
-    """Parse the given sysmeta path and retrieve the identifier and auth. member node.
+def get_sysmeta_vars(sysmeta_path: str):
+    """Parse the given sysmeta path and retrieve the identifier, authoritative_member_node,
+    rights_holder, date_uploaded, format_id and obsoletes
 
     :param str sysmeta_path: Path to the system metadata document to read
     :return: Dictionary containing an identifier and member node value
@@ -248,7 +249,7 @@ def run_check(
 
     # Prepare check variables
     check_vars = {}
-    sysmeta_check_vars = get_sysmeta_run_check_vars(metadata_sysmeta_path)
+    sysmeta_check_vars = get_sysmeta_vars(metadata_sysmeta_path)
     identifier = sysmeta_check_vars.get("identifier")
     auth_mn_node = sysmeta_check_vars.get("authoritative_member_node")
     data_pids = get_data_pids(identifier, auth_mn_node)
@@ -391,7 +392,7 @@ def run_suite(
     # TODO: Format results
     suite_name = suite_path.rsplit("/", 1)[-1]
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    metadata_sysmeta = get_sysmeta_run_check_vars(metadata_sysmeta_path)
+    metadata_sysmeta = get_sysmeta_vars(metadata_sysmeta_path)
     sysmeta = {
         "origin_member_node": metadata_sysmeta.get("authoritative_member_node"),
         "rights_holder": metadata_sysmeta.get("rights_holder"),
