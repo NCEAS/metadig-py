@@ -30,6 +30,8 @@ from metadig import checks
 check_file_path = "/path/to/FAIR-suite-0.4.0.xml"
 metadata_file_path = "path/to/metadata:data_file.xml"
 sysmeta_file_path = "path/to/metadata:data_sysmeta_file.xml"
+checks_path = "path/to/folder/containing/checks"
+# Note: storemanager_props are only relevant if you are executing data checks and has a default value of 'None'
 
 suite_results = checks.run_suite(
     suite_path,
