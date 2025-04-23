@@ -378,7 +378,7 @@ def run_suite(
     pool.close() # Close the pool and wait for all processes to complete
     pool.join()
 
-    # Get the list of check results
+    # Gather variables to add to suite results
     check_results = []
     for result, check_id in results:
         result_data = json.loads(result)
@@ -388,8 +388,6 @@ def run_suite(
             "output": result_data.get("output"),
             "status": result_data.get("status"),
         })
-
-    # TODO: Format results
     suite_name = suite_path.rsplit("/", 1)[-1]
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     metadata_sysmeta = get_sysmeta_vars(metadata_sysmeta_path)
@@ -400,6 +398,7 @@ def run_suite(
         "format_id": metadata_sysmeta.get("format_id"),
         "obsoletes": metadata_sysmeta.get("obsoletes"),
     }
+    # Format results
     suite_results = {
         "suite": suite_name,
         "timestamp": timestamp,
