@@ -8,6 +8,7 @@ __version__ = "1.3.0"
 
 from metadig import checks
 from metadig import metadata
+from metadig import suites
 from .checks import getType
 from .checks import isResolvable
 from .checks import run_check
@@ -36,4 +37,5 @@ __all__ = [
     "run_check",
     "checks",
     "metadata",
+    "suites",
 ]
