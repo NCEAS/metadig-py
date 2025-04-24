@@ -35,6 +35,8 @@ def isBlank(obj):
     # - a java.util.ArrayList (multiple values, each typed as int, boolean or string)
     if isinstance(obj, int) or isinstance(obj, float):
         return False
+    elif len(obj) == 0:
+        return True
     elif isinstance(obj, str):
         # If award is a string, check that it is not all whitespace
         objStripped = re.sub(pattern, "", obj)
