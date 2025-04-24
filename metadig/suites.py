@@ -98,19 +98,30 @@ def run_suite(
     check_file_map, check_env_map = map_and_get_check_ids_to_files_and_env(checks_path)
     for check in suite_doc.findall("check"):
         check_id = check.find("id").text
+        check_env = check_env_map.get(check_id)
         check_id_path = check_file_map.get(check_id)
-        if check_id_path is None:
-            additional_run_comments.append(f"Check not found in check map for check: {check_id}")
-        elif does_file_exist(check_id_path):
-            check_tuple_item = (
+        # 'run_suite' only executes python checks
+        if check_env == "python":
+            if check_id_path is None:
+                additional_run_comments.append(
+                    f"Check not found in check map for check: {check_id}"
+                )
+            elif does_file_exist(check_id_path):
+                check_tuple_item = (
                     check_id_path,
                     metadata_xml_path,
                     metadata_sysmeta_path,
-                    store_props
+                    store_props,
                 )
-            checks_to_run_list.append(check_tuple_item)
+                checks_to_run_list.append(check_tuple_item)
+            else:
+                additional_run_comments.append(
+                    f"Check not found at path: {check_id_path}"
+                )
         else:
-            additional_run_comments.append(f"Check not found at path: {check_id_path}")
+            additional_run_comments.append(
+                f"Check environment ({check_env}) incompatible for check: {check_id}"
+            )
 
     if not checks_to_run_list:
         raise RuntimeError("No checks to run. Details: " + additional_run_comments)
