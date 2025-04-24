@@ -10,8 +10,9 @@ import urllib.parse
 from pathlib import Path
 from urllib.parse import urlparse
 from typing import Dict, Any, Optional
-from lxml import etree
 from datetime import datetime
+from lxml import etree
+
 
 def getType(object_to_check):
     """Checks and prints the argument's object type."""
