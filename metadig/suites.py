@@ -148,5 +148,4 @@ def run_suite(
         "results": check_results
     }
     json_suite_results = json.dumps(suite_results, indent=4)
-    print(json_suite_results)
     return json_suite_results
