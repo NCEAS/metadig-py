@@ -285,7 +285,7 @@ def run_check(
                 # fallback to the existing global variables.
                 fallback = {
                     "output": check_vars.get("output", "No output."),
-                    "status": check_vars.get("status", "No status.")
+                    "status": check_vars.get("status", "ERROR")
                 }
                 json_output = json.dumps(fallback, indent=4)
             else:
