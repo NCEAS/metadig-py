@@ -204,6 +204,39 @@ def get_sysmeta_vars(sysmeta_path: str):
     return sm_rn_vars
 
 
+def map_and_get_check_ids_to_files(path_to_checks: str):
+    """Given a path to a directory of metadig checks, open each check and map the id
+    to the file path.
+    
+    :param str path_to_checks: Path to the folder containing metadig checks
+    :return: Dictionary containing the check id and its file path
+    """
+    id_to_path_dict = {}
+
+    for filename in os.listdir(path_to_checks):
+        if filename.endswith(".xml"):
+            file_path = os.path.join(path_to_checks, filename)
+
+            try:
+                # pylint: disable=I1101
+                tree = etree.parse(file_path)
+                root = tree.getroot()
+
+                id_elem = root.find("id")
+                if id_elem is not None and id_elem.text:
+                    check_id = id_elem.text.strip()
+                    id_to_path_dict[check_id] = file_path
+                else:
+                    print(f"Warning: No <id> found in {file_path}")
+            # pylint: disable=W0718
+            except Exception as e:
+                # If there is an unexpected exception, add it to the dict with an err msg
+                check_id = id_elem.text.strip()
+                id_to_path_dict[check_id] = f"Error parsing {file_path}: {e}"
+
+    return id_to_path_dict
+
+
 def run_check(
     check_xml_path: str,
     metadata_xml_path: str,
