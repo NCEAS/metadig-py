@@ -17,14 +17,17 @@ def does_file_exist(path_to_check: str):
         return False
 
 
-def map_and_get_check_ids_to_files(path_to_checks: str):
+def map_and_get_check_ids_to_files_and_env(path_to_checks: str):
     """Given a path to a directory of metadig checks, open each check and map the id
     to the file path.
     
     :param str path_to_checks: Path to the folder containing metadig checks
-    :return: Dictionary containing the check id and its file path
+    :return: Tuple of two dictionaries:
+         (1) a dictionary mapping check ids to file paths,
+         (2) a dictionary mapping check ids to check environment
     """
     id_to_path_dict = {}
+    id_to_env_dict = {}
 
     for filename in os.listdir(path_to_checks):
         if filename.endswith(".xml"):
@@ -35,19 +38,28 @@ def map_and_get_check_ids_to_files(path_to_checks: str):
                 tree = etree.parse(file_path)
                 root = tree.getroot()
 
+                # Get the file path that matches the id
                 id_elem = root.find("id")
                 if id_elem is not None and id_elem.text:
                     check_id = id_elem.text.strip()
                     id_to_path_dict[check_id] = file_path
                 else:
                     print(f"Warning: No <id> found in {file_path}")
+                # Get the environment of the check
+                env_elem = root.find("environment")
+                env_elem_txt = env_elem.text
+                if env_elem is not None and env_elem_txt:
+                    check_id = id_elem.text.strip()
+                    id_to_env_dict[check_id] = env_elem_txt
+                else:
+                    print(f"Warning: No <environment> found in {file_path}") 
             # pylint: disable=W0718
             except Exception as e:
                 # If there is an unexpected exception, add it to the dict with an err msg
-                check_id = id_elem.text.strip()
+                check_id = id_elem.text.strip() if id_elem is not None and id_elem.text else None
                 id_to_path_dict[check_id] = f"Error parsing {file_path}: {e}"
 
-    return id_to_path_dict
+    return id_to_path_dict, id_to_env_dict
 
 
 def run_suite(
@@ -83,7 +95,7 @@ def run_suite(
     checks_to_run_list = []
     # And a list of messages to include if there are issues
     additional_run_comments = []
-    check_file_map = map_and_get_check_ids_to_files(checks_path)
+    check_file_map, check_env_map = map_and_get_check_ids_to_files_and_env(checks_path)
     for check in suite_doc.findall("check"):
         check_id = check.find("id").text
         check_id_path = check_file_map.get(check_id)
@@ -148,4 +160,5 @@ def run_suite(
         "results": check_results
     }
     json_suite_results = json.dumps(suite_results, indent=4)
+    # print(json_suite_results)
     return json_suite_results

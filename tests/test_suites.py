@@ -36,10 +36,10 @@ def test_run_suite(storemanager_props, init_hashstore_with_test_data):
     assert suite_data["results"] is not None
 
 
-def test_map_and_get_check_ids_to_files():
+def test_map_and_get_check_ids_to_files_paths():
     """Check that 'map_and_get_check_ids_to_files' can read .xml files and map the ids"""
     path_to_checks = get_test_data_path("checks")
-    id_to_checks_dict = suites.map_and_get_check_ids_to_files(path_to_checks)
+    id_to_checks_dict, _ = suites.map_and_get_check_ids_to_files_and_env(path_to_checks)
 
     path_to_resolvable_2 = get_test_data_path(
         "checks/metadata.identifier.resolvable-2.0.0.xml"
@@ -85,6 +85,21 @@ def test_map_and_get_check_ids_to_files():
         id_to_checks_dict["resource.publicationDate.timeframe.1"]
         == path_to_pubdate_timeframe
     )
+
+
+def test_map_and_get_check_ids_to_files_environment():
+    """Check that 'map_and_get_check_ids_to_files' can read .xml files and map the ids"""
+    path_to_checks = get_test_data_path("checks")
+    _, id_to_checks_env = suites.map_and_get_check_ids_to_files_and_env(path_to_checks)
+
+    assert id_to_checks_env["metadata.identifier.resolvable-2.0.0"] == "python"
+    assert id_to_checks_env["data.table-text-delimited.variables-congruent"] == "python"
+    assert id_to_checks_env["entity.attributeName.differs-2.0.0"] == "python"
+    assert id_to_checks_env["provenance.ProcessStepCode.present-2.0.0"] == "python"
+    assert id_to_checks_env["resource.license.present-2.0.0"] == "python"
+    # Note: The id found in this check is not the same as the file name, this is the purpose
+    # of the mapping function (to bridge this gap)
+    assert id_to_checks_env["resource.publicationDate.timeframe.1"] == "rscript"
 
 
 def test_does_file_exist():
