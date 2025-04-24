@@ -102,7 +102,7 @@ def test_try_run_check_with_multiprocessing(storemanager_props, init_hashstore_w
     pool.close() # Close the pool and wait for all processes to complete
     pool.join()
 
-    for result, check_id in results:
+    for result, check_id, _ in results:
         result_data = json.loads(result)
         assert result_data is not None
         assert result_data["identifiers"] is not None

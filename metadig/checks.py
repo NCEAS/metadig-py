@@ -308,15 +308,16 @@ def try_run_check(obj_tuple):
 
     :param str obj_tuple: a tuple containing the arguments for the 'run_check' function:
         check_xml_path, metadata_xml_path, metadata_sysmeta_path, store_props
-    :return: The results of the check, and the check_id
+    :return: The results of the check, and the check_id, and an additional message
     """
     try:
-        result = run_check(*obj_tuple)
         check_id = obj_tuple[0].rsplit("/", 1)[-1]
-        return result, check_id
+        result = run_check(*obj_tuple)
+        return result, check_id, None
     # pylint: disable=W0718
     except Exception as so_exception:
-        print(so_exception)
+        check_id = obj_tuple[0].rsplit("/", 1)[-1]
+        return None, check_id, str(so_exception)
 
 
 def is_check_valid(check_doc, metadata_doc):
