@@ -397,8 +397,8 @@ def select_nodes(context_node, selector_context):
             value = select_nodes(node, sub_selector[0])
         else:
             # If there is no sub_selector, we extract the final value
-            if hasattr(node, 'text') and node.text is not None:
-                text_val = node.text
+            if hasattr(node, 'text') and node.xpath("string()").strip() is not None:
+                text_val = node.xpath("string()").strip()
             else:
                 text_val = node
             try:
