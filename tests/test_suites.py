@@ -1,4 +1,4 @@
-"""Test module for the metadig suites module."""
+"""Test module for metadig suites."""
 
 import json
 import os
