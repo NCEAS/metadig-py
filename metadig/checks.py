@@ -296,7 +296,7 @@ def run_check(
             exception_output = {}
             exception_output["identifiers"] = [data_pids]
             exception_output["output"] = [f"Unexpected exception while running check: {e}"]
-            exception_output["status"] = "Unable to execute check."
+            exception_output["status"] = "FAILURE"
             json_output = json.dumps(exception_output, indent=4)
             return json_output
     else:
