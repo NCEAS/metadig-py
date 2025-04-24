@@ -49,7 +49,7 @@ def isBlank(obj):
         blankFound = False
         for i in range(0, len(obj)):
             thisObj = obj.get(i)
-            if isinstance(thisObj, int):
+            if isinstance(thisObj, (int, float)):
                 return False
             else:
                 objStripped = re.sub(pattern, "", thisObj)
@@ -64,7 +64,7 @@ def isBlank(obj):
         blankFound = False
         for i in range(0, len(obj)):
             thisObj = obj[i]
-            if isinstance(thisObj, int):
+            if isinstance(thisObj, (int, float)):
                 return False
             else:
                 objStripped = re.sub(pattern, "", thisObj)
