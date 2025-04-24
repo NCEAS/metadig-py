@@ -27,10 +27,10 @@ To run a suite, you must have the path to the suite to run, a path to the folder
 ```py
 from metadig import checks
 
-check_file_path = "/path/to/FAIR-suite-0.4.0.xml"
+suite_file_path = "/path/to/FAIR-suite-0.4.0.xml"
+checks_path = "path/to/folder/containing/checks"
 metadata_file_path = "path/to/metadata:data_file.xml"
 sysmeta_file_path = "path/to/metadata:data_sysmeta_file.xml"
-checks_path = "path/to/folder/containing/checks"
 # Note: storemanager_props are only relevant if you are executing data checks and has a default value of 'None'
 
 suite_results = checks.run_suite(
@@ -38,7 +38,6 @@ suite_results = checks.run_suite(
     checks_path,
     sample_metadata_file_path,
     sample_sysmeta_file_path,
-    storemanager_props,
 )
 
 print(suite_results)
@@ -116,7 +115,7 @@ sysmeta_file_path = "path/to/metadata:data_sysmeta_file.xml"
 
 result = checks.run_check(
     check_file_path,
-    metadata_file_path
+    metadata_file_path,
     sysmeta_file_path
 )
 print(result)
