@@ -260,6 +260,10 @@ def run_check(
     check_vars["document"] = document
     check_vars["dataPids"] = data_pids
     check_vars["storeConfiguration"] = store_props
+    # read in the sysmeta and add it to check vars as a string
+    with open(metadata_sysmeta_path, 'r') as f:
+        sysMeta = f.read()
+    check_vars["systemMetadata"] = sysMeta
     # Extract the information from selectors
     for selector in selectors:
         # selector_xpath = selector.xpath("xpath")[0].text
