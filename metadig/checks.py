@@ -1,7 +1,5 @@
 """Metadig check utilities"""
 
-import os
-import multiprocessing
 import json
 import sys
 import urllib.request
@@ -10,7 +8,6 @@ import urllib.parse
 from pathlib import Path
 from urllib.parse import urlparse
 from typing import Dict, Any, Optional
-from datetime import datetime
 from lxml import etree
 
 
