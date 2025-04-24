@@ -285,7 +285,7 @@ def run_check(
                 # fallback to the existing global variables.
                 fallback = {
                     "output": check_vars.get("output", "No output."),
-                    "status": check_vars.get("status", "ERROR")
+                    "status": check_vars.get("status", "FAILURE")
                 }
                 json_output = json.dumps(fallback, indent=4)
             else:
@@ -296,7 +296,7 @@ def run_check(
             exception_output = {}
             exception_output["identifiers"] = [data_pids]
             exception_output["output"] = [f"Unexpected exception while running check: {e}"]
-            exception_output["status"] = "FAILURE"
+            exception_output["status"] = "ERROR"
             json_output = json.dumps(exception_output, indent=4)
             return json_output
     else:
