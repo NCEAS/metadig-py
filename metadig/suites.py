@@ -86,18 +86,19 @@ def run_suite(
     check_file_map = map_and_get_check_ids_to_files(checks_path)
     for check in suite_doc.findall("check"):
         check_id = check.find("id").text
-        check_id_path = checks_path + f"/{check_id}.xml"
-        # This matches the signature of the 'run_check' function
-        if does_file_exist(check_id_path):
+        check_id_path = check_file_map.get(check_id)
+        if check_id_path is None:
+            additional_run_comments.append(f"Check not found in check map for check: {check_id}")
+        elif does_file_exist(check_id_path):
             check_tuple_item = (
-                    check_file_map.get(check_id),
+                    check_id_path,
                     metadata_xml_path,
                     metadata_sysmeta_path,
                     store_props
                 )
             checks_to_run_list.append(check_tuple_item)
         else:
-            additional_run_comments.append(f"Check not found: {check_id_path}")
+            additional_run_comments.append(f"Check not found at path: {check_id_path}")
 
     if not checks_to_run_list:
         raise RuntimeError("No checks to run. Details: " + additional_run_comments)
@@ -139,4 +140,5 @@ def run_suite(
         "results": check_results
     }
     json_suite_results = json.dumps(suite_results, indent=4)
+    print(json_suite_results)
     return json_suite_results
