@@ -111,14 +111,22 @@ def run_suite(
 
     # Gather variables to add to suite results
     check_results = []
-    for result, check_id in results:
-        result_data = json.loads(result)
-        check_results.append({
-            "check_id": check_id,
-            "identifiers": result_data.get("identifiers", ["N/A"]),
-            "output": result_data.get("output"),
-            "status": result_data.get("status"),
-        })
+    for result, check_id, msg in results:
+        if result is None:
+            check_results.append({
+                "check_id": check_id,
+                "identifiers": "N/A",
+                "output": f"Unexpected exception: {msg}",
+                "status": "ERROR",
+            })
+        else:
+            result_data = json.loads(result)
+            check_results.append({
+                "check_id": check_id,
+                "identifiers": result_data.get("identifiers", ["N/A"]),
+                "output": result_data.get("output"),
+                "status": result_data.get("status"),
+            })
     suite_name = suite_path.rsplit("/", 1)[-1]
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     metadata_sysmeta = checks.get_sysmeta_vars(metadata_sysmeta_path)

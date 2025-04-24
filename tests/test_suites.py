@@ -19,6 +19,7 @@ def test_run_suite(storemanager_props, init_hashstore_with_test_data):
     sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
     suite_path = get_test_data_path("FAIR-suite-0.4.0.xml")
     checks_path = get_test_data_path("checks")
+    # checks_path = "/Users/doumok/Code/metadig-checks/src/checks"
 
     suite_results = suites.run_suite(
         suite_path,
