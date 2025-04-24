@@ -387,13 +387,14 @@ def run_suite(
     checks_to_run_list = []
     # And a list of messages to include if there are issues
     additional_run_comments = []
+    check_file_map = map_and_get_check_ids_to_files(checks_path)
     for check in suite_doc.findall("check"):
         check_id = check.find("id").text
         check_id_path = checks_path + f"/{check_id}.xml"
         # This matches the signature of the 'run_check' function
         if does_file_exist(check_id_path):
             check_tuple_item = (
-                    check_id_path,
+                    check_file_map.get(check_id),
                     metadata_xml_path,
                     metadata_sysmeta_path,
                     store_props
