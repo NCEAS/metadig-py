@@ -365,6 +365,18 @@ def ns_strip(xml_doc, ns_prefix):
     return xml_doc
 
 
+class ListWithGet(list):
+    """This custom list class supports .get access on a list to mimic a dictionary,
+    which adds compatibility with existing check code."""
+    def get(self, index, default=None):
+        """Retrieve the element at the given index. If the index is out of bounds,
+        return the provided default value (None)."""
+        try:
+            return self[index]
+        except IndexError:
+            return default
+
+
 def select_nodes(context_node, selector_context):
     """
     Select data values from a metadata document as specified in a check's selectors.
@@ -375,7 +387,7 @@ def select_nodes(context_node, selector_context):
     """
     if selector_context is None:
         return []
-    values = []
+    values = ListWithGet()
     # The main xpath string
     selector_xpath = selector_context.xpath("xpath")[0].text
     # A list of sub_selector nodes
