@@ -261,9 +261,9 @@ def run_check(
     check_vars["dataPids"] = data_pids
     check_vars["storeConfiguration"] = store_props
     # read in the sysmeta and add it to check vars as a string
-    with open(metadata_sysmeta_path, 'r') as f:
-        sysMeta = f.read()
-    check_vars["systemMetadata"] = sysMeta
+    with open(metadata_sysmeta_path, 'r', encoding="utf-8") as f:
+        metadata_sysmeta_read = f.read()
+    check_vars["systemMetadata"] = metadata_sysmeta_read
     # Extract the information from selectors
     for selector in selectors:
         # selector_xpath = selector.xpath("xpath")[0].text
@@ -362,18 +362,6 @@ def ns_strip(xml_doc, ns_prefix):
     return xml_doc
 
 
-class ListWithGet(list):
-    """This custom list class supports .get access on a list to mimic a dictionary,
-    which adds compatibility with existing check code."""
-    def get(self, index, default=None):
-        """Retrieve the element at the given index. If the index is out of bounds,
-        return the provided default value (None)."""
-        try:
-            return self[index]
-        except IndexError:
-            return default
-
-
 def select_nodes(context_node, selector_context):
     """
     Select data values from a metadata document as specified in a check's selectors.
@@ -429,3 +417,15 @@ def select_nodes(context_node, selector_context):
         else:
             values.append(value)
     return values
+
+
+class ListWithGet(list):
+    """This custom list class supports .get access on a list to mimic a dictionary,
+    which adds compatibility with existing check code."""
+    def get(self, index, default=None):
+        """Retrieve the element at the given index. If the index is out of bounds,
+        return the provided default value (None)."""
+        try:
+            return self[index]
+        except IndexError:
+            return default
