@@ -280,9 +280,6 @@ def run_check(
         exec_code_string = code_elem[0].text + "\ncall()"
         try:
             exec(exec_code_string, check_vars)
-            # json_output = json.dumps(
-            #     check_vars.get("metadigpy_result", "No MetadDIG-py result."), indent=4
-            # )
             metadigpy_result = check_vars.get("metadigpy_result")
             if metadigpy_result is None:
                 # If there is no metadigpy_result, it is not a data-suite check, so we
@@ -422,6 +419,10 @@ def select_nodes(context_node, selector_context):
                     value = False
                 else:
                     value = text_val
-        values.append(value)
-
+        # Convert a list to a single value
+        if isinstance(value, list):
+            if len(value) != 0:
+                values.append(str(value[0]))
+        else:
+            values.append(value)
     return values
