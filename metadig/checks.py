@@ -419,10 +419,13 @@ def select_nodes(context_node, selector_context):
                     value = False
                 else:
                     value = text_val
-        # Convert a list to a single value
+        # 'select_nodes(...)' always return a list. So if a 'sub_selector' is involved
+        # and the recursion completes, we end up with a list that we either keep or try to
+        # convert to a float or boolean. If we keep this list, we do not want to return a nested
+        # list inside of 'values' - so we extend the values with the contents of the list.
+        # The existing checks expect a flat list, and do not account for nested lists.
         if isinstance(value, list):
-            if len(value) != 0:
-                values.append(str(value[0]))
+            values.extend(value)
         else:
             values.append(value)
     return values
