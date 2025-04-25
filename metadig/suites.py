@@ -92,6 +92,7 @@ def run_suite(
     suite_doc = etree.parse(suite_path).getroot()
 
     # Create list of checks to run
+    check_results = []
     checks_to_run_list = []
     # And a list of messages to include if there are issues
     additional_run_comments = []
@@ -119,9 +120,12 @@ def run_suite(
                     f"Check not found at path: {check_id_path}"
                 )
         else:
-            additional_run_comments.append(
-                f"Check environment ({check_env}) incompatible for check: {check_id}"
-            )
+            check_results.append({
+                "check_id": check_id,
+                "identifiers": "N/A",
+                "output": f"Incompatible check environment ({check_env}) for check: {check_id}.",
+                "status": "ERROR",
+            })
 
     if not checks_to_run_list:
         raise RuntimeError("No checks to run. Details: " + additional_run_comments)
@@ -133,7 +137,6 @@ def run_suite(
     pool.join()
 
     # Gather variables to add to suite results
-    check_results = []
     for result, check_id, msg in results:
         if result is None:
             check_results.append({
@@ -171,5 +174,4 @@ def run_suite(
         "results": check_results
     }
     json_suite_results = json.dumps(suite_results, indent=4)
-    # print(json_suite_results)
     return json_suite_results
