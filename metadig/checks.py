@@ -252,7 +252,7 @@ def run_check(
     auth_mn_node = sysmeta_check_vars.get("authoritative_member_node")
     data_pids = get_data_pids(identifier, auth_mn_node)
     # TODO: Potential Optimization Point
-    # 'document' is available if the check is executed through the metadig-engine
+    # 'document' is available if the check is executed through the metadig-engine.
     # `variables-congruent` is the only check at this time that requires it, and seems
     # like we're adding a lot of overhead for just one check.
     # if "data.table-text-delimited.variables-congruent" == check_id:
@@ -264,6 +264,11 @@ def run_check(
     with open(metadata_sysmeta_path, 'r', encoding="utf-8") as f:
         metadata_sysmeta_read = f.read()
     check_vars["systemMetadata"] = metadata_sysmeta_read
+    # add in mdq params
+    resources_dir = (Path(__file__).parent.parent / 'metadig/resources').resolve()
+    check_vars['mdq_params'] = {
+        "metadigDataDir": resources_dir,
+    }
     # Extract the information from selectors
     for selector in selectors:
         # selector_xpath = selector.xpath("xpath")[0].text
