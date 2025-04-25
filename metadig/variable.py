@@ -12,15 +12,8 @@ except ImportError:
     # If there is an issue with importing python recognized java classes from
     # the Jython environment, we will attempt to create the classes necessary
     # to proceed with the check.
-    class ArrayList(list):
-        """In Python, the equivalent of a Java 'ArrayList' is a list."""
-        def get(self, index):
-            """In Java, .get(index) is used to access elements, so we add a
-            custom function to maintain syntax consistency."""
-            return self[index]
-
-    from decimal import Decimal
-    BigDecimal = Decimal
+    from metadig.checks import ListWithGet as ArrayList
+    from decimal import Decimal as BigDecimal
 
 
 # Check if an object is blank or undefined.
@@ -35,6 +28,8 @@ def isBlank(obj):
     # - a java.util.ArrayList (multiple values, each typed as int, boolean or string)
     if isinstance(obj, int) or isinstance(obj, float):
         return False
+    elif len(obj) == 0:
+        return True
     elif isinstance(obj, str):
         # If award is a string, check that it is not all whitespace
         objStripped = re.sub(pattern, "", obj)
@@ -49,7 +44,7 @@ def isBlank(obj):
         blankFound = False
         for i in range(0, len(obj)):
             thisObj = obj.get(i)
-            if isinstance(thisObj, int):
+            if isinstance(thisObj, (int, float)):
                 return False
             else:
                 objStripped = re.sub(pattern, "", thisObj)
@@ -64,7 +59,7 @@ def isBlank(obj):
         blankFound = False
         for i in range(0, len(obj)):
             thisObj = obj[i]
-            if isinstance(thisObj, int):
+            if isinstance(thisObj, (int, float)):
                 return False
             else:
                 objStripped = re.sub(pattern, "", thisObj)

@@ -20,6 +20,88 @@ package, users get access to all available helper functions and classes, such as
 which enables users to write checks that efficiently retrieves data objects to work with.
 
 
+## How do I run a check suite (ex. FAIR-suite-0.4.0.xml)
+
+To run a suite, you must have the path to the suite to run, a path to the folder containing all the checks, the metadata file path and the path to the metadata's system metadata.
+
+```py
+from metadig import suites
+
+suite_file_path = "/path/to/FAIR-suite-0.4.0.xml"
+checks_path = "path/to/folder/containing/checks"
+metadata_file_path = "path/to/metadata:data_file.xml"
+sysmeta_file_path = "path/to/metadata:data_sysmeta_file.xml"
+# Note: storemanager_props are only relevant if you are executing data checks and has a default value of 'None'
+
+suite_results = suites.run_suite(
+    suite_path,
+    checks_path,
+    sample_metadata_file_path,
+    sample_sysmeta_file_path,
+)
+
+print(suite_results)
+
+{
+    "suite": "FAIR-suite-0.4.0.xml",
+    "timestamp": "2025-04-23 12:12:31",
+    "object_identifier": "doi:10.18739/A2QJ78081",
+    "run_status": "SUCCESS",
+    "run_comments": [
+        "Check not found: /Users/doumok/Code/metadig-py/tests/testdata/checks/resource.abstractLength.sufficient.1.xml",
+        ...
+        "Check not found: /Users/doumok/Code/metadig-py/tests/testdata/checks/resource.type.valid.1.xml",
+    ],
+    "sysmeta": {
+        "origin_member_node": "urn:node:ARCTIC",
+        "rights_holder": "http://orcid.org/0000-0001-2345-6789",
+        "date_uploaded": "2024-07-03T19:46:44.414+00:00",
+        "format_id": "https://eml.ecoinformatics.org/eml-2.2.0",
+        "obsoletes": "urn:uuid:dou-test-obsoleted"
+    },
+    "results": [
+        {
+            "check_id": "metadata.identifier.resolvable-2.0.0.xml",
+            "identifiers": [
+                "N/A"
+            ],
+            "output": "The metadata identifier 'urn:uuid:dou-test-obsoleted' was found and is resolvable using the DataONE resolve service.",
+            "status": "SUCCESS"
+        },
+        {
+            "check_id": "entity.attributeName.differs-2.0.0.xml",
+            "identifiers": [
+                "N/A"
+            ],
+            "output": "All 33 attributes have definitions that differ from the name",
+            "status": "SUCCESS"
+        },
+        {
+            "check_id": "provenance.ProcessStepCode.present-2.0.0.xml",
+            "identifiers": [
+                [
+                    "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1"
+                ]
+            ],
+            "output": [
+                "Unexpected exception while running check: list index out of range"
+            ],
+            "status": "Unable to execute check."
+        },
+        {
+            "check_id": "resource.license.present-2.0.0.xml",
+            "identifiers": [
+                "N/A"
+            ],
+            "output": "The resource license 'This work is dedicated to the public dom...' was found.",
+            "status": "SUCCESS"
+        }
+    ]
+}
+
+```
+
+
 ## How do I run a metadata check?
 
 To run a metadata check, pass the check.xml, metadata file path and metadata's system metadata's file path to the `run_check` function.
@@ -33,7 +115,7 @@ sysmeta_file_path = "path/to/metadata:data_sysmeta_file.xml"
 
 result = checks.run_check(
     check_file_path,
-    metadata_file_path
+    metadata_file_path,
     sysmeta_file_path
 )
 print(result)

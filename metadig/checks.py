@@ -10,6 +10,7 @@ from urllib.parse import urlparse
 from typing import Dict, Any, Optional
 from lxml import etree
 
+
 def getType(object_to_check):
     """Checks and prints the argument's object type."""
     print("type: {}".format(type(object_to_check)))
@@ -166,9 +167,9 @@ def get_member_node_url(member_node: str):
     raise ValueError(f"Base Url not found for member node: {member_node}.")
 
 
-
-def get_sysmeta_run_check_vars(sysmeta_path: str):
-    """Parse the given sysmeta path and retrieve the identifier and auth. member node.
+def get_sysmeta_vars(sysmeta_path: str):
+    """Parse the given sysmeta path and retrieve the identifier, authoritative_member_node,
+    rights_holder, date_uploaded, format_id and obsoletes
 
     :param str sysmeta_path: Path to the system metadata document to read
     :return: Dictionary containing an identifier and member node value
@@ -178,6 +179,10 @@ def get_sysmeta_run_check_vars(sysmeta_path: str):
     try:
         identifier = sysmeta_doc_root.find("identifier").text
         authoritative_member_node = sysmeta_doc_root.find("authoritativeMemberNode").text
+        rights_holder = sysmeta_doc_root.find("rightsHolder").text
+        date_uploaded = sysmeta_doc_root.find("dateUploaded").text
+        format_id = sysmeta_doc_root.find("formatId").text
+        obsoletes = sysmeta_doc_root.find("obsoletes").text
         if identifier is None:
             raise ValueError("Element 'identifier' is missing from sysmeta document")
         if identifier is None:
@@ -190,6 +195,10 @@ def get_sysmeta_run_check_vars(sysmeta_path: str):
     sm_rn_vars = {}
     sm_rn_vars["identifier"] = identifier
     sm_rn_vars["authoritative_member_node"] = authoritative_member_node
+    sm_rn_vars["rights_holder"] = rights_holder
+    sm_rn_vars["date_uploaded"] = date_uploaded
+    sm_rn_vars["format_id"] = format_id
+    sm_rn_vars["obsoletes"] = obsoletes
     return sm_rn_vars
 
 
@@ -238,12 +247,12 @@ def run_check(
 
     # Prepare check variables
     check_vars = {}
-    sysmeta_check_vars = get_sysmeta_run_check_vars(metadata_sysmeta_path)
+    sysmeta_check_vars = get_sysmeta_vars(metadata_sysmeta_path)
     identifier = sysmeta_check_vars.get("identifier")
     auth_mn_node = sysmeta_check_vars.get("authoritative_member_node")
     data_pids = get_data_pids(identifier, auth_mn_node)
     # TODO: Potential Optimization Point
-    # 'document' is available if the check is executed through the metadig-engine
+    # 'document' is available if the check is executed through the metadig-engine.
     # `variables-congruent` is the only check at this time that requires it, and seems
     # like we're adding a lot of overhead for just one check.
     # if "data.table-text-delimited.variables-congruent" == check_id:
@@ -251,6 +260,15 @@ def run_check(
     check_vars["document"] = document
     check_vars["dataPids"] = data_pids
     check_vars["storeConfiguration"] = store_props
+    # read in the sysmeta and add it to check vars as a string
+    with open(metadata_sysmeta_path, 'r', encoding="utf-8") as f:
+        metadata_sysmeta_read = f.read()
+    check_vars["systemMetadata"] = metadata_sysmeta_read
+    # add in mdq params
+    resources_dir = (Path(__file__).parent.parent / 'metadig/resources').resolve()
+    check_vars['mdq_params'] = {
+        "metadigDataDir": resources_dir,
+    }
     # Extract the information from selectors
     for selector in selectors:
         # selector_xpath = selector.xpath("xpath")[0].text
@@ -267,16 +285,13 @@ def run_check(
         exec_code_string = code_elem[0].text + "\ncall()"
         try:
             exec(exec_code_string, check_vars)
-            # json_output = json.dumps(
-            #     check_vars.get("metadigpy_result", "No MetadDIG-py result."), indent=4
-            # )
             metadigpy_result = check_vars.get("metadigpy_result")
             if metadigpy_result is None:
                 # If there is no metadigpy_result, it is not a data-suite check, so we
                 # fallback to the existing global variables.
                 fallback = {
                     "output": check_vars.get("output", "No output."),
-                    "status": check_vars.get("status", "No status.")
+                    "status": check_vars.get("status", "FAILURE")
                 }
                 json_output = json.dumps(fallback, indent=4)
             else:
@@ -287,11 +302,28 @@ def run_check(
             exception_output = {}
             exception_output["identifiers"] = [data_pids]
             exception_output["output"] = [f"Unexpected exception while running check: {e}"]
-            exception_output["status"] = "Unable to execute check."
+            exception_output["status"] = "ERROR"
             json_output = json.dumps(exception_output, indent=4)
             return json_output
     else:
         raise IOError("Check code is unavailable/cannot be found.")
+
+
+def try_run_check(obj_tuple):
+    """Executes a 'run_check' function in a try block that can be called by multiprocessing.
+
+    :param str obj_tuple: a tuple containing the arguments for the 'run_check' function:
+        check_xml_path, metadata_xml_path, metadata_sysmeta_path, store_props
+    :return: The results of the check, and the check_id, and an additional message
+    """
+    try:
+        check_id = obj_tuple[0].rsplit("/", 1)[-1]
+        result = run_check(*obj_tuple)
+        return result, check_id, None
+    # pylint: disable=W0718
+    except Exception as so_exception:
+        check_id = obj_tuple[0].rsplit("/", 1)[-1]
+        return None, check_id, str(so_exception)
 
 
 def is_check_valid(check_doc, metadata_doc):
@@ -345,7 +377,7 @@ def select_nodes(context_node, selector_context):
     """
     if selector_context is None:
         return []
-    values = []
+    values = ListWithGet()
     # The main xpath string
     selector_xpath = selector_context.xpath("xpath")[0].text
     # A list of sub_selector nodes
@@ -367,8 +399,8 @@ def select_nodes(context_node, selector_context):
             value = select_nodes(node, sub_selector[0])
         else:
             # If there is no sub_selector, we extract the final value
-            if hasattr(node, 'text') and node.text is not None:
-                text_val = node.text
+            if hasattr(node, 'text') and node.xpath("string()").strip() is not None:
+                text_val = node.xpath("string()").strip()
             else:
                 text_val = node
             try:
@@ -380,6 +412,25 @@ def select_nodes(context_node, selector_context):
                     value = False
                 else:
                     value = text_val
-        values.append(value)
-
+        # 'select_nodes(...)' always return a list. So if a 'sub_selector' is involved
+        # and the recursion completes, we end up with a list that we either keep or try to
+        # convert to a float or boolean. If we keep this list, we do not want to return a nested
+        # list inside of 'values' - so we extend the values with the contents of the list.
+        # The existing checks expect a flat list, and do not account for nested lists.
+        if isinstance(value, list):
+            values.extend(value)
+        else:
+            values.append(value)
     return values
+
+
+class ListWithGet(list):
+    """This custom list class supports .get access on a list to mimic a dictionary,
+    which adds compatibility with existing check code."""
+    def get(self, index, default=None):
+        """Retrieve the element at the given index. If the index is out of bounds,
+        return the provided default value (None)."""
+        try:
+            return self[index]
+        except IndexError:
+            return default
