@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="urn:uuid:4900577c-5509-42ac-9827-8e212240467f" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd" system="knb">
+  <dataset id="urn-uuid-ea5669c9-48da-4819-b0d5-271d28e05ce9">
+    <title>Phytoplankton pigments from discrete water samples collected from the Research Vessel Sikuliaq, Gulf of Alaska to Bering Sea, 2023</title>
+    <creator id="5290137807839982">
+      <individualName>
+        <givenName>Clare</givenName>
+        <surName>Gaffey</surName>
+      </individualName>
+      <organizationName>Oregon State University</organizationName>
+      <positionName>Postdoctoral Scholar</positionName>
+      <electronicMailAddress>clare.gaffey@oregonstate.edu</electronicMailAddress>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-0649-9821</userId>
+    </creator>
+    <pubDate>2025</pubDate>
+    <abstract>
+      <para>This data set includes measurements of water samples collected at hydrographic stations from the R/V Sikuliaq during the Arctic Chief Scientist Training cruise June 6–12, 2023 sponsored by the University National Oceanographic Laboratory System (UNOLS) Arctic Icebreaker Coordinating Committee and the National Science Foundation. SKQ202309T was utilized as a training expedition for early-career Arctic oceanographers, focusing on skills essential for leading research cruises. Training topics centered on logistics, how to request time on ships, how to coordinate personnel and equipment, how to plan for operations and survey tasks at sea, how to work with vessel crew and staff, and how to edit research plans based on field conditions. Participants collected various data sets opportunistically throughout the research training. The cruise transited from Seward to Nome and water samples were collected at seven hydrographic stations for phytoplankton pigments (this data set). Specifically, this data set contains chlorophyll-a and its degradation product, pheophtyin collected at discrete water depths. Bottled 200 milliliter (mL) seawater samples were filtered onto 25 millimeter (mm) Whatman GF/F filters in the dark immediately following collection from a Conductivity, Temperature, and Depth (CTD) rosette system. Chlorophyll-a was extracted from filters using 90% acetone and measured using a calibrated Trilogy Fluorometer (Turner Designs, San Jose, California) along with pheophytin using the acidification method.</para>
+    </abstract>
+    <keywordSet>
+      <keyword>GAK1</keyword>
+      <keyword>Chlorophyll</keyword>
+      <keyword>Pheophytin</keyword>
+      <keyword>UNOLS AICC</keyword>
+      <keyword>Gulf of Alaska</keyword>
+      <keyword>Being Sea</keyword>
+      <keywordThesaurus>None</keywordThesaurus>
+    </keywordSet>
+    <intellectualRights>
+      <para>This work is dedicated to the public domain under the Creative Commons Universal 1.0 Public Domain Dedication. To view a copy of this dedication, visit https://creativecommons.org/publicdomain/zero/1.0/.</para>
+    </intellectualRights>
+    <coverage>
+      <geographicCoverage>
+        <geographicDescription>The cruise transitted from Seward to Nome, Alaska. The first station was chosen to align with Oceanographic Station GAK1, a location that has been continuously profiled for water column temperature and salinity since 1970. The cruise sampled at Unimak Pass and en route to Nome, Alaska within the Bering Sea.</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-169</westBoundingCoordinate>
+          <eastBoundingCoordinate>-149</eastBoundingCoordinate>
+          <northBoundingCoordinate>64.25</northBoundingCoordinate>
+          <southBoundingCoordinate>54.3</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <temporalCoverage>
+        <rangeOfDates>
+          <beginDate>
+            <calendarDate>2023-06-06</calendarDate>
+          </beginDate>
+          <endDate>
+            <calendarDate>2023-06-12</calendarDate>
+          </endDate>
+        </rangeOfDates>
+      </temporalCoverage>
+    </coverage>
+    <annotation>
+      <propertyURI label="Data Sensitivity Category">http://purl.dataone.org/odo/SENSO_00000005</propertyURI>
+      <valueURI label="Non-sensitive data">http://purl.dataone.org/odo/SENSO_00000002</valueURI>
+    </annotation>
+    <annotation>
+      <propertyURI label="theme">http://www.w3.org/ns/dcat#theme</propertyURI>
+      <valueURI label="Oceanography">https://purl.dataone.org/odo/ADCAD_00040</valueURI>
+    </annotation>
+    <contact id="7048119007922742">
+      <individualName>
+        <givenName>Clare</givenName>
+        <surName>Gaffey</surName>
+      </individualName>
+      <organizationName>Oregon State University</organizationName>
+      <positionName>Postdoctoral Scholar</positionName>
+      <electronicMailAddress>clare.gaffey@oregonstate.edu</electronicMailAddress>
+      <userId directory="https://orcid.org">https://orcid.org/0000-0002-0649-9821</userId>
+    </contact>
+    <publisher>
+      <organizationName>NSF Arctic Data Center</organizationName>
+      <electronicMailAddress>support@arcticdata.io</electronicMailAddress>
+      <onlineUrl>http://arcticdata.io</onlineUrl>
+      <userId directory="https://www.wikidata.org/">Q77285095</userId>
+    </publisher>
+    <methods>
+      <methodStep>
+        <description>
+          <section>
+            <title>Ethical Research Practices</title>
+            <para>The training cruise was conducted opportunistically during a scheduled transit from Seward to Nome, Alaska in June 2023. The data were collected following standard protocols. The cruise travelled with community observer Lloyd Pikok Jr. from Utqiagvik, Alaska. Lloyd maintained communications with locals through daily briefings on our science activities. Participants learned through this activity as well as through a presentation by Lloyd on community engagement, best practices for co-production of knowledge, and how best to involve indigenous communities through outreach. Planning of hydrographic stations were carefully considered with the interests of local communities.</para>
+          </section>
+        </description>
+      </methodStep>
+      <methodStep>
+        <description>
+          <para>Water samples were collected from rosette bottles attached to a Conductivity, Temperature, and Depth (CTD) at target depth increments from the near-surface to the near-bottom depending on the station depth. In addition to target depths, the chlorophyll-a maximum was sampled opportunistically. Bottled 200 milliliter (mL) seawater samples were filtered onto 25 millimeter (mm) Whatman GF/F filters in the dark immediately following collection from the rosette. Unless indicated otherwise in the csv notes, the filters were frozen shipboard in -40℃elsius (C) and analyzed following the cruise at the Clark University Polar Science Research Laboratory. Chlorophyll-a was extracted from filters using 90% acetone and stored in a freezer for 48 hours wrapped in foil prior to measurement on a calibrated Trilogy Fluorometer (Turner Designs, San Jose, California). Pheophytin was determined following acidification of the samples using 10% hydrochloric acid.</para>
+        </description>
+      </methodStep>
+    </methods>
+    <project>
+      <title>Building Arctic seagoing research capacity: Arctic Chief Scientist Training cruise</title>
+      <personnel>
+        <individualName>
+          <givenName>Laurie W</givenName>
+          <surName>Juranek</surName>
+        </individualName>
+        <role>coPrincipalInvestigator</role>
+      </personnel>
+      <personnel>
+        <individualName>
+          <givenName>Emily</givenName>
+          <surName>Eidam</surName>
+        </individualName>
+        <role>principalInvestigator</role>
+      </personnel>
+      <award>
+        <funderName>National Science Foundation</funderName>
+        <funderIdentifier>https://doi.org/10.13039/100000001</funderIdentifier>
+        <awardNumber>2303606</awardNumber>
+        <title>Building Arctic seagoing research capacity: Arctic Chief Scientist Training cruise</title>
+        <awardUrl>https://www.nsf.gov/awardsearch/showAward?AWD_ID=2303606</awardUrl>
+      </award>
+    </project>
+    <dataTable id="urn-uuid-a4aadc85-9fa4-46c9-9642-46066cf7a691">
+      <entityName>SKQ2020309T_Chla.csv</entityName>
+      <entityDescription>This CSV includes measurements of water samples collected at hydrographic stations from the R/V Sikuliaq during the University National Oceanographic Laboratory System (UNOLS) Arctic Chief Scientist Training cruise from Seward to Nome, Alaska on June 6–12, 2023. The file includes the cruise, date (AK), sample #, station, latitude, longitude, sample depth (m), average chlorophyll-a (CHL) concentration (μg/L), average pheophytin (pheo) concentration (μg/L), and notes pertaining to processing steps.</entityDescription>
+      <physical>
+        <objectName>SKQ2020309T_Chla.csv</objectName>
+        <size unit="bytes">3807</size>
+        <authentication method="MD5">818e4b590a250ffd2f8193a8324af41a</authentication>
+        <dataFormat>
+          <textFormat>
+            <numHeaderLines>1</numHeaderLines>
+            <recordDelimiter>&#13;
+</recordDelimiter>
+            <attributeOrientation>column</attributeOrientation>
+            <simpleDelimited>
+              <fieldDelimiter>,</fieldDelimiter>
+            </simpleDelimited>
+          </textFormat>
+        </dataFormat>
+        <distribution>
+          <online>
+            <url function="download">https://cn.dataone.org/cn/v2/resolve/urn:uuid:a4aadc85-9fa4-46c9-9642-46066cf7a691</url>
+          </online>
+        </distribution>
+      </physical>
+      <attributeList>
+        <attribute id="75zwii9qyPaRhXuDXv51QzF39rzRAp">
+          <attributeName>Cruise</attributeName>
+          <attributeDefinition>Cruise identifier</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Any text</definition>
+                  <pattern>*</pattern>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="cruise identifier">http://purl.dataone.org/odo/ECSO_00002370</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="v7NyL4U9MNW4vGMIT5TcKgkOqZkBbs">
+          <attributeName>Date</attributeName>
+          <attributeDefinition>Date of sample collection</attributeDefinition>
+          <measurementScale>
+            <dateTime>
+              <formatString>MM/DD/YYYY</formatString>
+            </dateTime>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="date">http://purl.dataone.org/odo/ECSO_00002051</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="fCTE0TXbFpewEzE2CThtSenGDHi71o">
+          <attributeName>Sample</attributeName>
+          <attributeDefinition>Sample number</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Sample number</definition>
+                  <pattern>[0-38]{1}</pattern>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="water sample identifier">http://purl.dataone.org/odo/ECSO_00002786</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="rticpx6COb71UqyM5CE3C1LNobkg2P">
+          <attributeName>Station</attributeName>
+          <attributeDefinition>Station name</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Any text</definition>
+                  <pattern>*</pattern>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="station identifier">http://purl.dataone.org/odo/ECSO_00002393</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="yqJwk9SCtJPiPzrAtWVENNxN2Dw2wG">
+          <attributeName>Latitude</attributeName>
+          <attributeDefinition>Latitude of sample location</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>degree</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="latitude degree component">http://purl.dataone.org/odo/ECSO_00002247</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="Zrx3eFdpezPLMIsWwTLoyLnd3ceihw">
+          <attributeName>Longitude</attributeName>
+          <attributeDefinition>Longitude of sample location</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>degree</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="longitude degree component">http://purl.dataone.org/odo/ECSO_00002239</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="1FgL6gh4xauEnxv40JGawDWp3rJB50">
+          <attributeName>Depth_(m)</attributeName>
+          <attributeDefinition>Sample depth</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>meter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="Seawater Depth">http://purl.dataone.org/odo/ECSO_00001204</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="HCf5y2P20F51rF6gSXZ6oHy1kxlOzl">
+          <attributeName>Average_CHL_(μg/L)</attributeName>
+          <attributeDefinition>Average chlorophyll-a concentration</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>microgramsPerLiter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="Chlorophyll-a Concentration">http://purl.dataone.org/odo/ECSO_00000516</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="m982n5kkGuiCo4iSVSWunQarqyhTQM">
+          <attributeName>Average_pheo_(μg/L)</attributeName>
+          <attributeDefinition>Average pheophytin concentration</attributeDefinition>
+          <measurementScale>
+            <ratio>
+              <unit>
+                <standardUnit>microgramsPerLiter</standardUnit>
+              </unit>
+              <numericDomain>
+                <numberType>real</numberType>
+              </numericDomain>
+            </ratio>
+          </measurementScale>
+          <annotation>
+            <propertyURI label="contains measurements of type">http://ecoinformatics.org/oboe/oboe.1.2/oboe-core.owl#containsMeasurementsOfType</propertyURI>
+            <valueURI label="Pheophytin Concentration">http://purl.dataone.org/odo/ECSO_00001249</valueURI>
+          </annotation>
+        </attribute>
+        <attribute id="1AWkxZcIFQUaNfJFnE53acoQPKp4sA">
+          <attributeName>Notes</attributeName>
+          <attributeDefinition>Notes</attributeDefinition>
+          <measurementScale>
+            <nominal>
+              <nonNumericDomain>
+                <textDomain>
+                  <definition>Any text</definition>
+                  <pattern>*</pattern>
+                </textDomain>
+              </nonNumericDomain>
+            </nominal>
+          </measurementScale>
+        </attribute>
+      </attributeList>
+    </dataTable>
+    <otherEntity id="urn-uuid-60101459-96a2-41ea-b9e7-0dd80ecde3ce">
+      <entityName>SKQ2020309T_Chlorophyll_Pigments_README.pdf</entityName>
+      <entityDescription>The PDF contains additional information on water sampling methodology, funding sources, and a description of the columns within the CSV file.</entityDescription>
+      <physical>
+        <objectName>SKQ2020309T_Chlorophyll_Pigments_README.pdf</objectName>
+        <size unit="bytes">67728</size>
+        <authentication method="MD5">74b64928054ab17794ada7a6fb167aee</authentication>
+        <dataFormat>
+          <externallyDefinedFormat>
+            <formatName>application/pdf</formatName>
+          </externallyDefinedFormat>
+        </dataFormat>
+        <distribution>
+          <online>
+            <url function="download">https://cn.dataone.org/cn/v2/resolve/urn:uuid:60101459-96a2-41ea-b9e7-0dd80ecde3ce</url>
+          </online>
+        </distribution>
+      </physical>
+      <entityType>application/pdf</entityType>
+    </otherEntity>
+  </dataset>
+</eml:eml>

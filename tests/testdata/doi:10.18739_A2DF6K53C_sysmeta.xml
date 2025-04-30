@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns3:systemMetadata xmlns:ns2="http://ns.dataone.org/service/types/v1" xmlns:ns3="http://ns.dataone.org/service/types/v2.0">
+    <serialVersion>1</serialVersion>
+    <identifier>doi:10.18739/A2DF6K53C</identifier>
+    <formatId>https://eml.ecoinformatics.org/eml-2.2.0</formatId>
+    <size>86924</size>
+    <checksum algorithm="MD5">dd757d4e35a9167cbc72914006e69572</checksum>
+    <submitter>http://orcid.org/0009-0007-8384-5074</submitter>
+    <rightsHolder>http://orcid.org/0009-0007-9911-1382</rightsHolder>
+    <accessPolicy>
+        <allow>
+            <subject>public</subject>
+            <permission>read</permission>
+        </allow>
+        <allow>
+            <subject>CN=arctic-data-admins,DC=dataone,DC=org</subject>
+            <permission>read</permission>
+            <permission>write</permission>
+            <permission>changePermission</permission>
+        </allow>
+    </accessPolicy>
+    <replicationPolicy replicationAllowed="false" numberReplicas="0"/>
+    <obsoletes>urn:uuid:09c24559-9038-4321-a8f9-ffdbeb29edd9</obsoletes>
+    <archived>false</archived>
+    <dateUploaded>2025-02-15T01:16:02.048+00:00</dateUploaded>
+    <dateSysMetadataModified>2025-02-15T01:16:07.678+00:00</dateSysMetadataModified>
+    <originMemberNode>urn:node:ARCTIC</originMemberNode>
+    <authoritativeMemberNode>urn:node:ARCTIC</authoritativeMemberNode>
+    <fileName>Heavy_Metal_and_Nutrient_Concentrations_in_West_Gr.xml</fileName>
+</ns3:systemMetadata>
