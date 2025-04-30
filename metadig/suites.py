@@ -52,7 +52,7 @@ def map_and_get_check_ids_to_files_and_env(path_to_checks: str):
                     check_id = id_elem.text.strip()
                     id_to_env_dict[check_id] = env_elem_txt
                 else:
-                    print(f"Warning: No <environment> found in {file_path}") 
+                    print(f"Warning: No <environment> found in {file_path}")
             # pylint: disable=W0718
             except Exception as e:
                 # If there is an unexpected exception, add it to the dict with an err msg

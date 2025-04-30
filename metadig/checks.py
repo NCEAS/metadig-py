@@ -252,7 +252,6 @@ def run_check(
     auth_mn_node = sysmeta_check_vars.get("authoritative_member_node")
     data_pids = get_data_pids(identifier, auth_mn_node)
     # TODO: Potential Optimization Point
-    # 'document' is available if the check is executed through the metadig-engine.
     # `variables-congruent` is the only check at this time that requires it, and seems
     # like we're adding a lot of overhead for just one check.
     # if "data.table-text-delimited.variables-congruent" == check_id:
@@ -284,6 +283,7 @@ def run_check(
     if code_elem:
         exec_code_string = code_elem[0].text + "\ncall()"
         try:
+            # pylint: disable=W0122
             exec(exec_code_string, check_vars)
             metadigpy_result = check_vars.get("metadigpy_result")
             if metadigpy_result is None:

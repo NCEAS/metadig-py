@@ -52,7 +52,9 @@ def test_run_check_datatable_variables_congruent(storemanager_props, init_hashst
     _ = manager.get_object("urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1")
 
     # Now execute 'run_check' by providing it the required args
-    sample_check_file_path = get_test_data_path("checks/data.table-text-delimited.variables-congruent.xml")
+    sample_check_file_path = get_test_data_path(
+        "checks/data.table-text-delimited.variables-congruent.xml"
+    )
     sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
     sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
 

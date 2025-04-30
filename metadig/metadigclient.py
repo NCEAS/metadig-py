@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """Metadig Command Line App"""
 import os
-import yaml
 from argparse import ArgumentParser
+import yaml
 from metadig import checks
 
 
