@@ -206,7 +206,8 @@ def find_duplicate_columns(pandas_df):
     """Find duplicate columns in a .CSV file by calculating the hash of the column.
     
     :param df pandas_df: Data frame to check for duplicate columns
-    :return: List of duplicate columns
+    :return: List of tuples of the duplicate columns. Each tuple shows the name of the
+        duplicate columns and the calculated hash.
     """
 
     def hash_series(series):
@@ -224,7 +225,7 @@ def find_duplicate_columns(pandas_df):
         col_hash = hash_series(pandas_df[col])
         # Check to see if this hash is present, indicating a duplicate column
         if col_hash in seen_hashes:
-            duplicates.append((col, seen_hashes[col_hash]))
+            duplicates.append((col, seen_hashes[col_hash], col_hash))
         else:
             # Store this into the list of seen hashes
             seen_hashes[col_hash] = col
