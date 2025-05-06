@@ -177,6 +177,31 @@ def read_csv_with_metadata(d_read, fd, header_line):
         return None, f"Error reading CSV: {str(e)}"
 
 
+def find_duplicate_column_names(pandas_df):
+    """Find duplicate columns names in a .CSV file.
+
+    :param df pandas_df: Data frame to check for duplicate columns
+    :return: List of duplicate column names
+    """
+    # When pandas reads a .csv, it renames a duplicate column and appends: .#
+    column_names = pandas_df.columns
+    columns_to_check = column_names
+    contains_period = any("." in col for col in column_names)
+
+    if contains_period:
+        # So we get a new list that substrings everything before the '.' to check for duplicates
+        columns_to_check = [col.rsplit(".", 1)[0] for col in column_names]
+    # Check the columns
+    checked_cols_names = set()
+    duplicate_col_names = set()
+    for col in columns_to_check:
+        if col in checked_cols_names:
+            duplicate_col_names.add(col)
+        checked_cols_names.add(col)
+
+    return duplicate_col_names
+
+
 def find_duplicate_columns(pandas_df):
     """Find duplicate columns in a .CSV file by calculating the hash of the column.
     
