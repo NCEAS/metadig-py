@@ -168,3 +168,39 @@ def test_read_csv_with_metadata_3_rows_to_skip(
         list(df.columns) == expected_columns
     ), f"Unexpected column names: {list(df.columns)}"
     assert error is None
+
+
+def test_find_duplicate_columns_none(storemanager_props, init_hashstore_with_test_data):
+    """Test that a text delimited document can be read."""
+    assert init_hashstore_with_test_data
+    manager = StoreManager(storemanager_props)
+
+    # the_arctic_plant_aboveground_biomass_synthesis_dataset.csv
+    pid = "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1"
+    obj, _ = manager.get_object(pid)
+
+    d_read = obj.read().decode('utf-8', errors = 'replace')
+    field_delimiter = ","
+    skiprows = 0
+
+    df, _ = metadata.read_csv_with_metadata(d_read, field_delimiter, skiprows)
+    dupes = metadata.find_duplicate_columns(df)
+    assert len(dupes) == 0
+
+
+def test_find_duplicate_columns_found(storemanager_props, init_hashstore_with_test_data):
+    """Test that a text delimited document can be read."""
+    assert init_hashstore_with_test_data
+    manager = StoreManager(storemanager_props)
+
+    # the_arctic_plant_aboveground_biomass_synthesis_dataset.csv
+    pid = "test-pid-4dupcols"
+    obj, _ = manager.get_object(pid)
+
+    d_read = obj.read().decode('utf-8', errors = 'replace')
+    field_delimiter = ","
+    skiprows = 0
+
+    df, _ = metadata.read_csv_with_metadata(d_read, field_delimiter, skiprows)
+    dupes = metadata.find_duplicate_columns(df)
+    print(dupes)

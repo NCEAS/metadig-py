@@ -2,6 +2,7 @@
 
 import xml.etree.ElementTree as ET
 import io
+import hashlib
 import pandas
 
 
@@ -174,3 +175,29 @@ def read_csv_with_metadata(d_read, fd, header_line):
     # pylint: disable=W0718
     except Exception as e:
         return None, f"Error reading CSV: {str(e)}"
+
+
+def find_duplicate_columns(pandas_df):
+    """Find duplicate columns in a .CSV file by calculating the hash of the column.
+    
+    :param df pandas_df: Data frame to check for duplicate columns
+    :return: List of duplicate columns
+    """
+
+    def hash_series(series):
+        """Get the hash based on the column's values, ignoring the index"""
+        return hashlib.md5(
+            pandas.util.hash_pandas_object(series, index=False).values
+        ).hexdigest()
+
+    seen_hashes = {}
+    duplicates = []
+
+    for col in pandas_df.columns:
+        col_hash = hash_series(pandas_df[col])
+        if col_hash in seen_hashes:
+            duplicates.append((col, seen_hashes[col]))
+        else:
+            seen_hashes[col_hash] = col
+
+    return duplicates
