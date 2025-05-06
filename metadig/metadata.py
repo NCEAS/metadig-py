@@ -181,7 +181,7 @@ def find_duplicate_column_names(pandas_df):
     """Find duplicate columns names in a .CSV file.
 
     :param df pandas_df: Data frame to check for duplicate columns
-    :return: List of duplicate column names
+    :return: List of duplicate column names, and a boolean to indicate if periods were found
     """
     # When pandas reads a .csv, it renames a duplicate column and appends: .#
     column_names = pandas_df.columns
@@ -199,7 +199,7 @@ def find_duplicate_column_names(pandas_df):
             duplicate_col_names.add(col)
         checked_cols_names.add(col)
 
-    return duplicate_col_names
+    return duplicate_col_names, contains_period
 
 
 def find_duplicate_columns(pandas_df):
@@ -214,15 +214,19 @@ def find_duplicate_columns(pandas_df):
         return hashlib.md5(
             pandas.util.hash_pandas_object(series, index=False).values
         ).hexdigest()
-
+    # Empty dict to store each unique column
     seen_hashes = {}
+    # List to hold pairs (tuples) of columns
     duplicates = []
 
     for col in pandas_df.columns:
+        # Get the unique hash value
         col_hash = hash_series(pandas_df[col])
+        # Check to see if this hash is present, indicating a duplicate column
         if col_hash in seen_hashes:
-            duplicates.append((col, seen_hashes[col]))
+            duplicates.append((col, seen_hashes[col_hash]))
         else:
+            # Store this into the list of seen hashes
             seen_hashes[col_hash] = col
 
     return duplicates

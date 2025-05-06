@@ -193,8 +193,7 @@ def test_find_duplicate_columns_found(storemanager_props, init_hashstore_with_te
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)
 
-    # the_arctic_plant_aboveground_biomass_synthesis_dataset.csv
-    pid = "test-pid-4dupcols"
+    pid = "test-pid-dupcols-names"
     obj, _ = manager.get_object(pid)
 
     d_read = obj.read().decode('utf-8', errors = 'replace')
@@ -203,7 +202,7 @@ def test_find_duplicate_columns_found(storemanager_props, init_hashstore_with_te
 
     df, _ = metadata.read_csv_with_metadata(d_read, field_delimiter, skiprows)
     dupes = metadata.find_duplicate_columns(df)
-    print(dupes)
+    assert len(dupes) == 2
 
 
 def test_find_duplicate_column_names_none(storemanager_props, init_hashstore_with_test_data):
@@ -220,7 +219,7 @@ def test_find_duplicate_column_names_none(storemanager_props, init_hashstore_wit
     skiprows = 0
 
     df, _ = metadata.read_csv_with_metadata(d_read, field_delimiter, skiprows)
-    dupes_col_names = metadata.find_duplicate_column_names(df)
+    dupes_col_names, _ = metadata.find_duplicate_column_names(df)
     assert len(dupes_col_names) == 0
 
 
@@ -229,7 +228,6 @@ def test_find_duplicate_column_names_found(storemanager_props, init_hashstore_wi
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)
 
-    # the_arctic_plant_aboveground_biomass_synthesis_dataset.csv
     pid = "test-pid-4dupcols"
     obj, _ = manager.get_object(pid)
 
@@ -238,5 +236,5 @@ def test_find_duplicate_column_names_found(storemanager_props, init_hashstore_wi
     skiprows = 0
 
     df, _ = metadata.read_csv_with_metadata(d_read, field_delimiter, skiprows)
-    dupes_col_names = metadata.find_duplicate_column_names(df)
+    dupes_col_names, _ = metadata.find_duplicate_column_names(df)
     assert len(dupes_col_names) == 2
