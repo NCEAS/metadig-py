@@ -247,3 +247,13 @@ def find_duplicate_rows(pandas_df):
         return None
     else:
         return duplicates
+
+
+def find_number_of_columns(pandas_df):
+    """Find the number of columns in a text delimited file.
+
+    :param df pandas_df: Data frame to check for duplicate rows
+    :return: The number of columns in an integer
+    :rtype: int
+    """
+    return pandas_df.shape[1]
