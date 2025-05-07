@@ -53,16 +53,19 @@ def init_hashstore_with_test_data(store):
     obj3_path = os.path.join(current_dir, "testdata", "test-data-2_3rowstoskip.csv")
     obj4_path = os.path.join(current_dir, "testdata", "test-data_duplicate_columns.csv")
     obj5_path = os.path.join(current_dir, "testdata", "test-data_duplicate_columns_dif_names.csv")
+    obj6_path = os.path.join(current_dir, "testdata", "test-data_duplicate_rows.csv")
     meta_path = os.path.join(current_dir, "testdata", "test-pid.xml")
     store.store_object("test-pid", str(obj_path))
     store.store_object("test-pid-2", str(obj2_path))
     store.store_object("test-pid-3skip", str(obj3_path))
     store.store_object("test-pid-4dupcols", str(obj4_path))
     store.store_object("test-pid-dupcols-names", str(obj5_path))
+    store.store_object("test-pid-duprows", str(obj6_path))
     store.store_metadata("test-pid", str(meta_path))
     store.store_metadata("test-pid-3skip", str(meta_path))
     store.store_metadata("test-pid-4dupcols", str(meta_path))
     store.store_metadata("test-pid-dupcols-names", str(meta_path))
+    store.store_metadata("test-pid-duprows", str(meta_path))
 
     # Store data and metadata object for 'checks' pytest for DOI: doi:10.18739/A2QJ78081
     doi = "doi:10.18739/A2QJ78081"
