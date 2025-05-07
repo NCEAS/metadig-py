@@ -233,3 +233,17 @@ def find_duplicate_column_content(pandas_df):
             seen_hashes[col_hash] = col
 
     return duplicates
+
+
+def find_duplicate_rows(pandas_df):
+    """Find duplicate rows in a text delimited file.
+
+    :param df pandas_df: Data frame to check for duplicate rows
+    :return: List of tuples of the duplicate columns. Each tuple shows the name of the
+        duplicate columns and the calculated hash.
+    """
+    duplicates = pandas_df[pandas_df.duplicated(keep=False)]
+    if duplicates.empty:
+        return None
+    else:
+        return duplicates

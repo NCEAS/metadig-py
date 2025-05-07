@@ -243,3 +243,38 @@ def test_find_duplicate_column_names_found(storemanager_props, init_hashstore_wi
     dupes_col_names, contains_period = metadata.find_duplicate_column_names(df)
     assert len(dupes_col_names) == 2
     assert contains_period
+
+
+def test_find_duplicate_rows_none(storemanager_props, init_hashstore_with_test_data):
+    """Confirm that 'find_duplicate_rows' returns None when no duplicate rows are found."""
+    assert init_hashstore_with_test_data
+    manager = StoreManager(storemanager_props)
+
+    pid = "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1"
+    obj, _ = manager.get_object(pid)
+
+    d_read = obj.read().decode('utf-8', errors = 'replace')
+    field_delimiter = ","
+    skiprows = 0
+
+    df, _ = metadata.read_csv_with_metadata(d_read, field_delimiter, skiprows)
+    dupe_rows_found = metadata.find_duplicate_rows(df)
+    assert dupe_rows_found is None
+
+
+def test_find_duplicate_rows_found(storemanager_props, init_hashstore_with_test_data):
+    """Confirm that 'find_duplicate_rows' does not return None when no duplicate rows
+    are found."""
+    assert init_hashstore_with_test_data
+    manager = StoreManager(storemanager_props)
+
+    pid = "test-pid-duprows"
+    obj, _ = manager.get_object(pid)
+
+    d_read = obj.read().decode('utf-8', errors = 'replace')
+    field_delimiter = ","
+    skiprows = 0
+
+    df, _ = metadata.read_csv_with_metadata(d_read, field_delimiter, skiprows)
+    dupe_rows_found = metadata.find_duplicate_rows(df)
+    assert dupe_rows_found is not None
