@@ -129,18 +129,15 @@ def find_entity_index(fname, pid, entity_names, ids):
     return z if z else None
 
 def read_csv_with_metadata(d_read, fd, header_line):
-    """
-    Uses pandas to read in a csv with given field delimiter and header rows to skip
+    """Uses pandas to read in a csv with given field delimiter and header rows to skip
 
-    Args:
-        d_read: Data as read in from the stream 
-        fd (str): Field delimiter from metadata
-        header_line (int): Number of rows to skip
+    :param str or bytes d_read: RData as read in from the stream
+    :param str fd: ield delimiter from metadata
+    :param int header_line: Number of rows to skip
 
-    Returns:
-        df: Pandas data.frame with data
-        error: error message on exception
-        
+    :return: A tuple containing:
+        - df: Pandas data.frame with data
+        - error: error message on exception
     """
     # Ensure fd is an int or str
     if isinstance(fd, list):
@@ -177,13 +174,14 @@ def read_csv_with_metadata(d_read, fd, header_line):
         return None, f"Error reading CSV: {str(e)}"
 
 
-def find_duplicate_column_names(pandas_df):
+def find_duplicate_column_names(pandas_df: pandas.DataFrame):
     """Find duplicate columns names in a text delimited file.
 
     :param df pandas_df: Data frame to check for duplicate columns
     :return: A tuple containing:
         - A list of (duplicate_column, original_column) pairs
         - A boolean indicating whether any column names contained periods
+    :rtype: Tuple
     """
     # When pandas reads a .csv, it renames a duplicate column and appends: .#
     column_names = pandas_df.columns
@@ -204,7 +202,7 @@ def find_duplicate_column_names(pandas_df):
     return duplicate_col_names, contains_period
 
 
-def find_duplicate_column_content(pandas_df):
+def find_duplicate_column_content(pandas_df: pandas.DataFrame):
     """Find duplicate columns in a text delimited file by calculating the hash of the column.
     
     :param df pandas_df: Data frame to check for duplicate columns
@@ -235,12 +233,13 @@ def find_duplicate_column_content(pandas_df):
     return duplicates
 
 
-def find_duplicate_rows(pandas_df):
+def find_duplicate_rows(pandas_df: pandas.DataFrame):
     """Find duplicate rows in a text delimited file.
 
     :param df pandas_df: Data frame to check for duplicate rows
     :return: List of tuples of the duplicate columns. Each tuple shows the name of the
         duplicate columns and the calculated hash.
+    :rtype: List
     """
     duplicates = pandas_df[pandas_df.duplicated(keep=False)]
     if duplicates.empty:
@@ -249,7 +248,7 @@ def find_duplicate_rows(pandas_df):
         return duplicates
 
 
-def find_number_of_columns(pandas_df):
+def find_number_of_columns(pandas_df: pandas.DataFrame):
     """Find the number of columns in a text delimited file.
 
     :param df pandas_df: Data frame to check for duplicate rows
