@@ -205,7 +205,7 @@ def find_duplicate_column_names(pandas_df):
 
 
 def find_duplicate_column_content(pandas_df):
-    """Find duplicate columns in a .CSV file by calculating the hash of the column.
+    """Find duplicate columns in a text delimited file by calculating the hash of the column.
     
     :param df pandas_df: Data frame to check for duplicate columns
     :return: List of tuples of the duplicate columns. Each tuple shows the name of the
