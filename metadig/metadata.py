@@ -178,10 +178,12 @@ def read_csv_with_metadata(d_read, fd, header_line):
 
 
 def find_duplicate_column_names(pandas_df):
-    """Find duplicate columns names in a .CSV file.
+    """Find duplicate columns names in a text delimited file.
 
     :param df pandas_df: Data frame to check for duplicate columns
-    :return: List of duplicate column names, and a boolean to indicate if periods were found
+    :return: A tuple containing:
+        - A list of (duplicate_column, original_column) pairs
+        - A boolean indicating whether any column names contained periods
     """
     # When pandas reads a .csv, it renames a duplicate column and appends: .#
     column_names = pandas_df.columns
@@ -202,7 +204,7 @@ def find_duplicate_column_names(pandas_df):
     return duplicate_col_names, contains_period
 
 
-def find_duplicate_columns(pandas_df):
+def find_duplicate_column_content(pandas_df):
     """Find duplicate columns in a .CSV file by calculating the hash of the column.
     
     :param df pandas_df: Data frame to check for duplicate columns

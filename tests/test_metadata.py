@@ -170,8 +170,9 @@ def test_read_csv_with_metadata_3_rows_to_skip(
     assert error is None
 
 
-def test_find_duplicate_columns_none(storemanager_props, init_hashstore_with_test_data):
-    """Test that a text delimited document can be read."""
+def test_find_duplicate_column_content_none(storemanager_props, init_hashstore_with_test_data):
+    """Confirm that 'find_duplicate_column_content' returns an empty list when there
+    are no duplicate column content."""
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)
 
@@ -184,12 +185,13 @@ def test_find_duplicate_columns_none(storemanager_props, init_hashstore_with_tes
     skiprows = 0
 
     df, _ = metadata.read_csv_with_metadata(d_read, field_delimiter, skiprows)
-    dupes = metadata.find_duplicate_columns(df)
+    dupes = metadata.find_duplicate_column_content(df)
     assert len(dupes) == 0
 
 
-def test_find_duplicate_columns_found(storemanager_props, init_hashstore_with_test_data):
-    """Test that a text delimited document can be read."""
+def test_find_duplicate_column_content_found(storemanager_props, init_hashstore_with_test_data):
+    """Confirm that 'find_duplicate_column_content' returns returns a list of tuples when
+    duplicate columns are found."""
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)
 
@@ -201,12 +203,13 @@ def test_find_duplicate_columns_found(storemanager_props, init_hashstore_with_te
     skiprows = 0
 
     df, _ = metadata.read_csv_with_metadata(d_read, field_delimiter, skiprows)
-    dupes = metadata.find_duplicate_columns(df)
+    dupes = metadata.find_duplicate_column_content(df)
     assert len(dupes) == 2
 
 
 def test_find_duplicate_column_names_none(storemanager_props, init_hashstore_with_test_data):
-    """Test that a text delimited document can be read."""
+    """Confirm that 'find_duplicate_column_name' returns an empty list when there
+    are no duplicate column names."""
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)
 
@@ -224,7 +227,8 @@ def test_find_duplicate_column_names_none(storemanager_props, init_hashstore_wit
 
 
 def test_find_duplicate_column_names_found(storemanager_props, init_hashstore_with_test_data):
-    """Test that a text delimited document can be read."""
+    """Confirm that 'find_duplicate_column_name' returns a list of tuples when duplicate
+    column names are found."""
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)
 
@@ -236,5 +240,6 @@ def test_find_duplicate_column_names_found(storemanager_props, init_hashstore_wi
     skiprows = 0
 
     df, _ = metadata.read_csv_with_metadata(d_read, field_delimiter, skiprows)
-    dupes_col_names, _ = metadata.find_duplicate_column_names(df)
+    dupes_col_names, contains_period = metadata.find_duplicate_column_names(df)
     assert len(dupes_col_names) == 2
+    assert contains_period
