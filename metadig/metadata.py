@@ -2,6 +2,7 @@
 
 import xml.etree.ElementTree as ET
 import io
+import hashlib
 import pandas
 
 
@@ -128,18 +129,15 @@ def find_entity_index(fname, pid, entity_names, ids):
     return z if z else None
 
 def read_csv_with_metadata(d_read, fd, header_line):
-    """
-    Uses pandas to read in a csv with given field delimiter and header rows to skip
+    """Uses pandas to read in a csv with given field delimiter and header rows to skip
 
-    Args:
-        d_read: Data as read in from the stream 
-        fd (str): Field delimiter from metadata
-        header_line (int): Number of rows to skip
+    :param str or bytes d_read: RData as read in from the stream
+    :param str fd: ield delimiter from metadata
+    :param int header_line: Number of rows to skip
 
-    Returns:
-        df: Pandas data.frame with data
-        error: error message on exception
-        
+    :return: A tuple containing:
+        - df: Pandas data.frame with data
+        - error: error message on exception
     """
     # Ensure fd is an int or str
     if isinstance(fd, list):
@@ -174,3 +172,87 @@ def read_csv_with_metadata(d_read, fd, header_line):
     # pylint: disable=W0718
     except Exception as e:
         return None, f"Error reading CSV: {str(e)}"
+
+
+def find_duplicate_column_names(pandas_df: pandas.DataFrame):
+    """Find duplicate columns names in a text delimited file.
+
+    :param df pandas_df: Data frame to check for duplicate columns
+    :return: A tuple containing:
+        - A list of (duplicate_column, original_column) pairs
+        - A boolean indicating whether any column names contained periods
+    :rtype: Tuple
+    """
+    # When pandas reads a .csv, it renames a duplicate column and appends: .#
+    column_names = pandas_df.columns
+    columns_to_check = column_names
+    contains_period = any("." in col for col in column_names)
+
+    if contains_period:
+        # So we get a new list that substrings everything before the '.' to check for duplicates
+        columns_to_check = [col.rsplit(".", 1)[0] for col in column_names]
+    # Check the columns
+    checked_cols_names = set()
+    duplicate_col_names = set()
+    for col in columns_to_check:
+        if col in checked_cols_names:
+            duplicate_col_names.add(col)
+        checked_cols_names.add(col)
+
+    return duplicate_col_names, contains_period
+
+
+def find_duplicate_column_content(pandas_df: pandas.DataFrame):
+    """Find duplicate columns in a text delimited file by calculating the hash of the column.
+    
+    :param df pandas_df: Data frame to check for duplicate columns
+    :return: List of tuples of the duplicate columns. Each tuple shows the name of the
+        duplicate columns and the calculated hash.
+    """
+
+    def hash_series(series):
+        """Get the hash based on the column's values, ignoring the index"""
+        return hashlib.md5(
+            pandas.util.hash_pandas_object(series, index=False).values
+        ).hexdigest()
+    # Empty dict to store each unique column
+    seen_hashes = {}
+    # List to hold pairs (tuples) of columns
+    duplicates = []
+
+    for col in pandas_df.columns:
+        # Get the unique hash value
+        col_hash = hash_series(pandas_df[col])
+        # Check to see if this hash is present, indicating a duplicate column
+        if col_hash in seen_hashes:
+            duplicates.append((col, seen_hashes[col_hash], col_hash))
+        else:
+            # Store this into the list of seen hashes
+            seen_hashes[col_hash] = col
+
+    return duplicates
+
+
+def find_duplicate_rows(pandas_df: pandas.DataFrame):
+    """Find duplicate rows in a text delimited file.
+
+    :param df pandas_df: Data frame to check for duplicate rows
+    :return: List of tuples of the duplicate columns. Each tuple shows the name of the
+        duplicate columns and the calculated hash.
+    :rtype: List
+    """
+    duplicates = pandas_df[pandas_df.duplicated(keep=False)]
+    if duplicates.empty:
+        return None
+    else:
+        return duplicates
+
+
+def find_number_of_columns(pandas_df: pandas.DataFrame):
+    """Find the number of columns in a text delimited file.
+
+    :param df pandas_df: Data frame to check for duplicate rows
+    :return: The number of columns in an integer
+    :rtype: int
+    """
+    return pandas_df.shape[1]
