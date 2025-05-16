@@ -176,8 +176,7 @@ def test_find_duplicate_column_content_none(storemanager_props, init_hashstore_w
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)
 
-    # the_arctic_plant_aboveground_biomass_synthesis_dataset.csv
-    pid = "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1"
+    pid = "test-pid"
     obj, _ = manager.get_object(pid)
 
     d_read = obj.read().decode('utf-8', errors = 'replace')
@@ -213,8 +212,7 @@ def test_find_duplicate_column_names_none(storemanager_props, init_hashstore_wit
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)
 
-    # the_arctic_plant_aboveground_biomass_synthesis_dataset.csv
-    pid = "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1"
+    pid = "test-pid"
     obj, _ = manager.get_object(pid)
 
     d_read = obj.read().decode('utf-8', errors = 'replace')
@@ -250,7 +248,7 @@ def test_find_duplicate_rows_none(storemanager_props, init_hashstore_with_test_d
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)
 
-    pid = "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1"
+    pid = "test-pid"
     obj, _ = manager.get_object(pid)
 
     d_read = obj.read().decode('utf-8', errors = 'replace')
@@ -285,7 +283,7 @@ def test_find_number_of_columns(storemanager_props, init_hashstore_with_test_dat
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)
 
-    pid = "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1"
+    pid = "test-pid"
     obj, _ = manager.get_object(pid)
 
     d_read = obj.read().decode('utf-8', errors = 'replace')
@@ -294,4 +292,4 @@ def test_find_number_of_columns(storemanager_props, init_hashstore_with_test_dat
 
     df, _ = metadata.read_csv_with_metadata(d_read, field_delimiter, skiprows)
     num_of_cols = metadata.find_number_of_columns(df)
-    assert num_of_cols == 33
+    assert num_of_cols == 9
