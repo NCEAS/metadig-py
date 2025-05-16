@@ -284,5 +284,5 @@ def detect_text_encoding(raw: bytes):
         return 'utf-8', None
     except UnicodeDecodeError as e:
         err_msg = (
-            f"UTF-8 decode error at byte {e.start}: {raw[e.start:e.end]}")
+            f"utf-8 decode error at byte {e.start}: {raw[e.start:e.end]}")
         return 'other', err_msg
