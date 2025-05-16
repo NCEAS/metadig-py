@@ -293,3 +293,30 @@ def test_find_number_of_columns(storemanager_props, init_hashstore_with_test_dat
     df, _ = metadata.read_csv_with_metadata(d_read, field_delimiter, skiprows)
     num_of_cols = metadata.find_number_of_columns(df)
     assert num_of_cols == 9
+
+
+def test_detect_text_encoding_ascii(storemanager_props, init_hashstore_with_test_data):
+    """Confirm that 'detect_text_encoding' reads the bytes as ascii."""
+    assert init_hashstore_with_test_data
+    manager = StoreManager(storemanager_props)
+
+    pid = "test-pid"
+    obj, _ = manager.get_object(pid)
+    bytes_read = obj.read()
+
+    enc_type, msg = metadata.detect_text_encoding(bytes_read)
+    assert enc_type == "ascii"
+    assert msg is None
+
+
+def test_detect_text_encoding_utf8(storemanager_props, init_hashstore_with_test_data):
+    """Confirm that 'detect_text_encoding' reads the bytes as expected."""
+    assert init_hashstore_with_test_data
+    manager = StoreManager(storemanager_props)
+    pid = "test-pid-3skip"
+    obj, _ = manager.get_object(pid)
+    bytes_read = obj.read()
+
+    enc_type, msg = metadata.detect_text_encoding(bytes_read)
+    assert enc_type == "utf-8"
+    assert msg is None

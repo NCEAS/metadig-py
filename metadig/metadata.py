@@ -256,3 +256,33 @@ def find_number_of_columns(pandas_df: pandas.DataFrame):
     :rtype: int
     """
     return pandas_df.shape[1]
+
+def detect_text_encoding(raw: bytes):
+    """Determine the encoding of the given bytes and return problematic sequences if
+    found. This function first checks for the 'ascii' encoding, before moving onto
+    'utf-8'. If the bytes are neither, we return a tuple that contains 'other' and
+    an error message.
+    
+    :param bytes raw: Raw byte content
+    :return: A tuple containing:
+        - encoding (str): One of 'ascii', 'utf-8', or 'other'
+        - error (str or None): None if decoding succeeded, or a string with error details
+    :rtype: tuple
+    """
+    # First check to see if the raw bytes are encoded as ASCII
+    try:
+        raw.decode('ascii')
+        return 'ascii', None
+    # pylint: disable=W0612
+    except UnicodeDecodeError as e:
+        # The bytes are not pure ascii, and it may contain en dashes, accented letters
+        # emojis, etc. so we will check to see if it's utf-8
+        pass
+
+    try:
+        raw.decode('utf-8')
+        return 'utf-8', None
+    except UnicodeDecodeError as e:
+        err_msg = (
+            f"UTF-8 decode error at byte {e.start}: {raw[e.start:e.end]}")
+        return 'other', err_msg
