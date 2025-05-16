@@ -271,8 +271,8 @@ def detect_text_encoding(raw: bytes):
     """
     # First check to see if the raw bytes are encoded as ASCII
     try:
-        raw.decode('ascii')
-        return 'ascii', None
+        raw.decode("ascii")
+        return "ascii", None
     # pylint: disable=W0612
     except UnicodeDecodeError as e:
         # The bytes are not pure ascii, and it may contain en dashes, accented letters
@@ -280,8 +280,8 @@ def detect_text_encoding(raw: bytes):
         pass
 
     try:
-        raw.decode('utf-8')
-        return 'utf-8', None
+        raw.decode("utf-8")
+        return "utf-8", None
     except UnicodeDecodeError as e:
         err_msg = (
             f"utf-8 decode error at byte {e.start}: {raw[e.start:e.end]}")
