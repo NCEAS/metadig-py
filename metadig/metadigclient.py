@@ -66,6 +66,7 @@ class MetaDigPyParser:
 class MetaDigClientUtilities:
     """Class to assist the metadig client with running checks and/or suites."""
 
+    # TODO: Static member?
     def get_data_object_system_metadata(self, identifier: str, member_node: str):
         """Retrieve the system metadata for a data object with the given identifier and
         member node endpoint
@@ -74,7 +75,6 @@ class MetaDigClientUtilities:
         :param str member_node: The member node whose URL to query (ex. 'urn:node:ARCTIC')
         :return: 
         """
-        # TODO
         member_node_url = checks.get_member_node_url(member_node)
         encoded_identifier = urllib.parse.quote(identifier)
         sysmeta_query = f"/meta/{encoded_identifier}"
@@ -87,9 +87,8 @@ class MetaDigClientUtilities:
             # Send the request and read the response
             with urllib.request.urlopen(req) as response:
                 # Read and decode the response
-                data = response.read().decode("utf-8")
+                xml_bytes = response.read()
                 # Convert the string to bytes so lxml can parse it
-                xml_bytes = data.encode("utf-8")
                 print(xml_bytes)
                 # Iterate over the response to get all the data pids
                 # pylint: disable=I1101
@@ -99,8 +98,13 @@ class MetaDigClientUtilities:
             raise RuntimeError(f"Unexpected exception encountered: {ge}") from ge
         
         # TODO: Return the sysmeta bytes, or save it to a tmp file?
+        data_obj_file_name = None
+        for elem in root.iter():
+            if elem.tag.endswith("fileName"):
+                data_obj_file_name = elem.text
+                break
 
-        return
+        return data_obj_file_name
 
     def import_data_to_hashstore(self, metadata_sysmeta_path: str, path_to_data_folder: str):
         """Takes a dataset metadata sysmeta document and retrieves the associated data pids, and
