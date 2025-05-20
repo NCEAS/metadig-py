@@ -115,10 +115,7 @@ def get_data_pids(identifier: str, member_node: str):
         # Send the request and read the response
         with urllib.request.urlopen(req) as response:
             # Read and decode the response
-            data = response.read().decode("utf-8")
-            # Convert the string to bytes so lxml can parse it
-            xml_bytes = data.encode("utf-8")
-            # Iterate over the response to get all the data pids
+            xml_bytes = response.read()
             # pylint: disable=I1101
             root = etree.fromstring(xml_bytes)
 
