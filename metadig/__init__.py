@@ -22,6 +22,7 @@ from .metadata import find_eml_entity
 from .metadata import find_entity_index
 from .metadata import read_csv_with_metadata
 from .metadata import get_valid_csv
+from .metadigclient import MetaDigClientUtilities
 
 __all__ = [
     "StoreManager",
@@ -38,4 +39,5 @@ __all__ = [
     "checks",
     "metadata",
     "suites",
+    "MetaDigClientUtilities",
 ]

@@ -2,8 +2,10 @@
 """Metadig Command Line App"""
 import os
 from argparse import ArgumentParser
+import urllib.parse
 import yaml
 from metadig import checks
+from lxml import etree
 
 
 class MetaDigPyParser:
@@ -63,6 +65,42 @@ class MetaDigPyParser:
 
 class MetaDigClientUtilities:
     """Class to assist the metadig client with running checks and/or suites."""
+
+    def get_data_object_system_metadata(self, identifier: str, member_node: str):
+        """Retrieve the system metadata for a data object with the given identifier and
+        member node endpoint
+
+        :param str identifier: The persistent identifier to retrieve data pids for
+        :param str member_node: The member node whose URL to query (ex. 'urn:node:ARCTIC')
+        :return: 
+        """
+        # TODO
+        member_node_url = checks.get_member_node_url(member_node)
+        encoded_identifier = urllib.parse.quote(identifier)
+        sysmeta_query = f"/meta/{encoded_identifier}"
+        query_url = member_node_url + sysmeta_query
+
+        try:
+            # Create a request and parse response for the associated data pids (objects)
+            req = urllib.request.Request(query_url)
+
+            # Send the request and read the response
+            with urllib.request.urlopen(req) as response:
+                # Read and decode the response
+                data = response.read().decode("utf-8")
+                # Convert the string to bytes so lxml can parse it
+                xml_bytes = data.encode("utf-8")
+                print(xml_bytes)
+                # Iterate over the response to get all the data pids
+                # pylint: disable=I1101
+                root = etree.fromstring(xml_bytes)
+
+        except Exception as ge:
+            raise RuntimeError(f"Unexpected exception encountered: {ge}") from ge
+        
+        # TODO: Return the sysmeta bytes, or save it to a tmp file?
+
+        return
 
     def import_data_to_hashstore(self, metadata_sysmeta_path: str, path_to_data_folder: str):
         """Takes a dataset metadata sysmeta document and retrieves the associated data pids, and

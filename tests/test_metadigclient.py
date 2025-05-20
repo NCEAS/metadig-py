@@ -4,6 +4,7 @@ import sys
 import json
 import pytest
 from metadig import metadigclient
+from metadig import MetaDigClientUtilities
 
 def test_metadig_client_run_check(capsys, store, init_hashstore_with_test_data):
     """Confirm metadig runs a check successfully"""
@@ -72,3 +73,17 @@ def test_metadig_client_run_check_missing_args(missing_opt, store):
 
     with pytest.raises(ValueError):
         metadigclient.main()
+
+
+# MetaDigClientUtilities Tests
+
+
+def test_get_data_object_system_metadata():
+    """Check that we can retrieve a data object's sysmeta."""
+    identifier = "doi:10.18739/A24F1MM18"
+    mn_url = "urn:node:ARCTIC"
+
+    mdcu = MetaDigClientUtilities()
+    mdcu.get_data_object_system_metadata(identifier, mn_url)
+
+    # TODO: Assert the data retrieved is what we expect it to be (no errors)
