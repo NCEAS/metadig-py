@@ -60,6 +60,30 @@ class MetaDigPyParser:
         """Get command line arguments."""
         return self.parser.parse_args()
 
+
+class MetaDigClientUtilities:
+    """Class to assist the metadig client with running checks and/or suites."""
+
+    def import_data_to_hashstore(self, metadata_sysmeta_path: str, path_to_data_folder: str):
+        """Takes a dataset metadata sysmeta document and retrieves the associated data pids, and
+        then parses the given path to the data folder to store the data objects into the metadig-py
+        hashstore. The system metadata for each data object is also retrieved and stored.
+
+        :param str metadata_sysmeta_path: Path to the sysmeta for the XML metadata document.
+        :param str path_to_data_folder: Path to the folder containing data objects to store.
+        :return: The result of the suite function.
+        """
+        # Read the sysmeta
+        # Get the identifier and mn node
+        # Get the data pids
+        # For each data pid
+        ## Get the system metadata
+        ## Read and parse it for the file name
+        ## Find the file name in the given folder
+        ## Store the data object
+        ## Store the data object for the system metadata
+        return
+
 def main():
     """Entry point of the Metadig client."""
     # Set-up parser and retrieve arguments
