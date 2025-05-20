@@ -4,7 +4,6 @@ import xml.etree.ElementTree as ET
 import io
 import hashlib
 import pandas
-import checks
 
 
 def read_sysmeta_element(stream, element):
