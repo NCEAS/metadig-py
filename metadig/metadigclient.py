@@ -74,8 +74,14 @@ class MetaDigClientUtilities:
         :return: The result of the suite function.
         """
         # Read the sysmeta
-        # Get the identifier and mn node
-        # Get the data pids
+        sysmeta_vars = checks.get_sysmeta_vars(metadata_sysmeta_path)
+        identifier = sysmeta_vars.get("identifier")
+        auth_mn_node = sysmeta_vars.get("authoritative_member_node")
+        data_pids = checks.get_data_pids(identifier, auth_mn_node)
+
+        # Store the data object and system metadata
+        for pid in data_pids:
+            print(pid)
         # For each data pid
         ## Get the system metadata
         ## Read and parse it for the file name
