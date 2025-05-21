@@ -163,13 +163,15 @@ class MetaDigClientUtilities:
         else:
             # Store the data object and system metadata
             for pid in data_pids:
+                # TODO: This should be done in a try-except block so that we attempt
+                #       every data pid found.
                 data_obj_name, sysmeta = self.get_data_object_system_metadata(
                     identifier, auth_mn_node
                 )
                 ## TODO: Find the file name in the given folder
                 ## TODO: Store the data object
-                ## TODO: Store the data object for the system metadata
-                self.default_store.store_metadata(pid, sysmeta)
+                ## TODO: Store the system metadata for the data object
+                # self.default_store.store_metadata(pid, sysmeta)
             return
 
 def main():
