@@ -161,9 +161,6 @@ class MetaDigClientUtilities:
         if len(data_pids) == 0:
             raise ValueError(f"No data pids found for identifier: {identifier}")
         else:
-            # Initialize the default hashstore
-            mcdu = MetaDigClientUtilities()
-
             # Store the data object and system metadata
             for pid in data_pids:
                 data_obj_name, sysmeta = self.get_data_object_system_metadata(
@@ -172,12 +169,13 @@ class MetaDigClientUtilities:
                 ## TODO: Find the file name in the given folder
                 ## TODO: Store the data object
                 ## TODO: Store the data object for the system metadata
-                # mcdu.default_store.store_metadata(pid, sysmeta)
+                self.default_store.store_metadata(pid, sysmeta)
             return
 
 def main():
     """Entry point of the Metadig client."""
     # Set-up parser and retrieve arguments
+    mcdu = MetaDigClientUtilities()
     parser = MetaDigPyParser()
     args = parser.get_parser_args()
 
@@ -197,7 +195,7 @@ def main():
             raise ValueError("'-sysmeta_doc' arg is required")
 
         # Get the store configuration from the given config file at the store_path
-        storemanager_props = MetaDigClientUtilities.get_store_manager_props(store_path)
+        storemanager_props = mcdu.get_store_manager_props(store_path)
 
         # Run the check
         result = checks.run_check(
