@@ -79,10 +79,13 @@ def test_metadig_client_run_check_missing_args(missing_opt, store):
 
 
 def test_get_data_object_system_metadata():
-    """Check that we can retrieve a data object's sysmeta."""
+    """Check that we can retrieve a data object's sysmeta and parse it for the file name."""
     identifier = "doi:10.18739/A24F1MM18"
     mn_url = "urn:node:ARCTIC"
 
-    MetaDigClientUtilities.get_data_object_system_metadata(identifier, mn_url)
+    data_obj_name, sysmeta = MetaDigClientUtilities.get_data_object_system_metadata(
+        identifier, mn_url
+    )
 
-    # TODO: Assert the data retrieved is what we expect it to be (no errors)
+    assert data_obj_name == "Ground_Temperature_Monitoring_of_a_Cover_Crop_Vari.xml"
+    assert sysmeta is not None

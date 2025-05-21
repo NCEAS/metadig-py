@@ -73,13 +73,18 @@ class MetaDigClientUtilities:
 
         :param str identifier: The persistent identifier to retrieve data pids for
         :param str member_node: The member node whose URL to query (ex. 'urn:node:ARCTIC')
-        :return: 
+        :return: A tuple containing:
+            - data_obj_file_name (str): File name of the data object.
+            - system_metadata (bytes): Data object's system metadata.
+        :rtype: tuple
         """
         member_node_url = checks.get_member_node_url(member_node)
         encoded_identifier = urllib.parse.quote(identifier)
         sysmeta_query = f"/meta/{encoded_identifier}"
         query_url = member_node_url + sysmeta_query
 
+        system_metadata = None
+        data_obj_file_name = None
         try:
             # Create a request and parse response for the associated data pids (objects)
             req = urllib.request.Request(query_url)
@@ -87,24 +92,19 @@ class MetaDigClientUtilities:
             # Send the request and read the response
             with urllib.request.urlopen(req) as response:
                 # Read and decode the response
-                xml_bytes = response.read()
-                # Convert the string to bytes so lxml can parse it
-                print(xml_bytes)
-                # Iterate over the response to get all the data pids
+                system_metadata = response.read()
                 # pylint: disable=I1101
-                root = etree.fromstring(xml_bytes)
+                root = etree.fromstring(system_metadata)
 
         except Exception as ge:
             raise RuntimeError(f"Unexpected exception encountered: {ge}") from ge
-        
-        # TODO: Return the sysmeta bytes, or save it to a tmp file?
-        data_obj_file_name = None
+
         for elem in root.iter():
             if elem.tag.endswith("fileName"):
                 data_obj_file_name = elem.text
                 break
 
-        return data_obj_file_name
+        return data_obj_file_name, system_metadata
 
     def import_data_to_hashstore(self, metadata_sysmeta_path: str, path_to_data_folder: str):
         """Takes a dataset metadata sysmeta document and retrieves the associated data pids, and
