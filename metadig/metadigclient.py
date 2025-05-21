@@ -69,6 +69,32 @@ class MetaDigClientUtilities:
     # TODO: Initialize default metadig-py hashstore
 
     @staticmethod
+    def get_store_manager_props(store_path):
+        """Given a path, look for the 'hashstore.yaml' configuration file and return a dictionary
+        that contains the properties found in the config file.
+        
+        :param str path_to_data_folder: Path to the folder containing data objects to store.
+        :return: Dictionary containing store manager properties
+        """
+        hashstore_yaml_path = store_path + "/hashstore.yaml"
+        if not os.path.isfile(hashstore_yaml_path):
+            err_msg = "'hashstore.yaml' not found in store root path."
+            raise FileNotFoundError(err_msg)
+
+        storemanager_props = {}
+        try:
+            with open(hashstore_yaml_path, "r", encoding="utf-8") as hs_yaml_file:
+                storemanager_props = yaml.safe_load(hs_yaml_file)
+                storemanager_props["store_type"] = "HashStore"
+                storemanager_props["store_path"] = store_path
+        except Exception as ge:
+            raise RuntimeError(
+                f"Unexpected exception while trying to read 'hashstore.yaml' from store_path: {ge}"
+            ) from ge
+
+        return storemanager_props
+
+    @staticmethod
     def get_data_object_system_metadata(identifier: str, member_node: str):
         """Retrieve the system metadata for a data object with the given identifier and
         member node endpoint
@@ -155,21 +181,7 @@ def main():
             raise ValueError("'-sysmeta_doc' arg is required")
 
         # Get the store configuration from the given config file at the store_path
-        hashstore_yaml_path = store_path + "/hashstore.yaml"
-        if not os.path.isfile(hashstore_yaml_path):
-            err_msg = "'hashstore.yaml' not found in store root path."
-            raise FileNotFoundError(err_msg)
-
-        storemanager_props = {}
-        try:
-            with open(hashstore_yaml_path, "r", encoding="utf-8") as hs_yaml_file:
-                storemanager_props = yaml.safe_load(hs_yaml_file)
-                storemanager_props["store_type"] = "HashStore"
-                storemanager_props["store_path"] = store_path
-        except Exception as ge:
-            raise RuntimeError(
-                f"Unexpected exception while trying to read 'hashstore.yaml' from store_path: {ge}"
-            ) from ge
+        storemanager_props = MetaDigClientUtilities.get_store_manager_props(store_path)
 
         # Run the check
         result = checks.run_check(
