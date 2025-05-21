@@ -4,9 +4,9 @@ import os
 from argparse import ArgumentParser
 import urllib.parse
 import yaml
-from metadig import checks
 from lxml import etree
-
+from hashstore import HashStoreFactory
+from metadig import checks
 
 class MetaDigPyParser:
     """Class to set up parsing arguments via argparse."""
@@ -66,7 +66,16 @@ class MetaDigPyParser:
 class MetaDigClientUtilities:
     """Class to assist the metadig client with running checks and/or suites."""
 
-    # TODO: Initialize default metadig-py hashstore
+    def __init__(self):
+        """Initialize the default properties for the MetaDigClientUtilities (ex. hashstore)"""
+        default_hashstore_path = os.getcwd() + "/hashstore"
+        storemanager_props = self.get_store_manager_props(default_hashstore_path)
+        hashstore_factory = HashStoreFactory()
+        module_name = "hashstore.filehashstore"
+        class_name = "FileHashStore"
+        self.default_store = hashstore_factory.get_hashstore(
+            module_name, class_name, storemanager_props
+        )
 
     @staticmethod
     def get_store_manager_props(store_path):
@@ -149,15 +158,22 @@ class MetaDigClientUtilities:
         auth_mn_node = sysmeta_vars.get("authoritative_member_node")
         data_pids = checks.get_data_pids(identifier, auth_mn_node)
 
-        # Store the data object and system metadata
-        for pid in data_pids:
-            data_obj_name, sysmeta = self.get_data_object_system_metadata(
-                identifier, auth_mn_node
-            )
-            ## TODO: Find the file name in the given folder
-            ## TODO: Store the data object
-            ## TODO: Store the data object for the system metadata
-        return
+        if len(data_pids) == 0:
+            raise ValueError(f"No data pids found for identifier: {identifier}")
+        else:
+            # Initialize the default hashstore
+            mcdu = MetaDigClientUtilities()
+
+            # Store the data object and system metadata
+            for pid in data_pids:
+                data_obj_name, sysmeta = self.get_data_object_system_metadata(
+                    identifier, auth_mn_node
+                )
+                ## TODO: Find the file name in the given folder
+                ## TODO: Store the data object
+                ## TODO: Store the data object for the system metadata
+                # mcdu.default_store.store_metadata(pid, sysmeta)
+            return
 
 def main():
     """Entry point of the Metadig client."""
