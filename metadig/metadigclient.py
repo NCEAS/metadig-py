@@ -66,6 +66,8 @@ class MetaDigPyParser:
 class MetaDigClientUtilities:
     """Class to assist the metadig client with running checks and/or suites."""
 
+    # TODO: Initialize default metadig-py hashstore
+
     @staticmethod
     def get_data_object_system_metadata(identifier: str, member_node: str):
         """Retrieve the system metadata for a data object with the given identifier and
@@ -123,13 +125,12 @@ class MetaDigClientUtilities:
 
         # Store the data object and system metadata
         for pid in data_pids:
-            print(pid)
-        # For each data pid
-        ## Get the system metadata
-        ## Read and parse it for the file name
-        ## Find the file name in the given folder
-        ## Store the data object
-        ## Store the data object for the system metadata
+            data_obj_name, sysmeta = self.get_data_object_system_metadata(
+                identifier, auth_mn_node
+            )
+            ## TODO: Find the file name in the given folder
+            ## TODO: Store the data object
+            ## TODO: Store the data object for the system metadata
         return
 
 def main():
