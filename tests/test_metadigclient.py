@@ -83,7 +83,6 @@ def test_get_data_object_system_metadata():
     identifier = "doi:10.18739/A24F1MM18"
     mn_url = "urn:node:ARCTIC"
 
-    mdcu = MetaDigClientUtilities()
-    mdcu.get_data_object_system_metadata(identifier, mn_url)
+    MetaDigClientUtilities.get_data_object_system_metadata(identifier, mn_url)
 
     # TODO: Assert the data retrieved is what we expect it to be (no errors)

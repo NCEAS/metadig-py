@@ -66,8 +66,8 @@ class MetaDigPyParser:
 class MetaDigClientUtilities:
     """Class to assist the metadig client with running checks and/or suites."""
 
-    # TODO: Static member?
-    def get_data_object_system_metadata(self, identifier: str, member_node: str):
+    @staticmethod
+    def get_data_object_system_metadata(identifier: str, member_node: str):
         """Retrieve the system metadata for a data object with the given identifier and
         member node endpoint
 
