@@ -85,6 +85,7 @@ class MetaDigClientUtilities:
         
         :param str path_to_data_folder: Path to the folder containing data objects to store.
         :return: Dictionary containing store manager properties
+        :rtype: Dict
         """
         hashstore_yaml_path = store_path + "/hashstore.yaml"
         if not os.path.isfile(hashstore_yaml_path):
@@ -147,7 +148,14 @@ class MetaDigClientUtilities:
 
     @staticmethod
     def find_file(folder_to_check: str, file_to_find: str):
-        """Check the supplied folder for the given file and return its full path"""
+        """Check the supplied folder for the given file and return its full path. This function
+        will also search subfolders.
+        
+        :param str folder_to_check: Folder that contains data files
+        :param str file_to_find: The data file to look for
+        :return: Path to the data object
+        :rtype: Path
+        """
         folder_path = Path(folder_to_check)
         for path in folder_path.rglob(file_to_find):
             return path
@@ -182,9 +190,9 @@ class MetaDigClientUtilities:
                 )
                 ## Find the file name in the given folder
                 data_object_path = self.find_file(path_to_data_folder, data_obj_name)
-                # if data_object_path is not None:
-                #     self.default_store.store_object(pid, data_object_path)
-                #     self.default_store.store_metadata(pid, sysmeta)
+                if data_object_path is not None:
+                    self.default_store.store_object(pid, data_object_path)
+                    self.default_store.store_metadata(pid, sysmeta)
             return
 
 def main():
