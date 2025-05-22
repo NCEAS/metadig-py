@@ -83,7 +83,10 @@ def init_hashstore_with_test_data(store):
     # Store associated data objects and sysmeta
     store.store_object(
         "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1",
-        os.path.join(testdata_dir, "the_arctic_plant_aboveground_biomass_synthesis_dataset.csv")
+        os.path.join(
+            testdata_dir,
+            "the_arctic_plant_aboveground_biomass_synthesis_dataset_v1_2.csv",
+        ),
     )
     store.store_metadata(
         "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1",

@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 """Metadig Command Line App"""
 import os
+import io
+from typing import Optional
 from pathlib import Path
 from argparse import ArgumentParser
 import urllib.parse
 import yaml
 from lxml import etree
 from hashstore import HashStoreFactory
+from hashstore.filehashstore import HashStoreRefsAlreadyExists
 from metadig import checks
 
 class MetaDigPyParser:
@@ -145,12 +148,11 @@ class MetaDigClientUtilities:
 
         return data_obj_file_name, system_metadata
 
-
     @staticmethod
     def find_file(folder_to_check: str, file_to_find: str):
         """Check the supplied folder for the given file and return its full path. This function
         will also search subfolders.
-        
+
         :param str folder_to_check: Folder that contains data files
         :param str file_to_find: The data file to look for
         :return: Path to the data object
@@ -162,15 +164,21 @@ class MetaDigClientUtilities:
         # If nothing is found
         return None
 
-
-    def import_data_to_hashstore(self, metadata_sysmeta_path: str, path_to_data_folder: str):
+    def import_data_to_hashstore(
+        self,
+        metadata_sysmeta_path: str,
+        path_to_data_folder: str,
+        hashstore_path: Optional[str] = None,
+    ):
         """Takes a dataset metadata sysmeta document and retrieves the associated data pids, and
         then parses the given path to the data folder to store the data objects into the metadig-py
         hashstore. The system metadata for each data object is also retrieved and stored.
 
         :param str metadata_sysmeta_path: Path to the sysmeta for the XML metadata document.
         :param str path_to_data_folder: Path to the folder containing data objects to store.
-        :return: The result of the suite function.
+        :param str hashstore_path: Path to a hashstore to store into.
+        :return: The data pids that were stored
+        :rtype: list
         """
         # Read the sysmeta
         sysmeta_vars = checks.get_sysmeta_vars(metadata_sysmeta_path)
@@ -183,17 +191,49 @@ class MetaDigClientUtilities:
         else:
             # Store the data object and system metadata
             for pid in data_pids:
-                # TODO: This should be done in a try-except block so that we attempt
-                #       every data pid found.
+                # Retrieve the system metadata (to be stored) and parse it for the file name
                 data_obj_name, sysmeta = self.get_data_object_system_metadata(
-                    identifier, auth_mn_node
+                    pid, auth_mn_node
                 )
-                ## Find the file name in the given folder
                 data_object_path = self.find_file(path_to_data_folder, data_obj_name)
                 if data_object_path is not None:
-                    self.default_store.store_object(pid, data_object_path)
-                    self.default_store.store_metadata(pid, sysmeta)
-            return
+                    if hashstore_path is None:
+                        print("Storing object and metadata")
+                        try:
+                            self.default_store.store_object(pid, data_object_path)
+                        except HashStoreRefsAlreadyExists as hsrae:
+                            print(
+                                f"Data object already found in hashstore for pid: {pid}. {hsrae}"
+                            )
+                        # pylint: disable=W0718
+                        except Exception as e:
+                            raise RuntimeError(
+                                f"Unexpected exception while attempting to store data object: {e}"
+                            ) from e
+
+                        try:
+                            sysmeta_file_like_object = io.BytesIO(sysmeta)
+                            sysmeta_file_like_object.name = pid + ".xml"
+                            self.default_store.store_metadata(
+                                pid, sysmeta_file_like_object
+                            )
+                        # pylint: disable=W0718
+                        except Exception as e:
+                            raise RuntimeError(
+                                f"Unexpected exception while attempting to store data metadata: {e}"
+                            ) from e
+
+                    else:
+                        # TODO: Store into the given hashstore path
+                        raise RuntimeError(
+                            "Storing to provided hashstore has not been implemented."
+                        )
+                else:
+                    print(
+                        f"Data object not found: {data_obj_name} in folder: {path_to_data_folder}"
+                    )
+            return data_pids
+
 
 def main():
     """Entry point of the Metadig client."""

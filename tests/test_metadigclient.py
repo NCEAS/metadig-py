@@ -6,6 +6,12 @@ import pytest
 from metadig import metadigclient
 
 
+def get_test_data_path(file_name):
+    """Get the path to a test file in tests/testdata"""
+    test_data_directory = os.path.join(os.path.dirname(__file__), "testdata")
+    return os.path.join(test_data_directory, file_name)
+
+
 def test_metadig_client_run_check(capsys, store, init_hashstore_with_test_data):
     """Confirm metadig runs a check successfully"""
     assert init_hashstore_with_test_data
@@ -92,10 +98,23 @@ def test_get_data_object_system_metadata(mcdu):
 
 
 def test_find_file(mcdu):
-    """Check that 'find_file' can find a file in a given folder"""
+    """Check that 'find_file' can find a data file that's in a subfolder in a given folder."""
     # Current directory
     folder_to_check = os.path.join(os.path.dirname(__file__))
     file_to_find = "resource.license.present-2.0.0.xml"
 
     data_object_path = mcdu.find_file(folder_to_check, file_to_find)
     assert data_object_path is not None
+
+
+def test_import_data_to_hashstore(mcdu):
+    """Test that 'import_data_to_hashstore' imports data to the default hashstore."""
+    sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
+    test_data_directory = os.path.join(os.path.dirname(__file__), "testdata")
+
+    data_pids_stored = mcdu.import_data_to_hashstore(sample_sysmeta_file_path, test_data_directory)
+    for pid in data_pids_stored:
+        obj_stream = mcdu.default_store.retrieve_object(pid)
+        sysmeta_stream = mcdu.default_store.retrieve_metadata(pid)
+        obj_stream.close()
+        sysmeta_stream.close()
