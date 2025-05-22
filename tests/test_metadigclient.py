@@ -4,7 +4,7 @@ import sys
 import json
 import pytest
 from metadig import metadigclient
-from metadig import MetaDigClientUtilities
+
 
 def test_metadig_client_run_check(capsys, store, init_hashstore_with_test_data):
     """Confirm metadig runs a check successfully"""
@@ -78,14 +78,24 @@ def test_metadig_client_run_check_missing_args(missing_opt, store):
 # MetaDigClientUtilities Tests
 
 
-def test_get_data_object_system_metadata():
+def test_get_data_object_system_metadata(mcdu):
     """Check that we can retrieve a data object's sysmeta and parse it for the file name."""
     identifier = "doi:10.18739/A24F1MM18"
     auth_mn_node = "urn:node:ARCTIC"
 
-    data_obj_name, sysmeta = MetaDigClientUtilities.get_data_object_system_metadata(
+    data_obj_name, sysmeta = mcdu.get_data_object_system_metadata(
         identifier, auth_mn_node
     )
 
     assert data_obj_name == "Ground_Temperature_Monitoring_of_a_Cover_Crop_Vari.xml"
     assert sysmeta is not None
+
+
+def test_find_file(mcdu):
+    """Check that 'find_file' can find a file in a given folder"""
+    # Current directory
+    folder_to_check = os.path.join(os.path.dirname(__file__))
+    file_to_find = "resource.license.present-2.0.0.xml"
+
+    data_object_path = mcdu.find_file(folder_to_check, file_to_find)
+    assert data_object_path is not None

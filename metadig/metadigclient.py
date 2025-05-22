@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """Metadig Command Line App"""
 import os
+from pathlib import Path
 from argparse import ArgumentParser
 import urllib.parse
 import yaml
@@ -143,6 +144,17 @@ class MetaDigClientUtilities:
 
         return data_obj_file_name, system_metadata
 
+
+    @staticmethod
+    def find_file(folder_to_check: str, file_to_find: str):
+        """Check the supplied folder for the given file and return its full path"""
+        folder_path = Path(folder_to_check)
+        for path in folder_path.rglob(file_to_find):
+            return path
+        # If nothing is found
+        return None
+
+
     def import_data_to_hashstore(self, metadata_sysmeta_path: str, path_to_data_folder: str):
         """Takes a dataset metadata sysmeta document and retrieves the associated data pids, and
         then parses the given path to the data folder to store the data objects into the metadig-py
@@ -168,10 +180,11 @@ class MetaDigClientUtilities:
                 data_obj_name, sysmeta = self.get_data_object_system_metadata(
                     identifier, auth_mn_node
                 )
-                ## TODO: Find the file name in the given folder
-                ## TODO: Store the data object
-                ## TODO: Store the system metadata for the data object
-                # self.default_store.store_metadata(pid, sysmeta)
+                ## Find the file name in the given folder
+                data_object_path = self.find_file(path_to_data_folder, data_obj_name)
+                # if data_object_path is not None:
+                #     self.default_store.store_object(pid, data_object_path)
+                #     self.default_store.store_metadata(pid, sysmeta)
             return
 
 def main():

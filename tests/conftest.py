@@ -3,6 +3,13 @@
 import os
 import pytest
 from hashstore import HashStoreFactory
+from metadig import MetaDigClientUtilities
+
+@pytest.fixture(name="mcdu")
+def init_metadig_client_utilities():
+    """Create and return the path to a hashstore"""
+    return MetaDigClientUtilities()
+
 
 @pytest.fixture(name="store_path")
 def init_store_path(tmp_path):
