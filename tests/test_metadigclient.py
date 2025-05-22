@@ -114,6 +114,7 @@ def test_import_data_to_hashstore(mcdu):
 
     data_pids_stored = mcdu.import_data_to_hashstore(sample_sysmeta_file_path, test_data_directory)
     for pid in data_pids_stored:
+        # No exceptions should be thrown if the data objects and system metadata were stored
         obj_stream = mcdu.default_store.retrieve_object(pid)
         sysmeta_stream = mcdu.default_store.retrieve_metadata(pid)
         obj_stream.close()
