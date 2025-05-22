@@ -82,7 +82,7 @@ class MetaDigClientUtilities:
         )
 
     @staticmethod
-    def get_store_manager_props(store_path):
+    def get_store_manager_props(store_path) -> dict:
         """Given a path, look for the 'hashstore.yaml' configuration file and return a dictionary
         that contains the properties found in the config file.
         
@@ -109,7 +109,7 @@ class MetaDigClientUtilities:
         return storemanager_props
 
     @staticmethod
-    def get_data_object_system_metadata(identifier: str, member_node: str):
+    def get_data_object_system_metadata(identifier: str, member_node: str) -> tuple:
         """Retrieve the system metadata for a data object with the given identifier and
         member node endpoint
 
@@ -149,7 +149,7 @@ class MetaDigClientUtilities:
         return data_obj_file_name, system_metadata
 
     @staticmethod
-    def find_file(folder_to_check: str, file_to_find: str):
+    def find_file(folder_to_check: str, file_to_find: str) -> Path:
         """Check the supplied folder for the given file and return its full path. This function
         will also search subfolders.
 
@@ -169,7 +169,7 @@ class MetaDigClientUtilities:
         metadata_sysmeta_path: str,
         path_to_data_folder: str,
         hashstore_path: Optional[str] = None,
-    ):
+    ) -> list:
         """Takes a dataset metadata sysmeta document and retrieves the associated data pids, and
         then parses the given path to the data folder to store the data objects into the metadig-py
         hashstore. The system metadata for each data object is also retrieved and stored.
