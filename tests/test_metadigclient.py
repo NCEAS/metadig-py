@@ -81,6 +81,30 @@ def test_metadig_client_run_check_missing_args(missing_opt, store):
         metadigclient.main()
 
 
+def test_metadig_client_import_data_to_hashstore(capsys):
+    """Confirm that the metadig client imports data to hashstore successfully."""
+    client_directory = os.getcwd() + "/metadig"
+    client_module_path = f"{client_directory}/metadigclient.py"
+    test_dir = "tests/testdata/"
+    import_hashstore_opt = "-importhashstoredata"
+    sysmeta_doc_path_opt = f"-sysmeta_doc={test_dir}/doi:10.18739_A2QJ78081_sysmeta.xml"
+    data_folder_opt = f"-data_folder={test_dir}"
+
+    chs_args = [
+        client_module_path,
+        import_hashstore_opt,
+        sysmeta_doc_path_opt,
+        data_folder_opt
+    ]
+
+    sys.path.append(client_directory)
+    sys.argv = chs_args
+    metadigclient.main()
+
+    result_data = capsys.readouterr().out
+    assert "Data objects have been stored for pids" in result_data
+
+
 # MetaDigClientUtilities Tests
 
 

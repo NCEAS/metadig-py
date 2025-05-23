@@ -284,7 +284,14 @@ def main():
             raise ValueError("'-data_folder' arg is required to import hashstore data")
         if sysmeta_path is None:
             raise ValueError("'-sysmeta_doc' arg is required to import hashstore data")
-        # TODO: Import data
+        # If 'store_path' is None, we will use the default hashstore that ships with metadig-py
+
+        # Parse the sysmeta for the data pids, retrieve the system metadata and store
+        # both the data objects and their respective sysmeta to hashstore
+        data_pids_stored = mcdu.import_data_to_hashstore(
+            sysmeta_path, data_folder_path, store_path
+        )
+        print(f"Data objects have been stored for pids: {data_pids_stored}")
         return
 
 if __name__ == "__main__":
