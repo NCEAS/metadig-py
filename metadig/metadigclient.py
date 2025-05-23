@@ -35,6 +35,12 @@ class MetaDigPyParser:
             action="store_true",
             help="Flag to run a check through the MetaDIG-py client",
         )
+        self.parser.add_argument(
+            "-importhashstoredata",
+            dest="import_hashstore_data",
+            action="store_true",
+            help="Flag to run import data to a hashstore using the MetaDIG-py client",
+        )
 
         # Arguments to retrieve to run a check
         self.parser.add_argument(
@@ -59,7 +65,13 @@ class MetaDigPyParser:
             "-sysmeta",
             "-sysmeta_doc",
             dest="sysmeta_path",
-            help="Path to document to the sysmeta to retrieve the identifier and member node",
+            help="Path to document to the sysmeta to retrieve the identifier and member node.",
+        )
+        self.parser.add_argument(
+            "-datafolder",
+            "-data_folder",
+            dest="data_folder_path",
+            help="Path to folder containining the desired data objects to upload to hashstore.",
         )
 
     def get_parser_args(self):
@@ -246,15 +258,17 @@ def main():
     check_xml_path = getattr(args, "checkxml_path")
     metadata_doc_path = getattr(args, "metadatadoc_path")
     sysmeta_path = getattr(args, "sysmeta_path")
+    import_hashstore_data = getattr(args, "import_hashstore_data")
+    data_folder_path = getattr(args, "data_folder_path")
     if run_check:
         if store_path is None:
-            raise ValueError("'-store_path' arg is required")
+            raise ValueError("'-store_path' arg is required to run a check")
         if check_xml_path is None:
-            raise ValueError("'-check_xml' arg is required")
+            raise ValueError("'-check_xml' arg is required to run a check")
         if metadata_doc_path is None:
-            raise ValueError("'-metadata_doc' arg is required")
+            raise ValueError("'-metadata_doc' arg is required to run a check")
         if sysmeta_path is None:
-            raise ValueError("'-sysmeta_doc' arg is required")
+            raise ValueError("'-sysmeta_doc' arg is required to run a check")
 
         # Get the store configuration from the given config file at the store_path
         storemanager_props = mcdu.get_store_manager_props(store_path)
@@ -264,6 +278,13 @@ def main():
             check_xml_path, metadata_doc_path, sysmeta_path, storemanager_props
         )
         print(result)
+        return
+    if import_hashstore_data:
+        if data_folder_path is None:
+            raise ValueError("'-data_folder' arg is required to import hashstore data")
+        if sysmeta_path is None:
+            raise ValueError("'-sysmeta_doc' arg is required to import hashstore data")
+        # TODO: Import data
         return
 
 if __name__ == "__main__":
