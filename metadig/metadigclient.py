@@ -198,7 +198,6 @@ class MetaDigClientUtilities:
                 data_object_path = self.find_file(path_to_data_folder, data_obj_name)
                 if data_object_path is not None:
                     if hashstore_path is None:
-                        print("Storing object and metadata")
                         try:
                             self.default_store.store_object(pid, data_object_path)
                         except HashStoreRefsAlreadyExists as hsrae:
