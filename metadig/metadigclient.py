@@ -85,12 +85,12 @@ class MetaDigClientUtilities:
     def __init__(self):
         """Initialize the default properties for the MetaDigClientUtilities (ex. hashstore)"""
         default_hashstore_path = os.getcwd() + "/hashstore"
-        storemanager_props = self.get_store_manager_props(default_hashstore_path)
+        self.default_store_props = self.get_store_manager_props(default_hashstore_path)
         hashstore_factory = HashStoreFactory()
         module_name = "hashstore.filehashstore"
         class_name = "FileHashStore"
         self.default_store = hashstore_factory.get_hashstore(
-            module_name, class_name, storemanager_props
+            module_name, class_name, self.default_store_props
         )
 
     @staticmethod
