@@ -120,40 +120,56 @@ class MetaDigClientUtilities:
 
         return storemanager_props
 
-    @staticmethod
-    def get_data_object_system_metadata(identifier: str, member_node: str) -> tuple:
+    def get_data_object_system_metadata(
+        self, identifier: str, member_node: str, data_folder: str = None
+    ) -> tuple:
         """Retrieve the system metadata for a data object with the given identifier and
         member node endpoint
 
         :param str identifier: The persistent identifier to retrieve data pids for
         :param str member_node: The member node whose URL to query (ex. 'urn:node:ARCTIC')
+        :param str data_folder: The folder to attempt to try and find the sysmeta file in
         :return: A tuple containing:
             - data_obj_file_name (str): File name of the data object.
             - system_metadata (bytes): Data object's system metadata.
         :rtype: tuple
         """
-        member_node_url = checks.get_member_node_url(member_node)
-        encoded_identifier = urllib.parse.quote(identifier)
-        sysmeta_query = f"/meta/{encoded_identifier}"
-        query_url = member_node_url + sysmeta_query
-
-        system_metadata = None
         data_obj_file_name = None
-        try:
-            # Create a request and parse response for the associated data pids (objects)
-            req = urllib.request.Request(query_url)
+        system_metadata = None
+        sysmeta_etree = None
+        # First, try to find the file in the given data folder
+        path_to_sysmeta_file = None
+        if data_folder is not None:
+            sysmeta_to_find = f"sysmeta-{identifier.replace(':','_')}.xml"
+            path_to_sysmeta_file = self.find_file(data_folder, sysmeta_to_find)
 
-            # Send the request and read the response
-            with urllib.request.urlopen(req) as response:
-                # Read and decode the response
-                system_metadata = response.read()
+        # If a path was found to the system metadata document, read it and set variables
+        if path_to_sysmeta_file is not None:
+            with open(path_to_sysmeta_file, "rb") as f:
+                system_metadata = f.read()
                 # pylint: disable=I1101
-                root = etree.fromstring(system_metadata)
+                sysmeta_etree = etree.fromstring(system_metadata)
+        else:
+            # If not, retrieve the system metadata from the DataONE API
+            member_node_url = checks.get_member_node_url(member_node)
+            encoded_identifier = urllib.parse.quote(identifier)
+            sysmeta_query = f"/meta/{encoded_identifier}"
+            query_url = member_node_url + sysmeta_query
+            try:
+                # Create a request and parse response for the associated data pids (objects)
+                req = urllib.request.Request(query_url)
 
-        except Exception as ge:
-            raise RuntimeError(f"Unexpected exception encountered: {ge}") from ge
+                # Send the request and read the response
+                with urllib.request.urlopen(req) as response:
+                    # Read and decode the response
+                    system_metadata = response.read()
+                    # pylint: disable=I1101
+                    sysmeta_etree = etree.fromstring(system_metadata)
 
-        for elem in root.iter():
+            except Exception as ge:
+                raise RuntimeError(f"Unexpected exception encountered: {ge}") from ge
+
+        for elem in sysmeta_etree.iter():
             if elem.tag.endswith("fileName"):
                 data_obj_file_name = elem.text
                 break
@@ -205,7 +221,7 @@ class MetaDigClientUtilities:
             for pid in data_pids:
                 # Retrieve the system metadata (to be stored) and parse it for the file name
                 data_obj_name, sysmeta = self.get_data_object_system_metadata(
-                    pid, auth_mn_node
+                    pid, auth_mn_node, path_to_data_folder
                 )
                 data_object_path = self.find_file(path_to_data_folder, data_obj_name)
                 if data_object_path is not None:
