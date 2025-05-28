@@ -65,7 +65,7 @@ def init_hashstore_with_test_data(store):
         ("test-pid-4dupcols", "test-data_duplicate_columns.csv"),
         ("test-pid-dupcols-names", "test-data_duplicate_columns_dif_names.csv"),
         ("test-pid-duprows", "test-data_duplicate_rows.csv"),
-        ("test-pid-decode-errors", "test-data_illegalcharacter.csv"),
+        ("test-pid-utf-8-decode-errors", "test-data_illegalcharacter.csv"),
     ]
 
     # For ease of adding test data, we are using the same sysmeta which is not tested against
