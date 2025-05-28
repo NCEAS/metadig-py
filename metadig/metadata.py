@@ -129,12 +129,13 @@ def find_entity_index(fname, pid, entity_names, ids):
     # If a single match is found, [0] is the value returned
     return z if z else None
 
-def read_csv_with_metadata(d_read, fd, header_line):
+def read_csv_with_metadata(d_read, fd, header_line, d_encoding=None):
     """Uses pandas to read in a csv with given field delimiter and header rows to skip
 
     :param str or bytes d_read: RData as read in from the stream
     :param str fd: ield delimiter from metadata
     :param int header_line: Number of rows to skip
+    :param str d_encoding: Encoding type to use to read the given bytes
 
     :return: A tuple containing:
         - df: Pandas data.frame with data
@@ -169,7 +170,23 @@ def read_csv_with_metadata(d_read, fd, header_line):
         return None, error_msg
 
     try:
-        return pandas.read_csv(io.StringIO(d_read), delimiter=fd, header=pd_header_val), None
+        if d_encoding is not None:
+            return (
+                pandas.read_csv(
+                    io.StringIO(d_read),
+                    delimiter=fd,
+                    header=pd_header_val,
+                    encoding=d_encoding,
+                ),
+                None,
+            )
+        else:
+            return (
+                pandas.read_csv(
+                    io.StringIO(d_read), delimiter=fd, header=pd_header_val
+                ),
+                None,
+            )
     # pylint: disable=W0718
     except Exception as e:
         return None, f"Error reading CSV: {str(e)}"
