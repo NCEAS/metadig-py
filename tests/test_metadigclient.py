@@ -114,7 +114,8 @@ def test_get_data_object_system_metadata(mcdu):
     auth_mn_node = "urn:node:ARCTIC"
 
     data_obj_name, sysmeta = mcdu.get_data_object_system_metadata(
-        identifier, auth_mn_node
+        identifier,
+        auth_mn_node,
     )
 
     assert data_obj_name == "Ground_Temperature_Monitoring_of_a_Cover_Crop_Vari.xml"
@@ -131,12 +132,27 @@ def test_find_file(mcdu):
     assert data_object_path is not None
 
 
-def test_import_data_to_hashstore(mcdu):
+def test_import_data_to_hashstore_default_store(mcdu):
     """Test that 'import_data_to_hashstore' imports data to the default hashstore."""
     sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
     test_data_directory = os.path.join(os.path.dirname(__file__), "testdata")
 
     data_pids_stored = mcdu.import_data_to_hashstore(sample_sysmeta_file_path, test_data_directory)
+    for pid in data_pids_stored:
+        # No exceptions should be thrown if the data objects and system metadata were stored
+        mcdu.default_store.delete_object(pid)
+        mcdu.default_store.delete_metadata(pid)
+
+
+def test_import_data_to_hashstore_provided_store(mcdu, store_path, init_hashstore_with_test_data):
+    """Test that 'import_data_to_hashstore' imports data to a given hashstore."""
+    assert init_hashstore_with_test_data
+    sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
+    test_data_directory = os.path.join(os.path.dirname(__file__), "testdata")
+
+    data_pids_stored = mcdu.import_data_to_hashstore(
+        sample_sysmeta_file_path, test_data_directory, store_path
+    )
     for pid in data_pids_stored:
         # No exceptions should be thrown if the data objects and system metadata were stored
         mcdu.default_store.delete_object(pid)

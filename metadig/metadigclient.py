@@ -93,6 +93,17 @@ class MetaDigClientUtilities:
             module_name, class_name, self.default_store_props
         )
 
+    def get_hashstore_from_factory(self, hashstore_path):
+        """Get a hashstore that is ready to store objects and metadata at the given store path."""
+        self.get_store_manager_props(hashstore_path)
+        hashstore_factory = HashStoreFactory()
+        module_name = "hashstore.filehashstore"
+        class_name = "FileHashStore"
+        hashstore = hashstore_factory.get_hashstore(
+            module_name, class_name, self.default_store_props
+        )
+        return hashstore
+
     @staticmethod
     def get_store_manager_props(store_path) -> dict:
         """Given a path, look for the 'hashstore.yaml' configuration file and return a dictionary
@@ -225,36 +236,35 @@ class MetaDigClientUtilities:
                 )
                 data_object_path = self.find_file(path_to_data_folder, data_obj_name)
                 if data_object_path is not None:
-                    if hashstore_path is None:
-                        try:
-                            self.default_store.store_object(pid, data_object_path)
-                        except HashStoreRefsAlreadyExists as hsrae:
-                            print(
-                                f"Data object already found in hashstore for pid: {pid}. {hsrae}"
-                            )
-                        # pylint: disable=W0718
-                        except Exception as e:
-                            raise RuntimeError(
-                                f"Unexpected exception while attempting to store data object: {e}"
-                            ) from e
-
-                        try:
-                            sysmeta_file_like_object = io.BytesIO(sysmeta)
-                            sysmeta_file_like_object.name = pid + ".xml"
-                            self.default_store.store_metadata(
-                                pid, sysmeta_file_like_object
-                            )
-                        # pylint: disable=W0718
-                        except Exception as e:
-                            raise RuntimeError(
-                                f"Unexpected exception while attempting to store data metadata: {e}"
-                            ) from e
-
+                    # Determine hashstore to use
+                    if hashstore_path is not None:
+                        target_hashstore = self.get_hashstore_from_factory(hashstore_path)
                     else:
-                        # TODO: Store into the given hashstore path
-                        raise RuntimeError(
-                            "Storing to provided hashstore has not been implemented."
+                        target_hashstore = self.default_store
+                    # Import data to hashstore
+                    try:
+                        target_hashstore.store_object(pid, data_object_path)
+                    except HashStoreRefsAlreadyExists as hsrae:
+                        print(
+                            f"Data object already found in hashstore for pid: {pid}. {hsrae}"
                         )
+                    # pylint: disable=W0718
+                    except Exception as e:
+                        raise RuntimeError(
+                            f"Unexpected exception while attempting to store data object: {e}"
+                        ) from e
+
+                    try:
+                        sysmeta_file_like_object = io.BytesIO(sysmeta)
+                        sysmeta_file_like_object.name = pid + ".xml"
+                        target_hashstore.store_metadata(
+                            pid, sysmeta_file_like_object
+                        )
+                    # pylint: disable=W0718
+                    except Exception as e:
+                        raise RuntimeError(
+                            f"Unexpected exception while attempting to store data metadata: {e}"
+                        ) from e
                 else:
                     print(
                         f"Data object not found: {data_obj_name} in folder: {path_to_data_folder}"
