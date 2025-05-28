@@ -4,6 +4,7 @@ import xml.etree.ElementTree as ET
 import io
 import hashlib
 import pandas
+import chardet
 
 
 def read_sysmeta_element(stream, element):
@@ -283,6 +284,10 @@ def detect_text_encoding(raw: bytes):
         raw.decode("utf-8")
         return "utf-8", None
     except UnicodeDecodeError as e:
+        # If we attempt to decode as utf-8 and run into exceptions, it may contain other
+        # illegal characters. We will attempt to detect the encoding and return the error message.
         err_msg = (
             f"utf-8 decode error at byte {e.start}: {raw[e.start:e.end]}")
-        return 'other', err_msg
+        detected_encoding_result = chardet.detect(raw)
+        encoding = detected_encoding_result.get('encoding')
+        return encoding, err_msg
