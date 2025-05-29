@@ -22,6 +22,7 @@ from .metadata import find_eml_entity
 from .metadata import find_entity_index
 from .metadata import read_csv_with_metadata
 from .metadata import get_valid_csv
+from .metadata import detect_text_encoding
 from .metadigclient import MetaDigClientUtilities
 
 __all__ = [
@@ -35,6 +36,7 @@ __all__ = [
     "find_entity_index",
     "read_csv_with_metadata",
     "get_valid_csv",
+    "detect_text_encoding",
     "run_check",
     "checks",
     "metadata",
