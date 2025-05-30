@@ -36,7 +36,6 @@ def read_sysmeta_element(stream, element):
     except ET.ParseError as e:
         raise ValueError(f"Error parsing XML: {e}, could not find element {element}") from e
 
-
 def find_eml_entity(doc, identifier, file_name):
     """
     Searches through a string EML document to find and return dataTable and otherEntity elements
@@ -76,7 +75,6 @@ def find_eml_entity(doc, identifier, file_name):
 
     # Return None if no match is found
     return None
-
 
 def get_valid_csv(manager, pid):
     """
@@ -191,7 +189,6 @@ def read_csv_with_metadata(d_read, fd, header_line, d_encoding=None):
     except Exception as e:
         return None, f"Error reading CSV: {str(e)}"
 
-
 def find_duplicate_column_names(pandas_df: pandas.DataFrame):
     """Find duplicate columns names in a text delimited file.
 
@@ -218,7 +215,6 @@ def find_duplicate_column_names(pandas_df: pandas.DataFrame):
         checked_cols_names.add(col)
 
     return duplicate_col_names, contains_period
-
 
 def find_duplicate_column_content(pandas_df: pandas.DataFrame):
     """Find duplicate columns in a text delimited file by calculating the hash of the column.
@@ -250,7 +246,6 @@ def find_duplicate_column_content(pandas_df: pandas.DataFrame):
 
     return duplicates
 
-
 def find_duplicate_rows(pandas_df: pandas.DataFrame):
     """Find duplicate rows in a text delimited file.
 
@@ -264,7 +259,6 @@ def find_duplicate_rows(pandas_df: pandas.DataFrame):
         return None
     else:
         return duplicates
-
 
 def find_number_of_columns(pandas_df: pandas.DataFrame):
     """Find the number of columns in a text delimited file.
