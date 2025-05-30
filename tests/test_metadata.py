@@ -326,10 +326,10 @@ def test_detect_text_encoding_other(storemanager_props, init_hashstore_with_test
     """Confirm that 'detect_text_encoding' reads the bytes as expected."""
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)
-    pid = "test-pid-decode-errors"
+    pid = "test-pid-utf-8-decode-errors"
     obj, _ = manager.get_object(pid)
     bytes_read = obj.read()
 
     enc_type, msg = metadata.detect_text_encoding(bytes_read)
-    assert enc_type == "other"
+    assert enc_type == "ISO-8859-1"
     assert "decode error at" in msg

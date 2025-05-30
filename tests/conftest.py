@@ -3,6 +3,13 @@
 import os
 import pytest
 from hashstore import HashStoreFactory
+from metadig import MetaDigClientUtilities
+
+@pytest.fixture(name="mcdu")
+def init_metadig_client_utilities():
+    """Create and return the path to a hashstore"""
+    return MetaDigClientUtilities()
+
 
 @pytest.fixture(name="store_path")
 def init_store_path(tmp_path):
@@ -58,7 +65,7 @@ def init_hashstore_with_test_data(store):
         ("test-pid-4dupcols", "test-data_duplicate_columns.csv"),
         ("test-pid-dupcols-names", "test-data_duplicate_columns_dif_names.csv"),
         ("test-pid-duprows", "test-data_duplicate_rows.csv"),
-        ("test-pid-decode-errors", "test-data_illegalcharacter.csv"),
+        ("test-pid-utf-8-decode-errors", "test-data_illegalcharacter.csv"),
     ]
 
     # For ease of adding test data, we are using the same sysmeta which is not tested against
@@ -76,7 +83,10 @@ def init_hashstore_with_test_data(store):
     # Store associated data objects and sysmeta
     store.store_object(
         "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1",
-        os.path.join(testdata_dir, "the_arctic_plant_aboveground_biomass_synthesis_dataset.csv")
+        os.path.join(
+            testdata_dir,
+            "the_arctic_plant_aboveground_biomass_synthesis_dataset_v1_2.csv",
+        ),
     )
     store.store_metadata(
         "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1",

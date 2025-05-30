@@ -5,6 +5,13 @@ import json
 import pytest
 from metadig import metadigclient
 
+
+def get_test_data_path(file_name):
+    """Get the path to a test file in tests/testdata"""
+    test_data_directory = os.path.join(os.path.dirname(__file__), "testdata")
+    return os.path.join(test_data_directory, file_name)
+
+
 def test_metadig_client_run_check(capsys, store, init_hashstore_with_test_data):
     """Confirm metadig runs a check successfully"""
     assert init_hashstore_with_test_data
@@ -72,3 +79,81 @@ def test_metadig_client_run_check_missing_args(missing_opt, store):
 
     with pytest.raises(ValueError):
         metadigclient.main()
+
+
+def test_metadig_client_import_data_to_hashstore(capsys):
+    """Confirm that the metadig client imports data to hashstore successfully."""
+    client_directory = os.getcwd() + "/metadig"
+    client_module_path = f"{client_directory}/metadigclient.py"
+    test_dir = "tests/testdata/"
+    import_hashstore_opt = "-importhashstoredata"
+    sysmeta_doc_path_opt = f"-sysmeta_doc={test_dir}/doi:10.18739_A2QJ78081_sysmeta.xml"
+    data_folder_opt = f"-data_folder={test_dir}"
+
+    chs_args = [
+        client_module_path,
+        import_hashstore_opt,
+        sysmeta_doc_path_opt,
+        data_folder_opt
+    ]
+
+    sys.path.append(client_directory)
+    sys.argv = chs_args
+    metadigclient.main()
+
+    result_data = capsys.readouterr().out
+    assert "Data objects have been stored for pids" in result_data
+
+
+# MetaDigClientUtilities Tests
+
+
+def test_get_data_object_system_metadata(mcdu):
+    """Check that we can retrieve a data object's sysmeta and parse it for the file name."""
+    identifier = "doi:10.18739/A24F1MM18"
+    auth_mn_node = "urn:node:ARCTIC"
+
+    data_obj_name, sysmeta = mcdu.get_data_object_system_metadata(
+        identifier,
+        auth_mn_node,
+    )
+
+    assert data_obj_name == "Ground_Temperature_Monitoring_of_a_Cover_Crop_Vari.xml"
+    assert sysmeta is not None
+
+
+def test_find_file(mcdu):
+    """Check that 'find_file' can find a data file that's in a subfolder in a given folder."""
+    # Current directory
+    folder_to_check = os.path.join(os.path.dirname(__file__))
+    file_to_find = "resource.license.present-2.0.0.xml"
+
+    data_object_path = mcdu.find_file(folder_to_check, file_to_find)
+    assert data_object_path is not None
+
+
+def test_import_data_to_hashstore_default_store(mcdu):
+    """Test that 'import_data_to_hashstore' imports data to the default hashstore."""
+    sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
+    test_data_directory = os.path.join(os.path.dirname(__file__), "testdata")
+
+    data_pids_stored = mcdu.import_data_to_hashstore(sample_sysmeta_file_path, test_data_directory)
+    for pid in data_pids_stored:
+        # No exceptions should be thrown if the data objects and system metadata were stored
+        mcdu.default_store.delete_object(pid)
+        mcdu.default_store.delete_metadata(pid)
+
+
+def test_import_data_to_hashstore_provided_store(mcdu, store_path, init_hashstore_with_test_data):
+    """Test that 'import_data_to_hashstore' imports data to a given hashstore."""
+    assert init_hashstore_with_test_data
+    sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
+    test_data_directory = os.path.join(os.path.dirname(__file__), "testdata")
+
+    data_pids_stored = mcdu.import_data_to_hashstore(
+        sample_sysmeta_file_path, test_data_directory, store_path
+    )
+    for pid in data_pids_stored:
+        # No exceptions should be thrown if the data objects and system metadata were stored
+        mcdu.default_store.delete_object(pid)
+        mcdu.default_store.delete_metadata(pid)
