@@ -36,6 +36,12 @@ class MetaDigPyParser:
             help="Flag to run a check through the MetaDIG-py client",
         )
         self.parser.add_argument(
+            "-runsuite",
+            dest="run_suite",
+            action="store_true",
+            help="Flag to run a suite through the MetaDIG-py client",
+        )
+        self.parser.add_argument(
             "-importhashstoredata",
             dest="import_hashstore_data",
             action="store_true",
