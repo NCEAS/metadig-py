@@ -181,21 +181,17 @@ After you've installed `MetaDIG-py`, you will have access to the command `metadi
 (metadigpy) $ metadigpy -runcheck -store_path=/path/to/hashstore -check_xml=/path/to/check_xml -metadata_doc=/path/to/metadata/doc -sysmeta_doc=/path/to/sysmeta
 ```
 
-### How does the MetaDIG-py command line client run a check with the arguments supplied?
+### How does the MetaDIG-py command line client run a check or suite with the arguments supplied?
 
-The `metadigclient` extracts the identifier (ex. DOI) & the authoritative member node (MN) (e.g. `urn:node:ARCTIC`) from the system metadata document supplied for the given eml metadata document. It then passes these values to the `run_check` function, which retrieves the associated data pids and their respective system metadata from the given hashstore.
+The `metadigclient` extracts the identifier (ex. DOI) & the authoritative member node (MN) (e.g. `urn:node:ARCTIC`) from the system metadata document supplied for the given eml metadata document. It then passes these values to the `run_check` or `run_suite` function, which retrieves the associated data pids and their respective system metadata from the given hashstore.
 
-The `run_check` function then parses the check xml provided, validates the check definition, executes the check, and lastly prints the final result to stdout. 
-
-As of writing this documentation, we have only set up the `metadigclient` to work with the following MN:
-- urn:node:ARCTIC
-
-To have additional nodes set up, please contact us at support@dataone.org
+Afterwards, `metadigpy` then parses the check xml provided or the suite and check paths, validates and executes the check, and lastly prints the final result to stdout. `run_check` will return the results of a specific check, and `run_suite` will return the results of all the checks found in the given suite.
 
 ### How to set up and run a data check through the MetaDig-py command line client
 
 To set up a data check, you must have/prepare the following before you run the `metadigpy` client command (above)
 1) A HashStore - this step is necessary because `run_check` will look for the data objects in a HashStore after retrieving the data pids.
+    - If you do not have a hashstore, `metadigpy` ships with a default hashstore that is ready to use.
 2) The data objects associated with the DOI to check stored in HashStore, including the data objects' system metadata.
 2) A copy of the metadata document and its respective system metadata for the DOI.
 4) The check you want to run
