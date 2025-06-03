@@ -307,6 +307,7 @@ def main():
     import_hashstore_data = getattr(args, "import_hashstore_data")
     data_folder_path = getattr(args, "data_folder_path")
     check_folder_path = getattr(args, "check_folder_path")
+
     if run_check:
         if store_path is None:
             raise ValueError("'-store_path' arg is required to run a check")
@@ -326,7 +327,7 @@ def main():
         )
         print(result)
         return
-    if run_suite:
+    elif run_suite:
         if suite_path is None:
             raise ValueError("'-suite_path' arg is required to run a suite")
         if check_folder_path is None:
@@ -351,8 +352,7 @@ def main():
         )
         print(suite_results)
         return
-
-    if import_hashstore_data:
+    elif import_hashstore_data:
         if data_folder_path is None:
             raise ValueError("'-data_folder' arg is required to import hashstore data")
         if sysmeta_path is None:
@@ -366,6 +366,10 @@ def main():
         )
         print(f"Data objects have been stored for pids: {data_pids_stored}")
         return
+    else:
+        print(
+            "No options provided. Run `metadigpy -h` for more information."
+        )
 
 if __name__ == "__main__":
     main()
