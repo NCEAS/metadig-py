@@ -53,16 +53,16 @@ def test_metadig_client_run_check_missing_args(missing_opt, store):
     """Use pytest 'parametrize' decorator to efficiently test missing arguments"""
     client_directory = os.getcwd() + "/metadig"
     client_module_path = f"{client_directory}/metadigclient.py"
-    test_dir = "tests/testdata/"
+    test_dir = "tests/testdata"
     test_store_path = str(store.root)
     run_check_opt = "-runcheck"
 
     # Map options
     options = {
         "store_path": f"-store_path={test_store_path}",
-        "check_xml": f"-check_xml={test_dir}/data.table-text-delimited.glimpse.xml",
-        "metadata_doc": f"-metadata_doc={test_dir}/doi:10.18739_A2QJ78081.xml",
-        "sysmeta_doc": f"-sysmeta_doc={test_dir}/doi:10.18739_A2QJ78081_sysmeta.xml",
+        "check_xml": f"-check_xml={test_dir}data.table-text-delimited.glimpse.xml",
+        "metadata_doc": f"-metadata_doc={test_dir}doi:10.18739_A2QJ78081.xml",
+        "sysmeta_doc": f"-sysmeta_doc={test_dir}doi:10.18739_A2QJ78081_sysmeta.xml",
     }
 
     # Remove the missing option dynamically by creating a new list that excludes the missing opt
@@ -85,7 +85,7 @@ def test_metadig_client_import_data_to_hashstore(capsys):
     """Confirm that the metadig client imports data to hashstore successfully."""
     client_directory = os.getcwd() + "/metadig"
     client_module_path = f"{client_directory}/metadigclient.py"
-    test_dir = "tests/testdata/"
+    test_dir = "tests/testdata"
     import_hashstore_opt = "-importhashstoredata"
     sysmeta_doc_path_opt = f"-sysmeta_doc={test_dir}/doi:10.18739_A2QJ78081_sysmeta.xml"
     data_folder_opt = f"-data_folder={test_dir}"
@@ -104,6 +104,41 @@ def test_metadig_client_import_data_to_hashstore(capsys):
     result_data = capsys.readouterr().out
     assert "Data objects have been stored for pids" in result_data
 
+
+def test_metadig_client_run_suite(capsys, store, init_hashstore_with_test_data):
+    """Confirm metadig runs a check successfully"""
+    assert init_hashstore_with_test_data
+    client_directory = os.getcwd() + "/metadig"
+    client_module_path = f"{client_directory}/metadigclient.py"
+    test_dir = "tests/testdata"
+    test_store_path = str(store.root)
+    run_check_opt = "-runsuite"
+    hashstore_path_opt = f"-store_path={test_store_path}"
+    suite_path_opt = f"-suite_path={test_dir}/data-suite.xml"
+    check_folder_path_opt = f"-check_folder={test_dir}/checks/"
+    metadata_doc_path_opt = f"-metadata_doc={test_dir}/doi:10.18739_A2QJ78081.xml"
+    sysmeta_doc_path_opt = f"-sysmeta_doc={test_dir}/doi:10.18739_A2QJ78081_sysmeta.xml"
+
+    chs_args = [
+        client_module_path,
+        run_check_opt,
+        hashstore_path_opt,
+        suite_path_opt,
+        check_folder_path_opt,
+        metadata_doc_path_opt,
+        sysmeta_doc_path_opt
+    ]
+
+    sys.path.append(client_directory)
+    sys.argv = chs_args
+    metadigclient.main()
+
+    result_data = json.loads(capsys.readouterr().out)
+    assert result_data is not None
+    assert result_data["suite"] == "data-suite.xml"
+    assert result_data["sysmeta"] is not None
+    assert result_data["run_status"] == "SUCCESS"
+    assert result_data["results"] is not None
 
 # MetaDigClientUtilities Tests
 
