@@ -315,7 +315,7 @@ $ mkvirtualenv -p python3.9 metadigpy // Create a virtual environment
 
 (metadigpy) ~/Code/hashstore $ metadigpy -runcheck -store_path=/path/to/hashstore -check_xml=/path/to/check_xml -metadata_doc=/path/to/metadata/doc -sysmeta_doc=/path/to/sysmeta
 
-(metadigpy) ~/Code/hashstore $ {'identifiers': ['...', '...'], 'output': ["the_dataset_checked.csv is a valid 'utf-8' document and does not contain encoding errors."], 'status': 'SUCCESS'}
+{'identifiers': ['...', '...'], 'output': ["the_dataset_checked.csv is a valid 'utf-8' document and does not contain encoding errors."], 'status': 'SUCCESS'}
 ```
 
 ## License
