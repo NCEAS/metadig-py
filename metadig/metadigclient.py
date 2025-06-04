@@ -10,7 +10,7 @@ import yaml
 from lxml import etree
 from hashstore import HashStoreFactory
 from hashstore.filehashstore import HashStoreRefsAlreadyExists
-from metadig import checks
+from metadig import checks, suites
 
 class MetaDigPyParser:
     """Class to set up parsing arguments via argparse."""
@@ -36,6 +36,12 @@ class MetaDigPyParser:
             help="Flag to run a check through the MetaDIG-py client",
         )
         self.parser.add_argument(
+            "-runsuite",
+            dest="run_suite",
+            action="store_true",
+            help="Flag to run a suite through the MetaDIG-py client",
+        )
+        self.parser.add_argument(
             "-importhashstoredata",
             dest="import_hashstore_data",
             action="store_true",
@@ -52,7 +58,7 @@ class MetaDigPyParser:
         self.parser.add_argument(
             "-cxml",
             "-check_xml",
-            dest="checkxml_path",
+            dest="check_xml_path",
             help="Path to the check xml for MetaDIG-py to parse.",
         )
         self.parser.add_argument(
@@ -72,6 +78,18 @@ class MetaDigPyParser:
             "-data_folder",
             dest="data_folder_path",
             help="Path to folder containining the desired data objects to upload to hashstore.",
+        )
+        self.parser.add_argument(
+            "-suitepath",
+            "-suite_path",
+            dest="suite_path",
+            help="Path to suite to run.",
+        )
+        self.parser.add_argument(
+            "-checkfolder",
+            "-check_folder",
+            dest="check_folder_path",
+            help="Path to folder containining the xml checks to execute for a suite.",
         )
 
     def get_parser_args(self):
@@ -280,17 +298,21 @@ def main():
     args = parser.get_parser_args()
 
     run_check = getattr(args, "run_check")
+    run_suite = getattr(args, "run_suite")
     store_path = getattr(args, "hashstore_path")
-    check_xml_path = getattr(args, "checkxml_path")
+    check_xml_path = getattr(args, "check_xml_path")
+    suite_path = getattr(args, "suite_path")
     metadata_doc_path = getattr(args, "metadatadoc_path")
     sysmeta_path = getattr(args, "sysmeta_path")
     import_hashstore_data = getattr(args, "import_hashstore_data")
     data_folder_path = getattr(args, "data_folder_path")
+    check_folder_path = getattr(args, "check_folder_path")
+
     if run_check:
         if store_path is None:
             raise ValueError("'-store_path' arg is required to run a check")
         if check_xml_path is None:
-            raise ValueError("'-check_xml' arg is required to run a check")
+            raise ValueError("'-check_xml_path' arg is required to run a check")
         if metadata_doc_path is None:
             raise ValueError("'-metadata_doc' arg is required to run a check")
         if sysmeta_path is None:
@@ -305,7 +327,32 @@ def main():
         )
         print(result)
         return
-    if import_hashstore_data:
+    elif run_suite:
+        if suite_path is None:
+            raise ValueError("'-suite_path' arg is required to run a suite")
+        if check_folder_path is None:
+            raise ValueError("'-check_folder_path' arg is required to run a suite")
+        if metadata_doc_path is None:
+            raise ValueError("'-metadata_doc' arg is required to run a suite")
+        if sysmeta_path is None:
+            raise ValueError("'-sysmeta_doc' arg is required to run a suite")
+        if store_path is None:
+            raise ValueError("'-store_path' arg is required to run a suite")
+
+        # Get the store configuration from the given config file at the store_path
+        storemanager_props = mcdu.get_store_manager_props(store_path)
+
+        # Run the check
+        suite_results = suites.run_suite(
+            suite_path,
+            check_folder_path,
+            metadata_doc_path,
+            sysmeta_path,
+            storemanager_props,
+        )
+        print(suite_results)
+        return
+    elif import_hashstore_data:
         if data_folder_path is None:
             raise ValueError("'-data_folder' arg is required to import hashstore data")
         if sysmeta_path is None:
@@ -319,6 +366,10 @@ def main():
         )
         print(f"Data objects have been stored for pids: {data_pids_stored}")
         return
+    else:
+        print(
+            "No options provided. Run `metadigpy -h` for more information."
+        )
 
 if __name__ == "__main__":
     main()

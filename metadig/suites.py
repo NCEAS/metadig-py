@@ -120,10 +120,14 @@ def run_suite(
                     f"Check not found at path: {check_id_path}"
                 )
         else:
+            if check_env is None:
+                output_msg = f"Check not found for: {check_id} in: {checks_path}"
+            else:
+                output_msg = f"Incompatible check environment ({check_env}) for check: {check_id}."
             check_results.append({
                 "check_id": check_id,
                 "identifiers": "N/A",
-                "output": f"Incompatible check environment ({check_env}) for check: {check_id}.",
+                "output": output_msg,
                 "status": "ERROR",
             })
 
