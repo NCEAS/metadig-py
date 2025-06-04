@@ -19,8 +19,57 @@ for their [`metadig-checks`](https://github.com/NCEAS/metadig-checks). By import
 package, users get access to all available helper functions and classes, such as `object_store.py`
 which enables users to write checks that efficiently retrieves data objects to work with.
 
+## Installation
 
-## How do I run a check suite (ex. FAIR-suite-0.4.0.xml)
+To install MetaDIG-py, run the following commands
+
+```sh
+$ mkvirtualenv -p python3.9 metadigpy # Create a virtual environment
+(metadigpy) $ poetry install # Run poetry command to install dependencies
+```
+- Note: If you run into an issue with installing jep, it is likely due to a backwards
+compatibility issue with `setuptools`. Try downgrading to the version 58.0.0:
+  ```sh
+  (metadigpy) $ pip install setuptools==58.0.0
+  ```
+
+To confirm that you have installed `MetaDIG-py` successfully, run `pytest`.
+```sh
+(metadigpy) $ pytest
+```
+- Tip: You may run `pytest` with the option `-s` (ex. `pytest -s`) to see print statements. Not all pytests have print statements, but if you want to extend from what already exists, this may prove to be helpful!
+
+## How do I import the `MetaDIG-py` library?
+
+In your python code, you can import a specific module or function like such:
+
+```py
+from metadig import read_sysmeta_element
+from metadig import MetaDigClientUtilities as mcdu
+```
+
+Currently, we have the following modules and functions available:
+
+```py
+"StoreManager", # Class to work with a HashStore
+"getType", # fn
+"isResolvable", # fn
+"isBlank", # fn
+"toUnicode", # fn
+"read_sysmeta_element", # fn
+"find_eml_entity", # fn
+"find_entity_index", # fn
+"read_csv_with_metadata", # fn
+"get_valid_csv", # fn
+"detect_text_encoding", # fn
+"run_check", # fn
+"checks", # Module
+"metadata", # Module
+"suites", # Module
+"MetaDigClientUtilities", = # Module
+```
+
+## How do I run an entire check suite (ex. FAIR-suite-0.4.0.xml)?
 
 To run a suite, you must have the path to the suite to run, a path to the folder containing all the checks, the metadata file path and the path to the metadata's system metadata.
 
@@ -31,7 +80,7 @@ suite_file_path = "/path/to/FAIR-suite-0.4.0.xml"
 checks_path = "path/to/folder/containing/checks"
 metadata_file_path = "path/to/metadata:data_file.xml"
 sysmeta_file_path = "path/to/metadata:data_sysmeta_file.xml"
-# Note: storemanager_props are only relevant if you are executing data checks and has a default value of 'None'
+# Note: storemanager_props are only relevant if you are executing data checks and has a default value of 'None'. In the example below, we intentionally do not supply an argument for storemanager_props because the 'fair-suite' does not require data objects.
 
 suite_results = suites.run_suite(
     suite_path,
@@ -102,7 +151,7 @@ print(suite_results)
 ```
 
 
-## How do I run a metadata check?
+## How do I run a single metadata check?
 
 To run a metadata check, pass the check.xml, metadata file path and metadata's system metadata's file path to the `run_check` function.
 
@@ -126,52 +175,7 @@ print(result)
 }
 ```
 
-## How do I import the `MetaDIG-py` library to my check?
-
-In your python code, you can import a specific module or function like such:
-
-```py
-from metadig import read_sysmeta_element
-```
-
-Currently, we have the following modules and functions available:
-
-```py
-"StoreManager", # fn
-"getType", # fn
-"isResolvable", # fn
-"isBlank", # fn
-"toUnicode", # fn
-"read_sysmeta_element", # fn
-"find_eml_entity", # fn
-"find_entity_index", # fn
-"read_csv_with_metadata", # fn
-"get_valid_csv", # fn
-"run_check", # fn
-"checks" # Module
-```
-
-## Installation
-
-To install MetaDIG-py, run the following commands
-
-```sh
-$ mkvirtualenv -p python3.9 metadigpy # Create a virtual environment
-(metadigpy) $ poetry install # Run poetry command to install dependencies
-```
-- Note: If you run into an issue with installing jep, it is likely due to a backwards
-compatibility issue with `setuptools`. Try downgrading to the version 58.0.0:
-  ```sh
-  (metadigpy) $ pip install setuptools==58.0.0
-  ```
-
-To confirm that you have installed `MetaDIG-py` successfully, run `pytest`.
-```sh
-(metadigpy) $ pytest
-```
-- Tip: You may run `pytest` with the option `-s` (ex. `pytest -s`) to see print statements. Not all pytests have print statements, but if you want to extend from what already exists, this may prove to be helpful!
-
-### How to use the MetaDIG-py command line client
+## How to use the MetaDIG-py command line client
 
 The MetaDIG-py command line client was created to help users test python checks without having to spin up the java engine `metadig-engine` and run a check through the dispatcher.
 
@@ -181,20 +185,19 @@ After you've installed `MetaDIG-py`, you will have access to the command `metadi
 (metadigpy) $ metadigpy -runcheck -store_path=/path/to/hashstore -check_xml=/path/to/check_xml -metadata_doc=/path/to/metadata/doc -sysmeta_doc=/path/to/sysmeta
 ```
 
-### How does the MetaDIG-py command line client run a check or suite with the arguments supplied?
+To get help and see all the options available, you can run metadigpy with the `-h` flag
 
-The `metadigclient` extracts the identifier (ex. DOI) & the authoritative member node (MN) (e.g. `urn:node:ARCTIC`) from the system metadata document supplied for the given eml metadata document. It then passes these values to the `run_check` or `run_suite` function, which retrieves the associated data pids and their respective system metadata from the given hashstore.
-
-Afterwards, `metadigpy` then parses the check xml provided or the suite and check paths, validates and executes the check, and lastly prints the final result to stdout. `run_check` will return the results of a specific check, and `run_suite` will return the results of all the checks found in the given suite.
+```sh
+(metadigpy) $ metadigpy -h
+```
 
 ### How to set up and run a data check through the MetaDig-py command line client
 
 To set up a data check, you must have/prepare the following before you run the `metadigpy` client command (above)
-1) A HashStore - this step is necessary because `run_check` will look for the data objects in a HashStore after retrieving the data pids.
-    - If you do not have a hashstore, `metadigpy` ships with a default hashstore that is ready to use.
-2) The data objects associated with the DOI to check stored in HashStore, including the data objects' system metadata.
+1) A HashStore - note, `metadigpy` ships with a default hashstore that is ready to use.
+2) The data objects stored into the hashstore
 2) A copy of the metadata document and its respective system metadata for the DOI.
-4) The check you want to run
+4) The suite and/or checks you want to run
 
 #### What is HashStore?
 
@@ -259,7 +262,7 @@ $ mkvirtualenv -p python3.9 metadigpy // Create a virtual environment
 
 (metadigpy) ~/Code/hashstore $ metadigpy -runcheck -store_path=/path/to/hashstore -check_xml=/path/to/check_xml -metadata_doc=/path/to/metadata/doc -sysmeta_doc=/path/to/sysmeta
 
-(metadigpy) ~/Code/hashstore $ {'Check Status': 0, 'Check Result': ['...RESULT...']}
+(metadigpy) ~/Code/hashstore $ {'identifiers': ['...', '...'], 'output': ["the_dataset_checked.csv is a valid 'utf-8' document and does not contain encoding errors."], 'status': 'SUCCESS'}
 ```
 
 ## License
