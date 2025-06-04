@@ -177,7 +177,7 @@ print(result)
 
 ## How to use the MetaDIG-py command line client
 
-The MetaDIG-py command line client was created to help users test python checks without having to spin up the java engine `metadig-engine` and run a check through the dispatcher.
+The `MetaDIG-py` command line client was created to help users test python checks without having to spin up the java engine `metadig-engine` and run a check through the dispatcher.
 
 After you've installed `MetaDIG-py`, you will have access to the command `metadigpy`. Please see installation section above if you haven't installed `MetaDIG-py`. Below is what running a check looks like:
 
@@ -194,14 +194,25 @@ To get help and see all the options available, you can run metadigpy with the `-
 ### How to set up and run a data check through the MetaDig-py command line client
 
 To set up a data check, you must have/prepare the following before you run the `metadigpy` client command (above)
-1) A HashStore - note, `metadigpy` ships with a default hashstore that is ready to use.
-2) The data objects stored into the hashstore
-2) A copy of the metadata document and its respective system metadata for the DOI.
+1) A HashStore - note, `MetaDig-py` ships with a default hashstore that is ready to use.
+
+    Please see the section below to learn more.
+
+2) The data objects and their associated system metadata stored into the hashstore
+
+    During the `run_check` process, after retrieving the data pids for the provided identifier, we then retrieve their associated data objects and system metadata from the provided HashStore. If these 'files' are not found, it could cause errors with the check that you're trying to run or test. Note, every data object stored in HashStore must have an equivalent system metadata, and this system metadata describes the basic attributes of the data object.
+
+3) A copy of the metadata document and its respective system metadata for the DOI.
+
+    Every dataset not only has metadata about the dataset (which usually comes in the form of an EML metadata document) but also system metadata for the metadata. For us to run a `metadig` check at this time, we need both the metadata document and its respective system metadata. The system metadata is parsed for the identifier, which is then used to retrieve the appropriate data pids, which is then used in the check.
+
 4) The suite and/or checks you want to run
 
-#### What is HashStore?
+    Suites and checks can be found in the `metadig-checks` repository. You may check this repo out and then provide the necessary paths for running a suite or check through the `metadigclient`.
 
-  * **Note**: A HashStore is only required if you are running data quality checks
+#### HashStore 101
+
+  * **Friendly Reminder**: A HashStore is only required if you are running data quality checks
 
 HashStore is a python package developed for DataONE services to efficiently access data objects, metadata and system metadata. In order to simulate the process of retrieving data objects with a `metadig` check, we must mimic the environment in which it happens in production. So the requirement of having a HashStore means that we need to create a HashStore and then store data objects and system metadata inside of it. Please see below for an example:
 
@@ -223,19 +234,61 @@ HashStore is a python package developed for DataONE services to efficiently acce
 
 On your file system, HashStore looks like a folder with data objects and system metadata stored with hashes based on either a content identifier, or a combination of values that create a unique identifier. To interact with a HashStore and learn more, please see the documentation [here](https://github.com/DataONEorg/hashstore/).
 
-#### Why data objects and its associated system metadata must be stored
+#### How do I use the default HashStore?
 
-During the `run_check` process, after retrieving the data pids for the provided identifier, we then retrieve their associated data objects and system metadata from the provided HashStore. If these 'files' are not found, it could cause errors with the check that you're trying to run or test. Note, every data object stored in HashStore must have an equivalent system metadata, and this system metadata describes the basic attributes of the data object.
+`MetaDig-py` ships with a hashstore that can be worked with directly through the command line, or through the `metadigclient`. If you do not provide a path to a hashstore to the `metadigclient`, its associated functions will attempt to search for data objects and sysmeta in the default hashstore found in `/hashstore`. You could also use the default hashstore path in the manual process should you desire to.
 
-#### Dataset Metadata + System Metadata
+##### How do I import my data objects to the default hashstore?
 
-Every dataset not only has metadata about the dataset (which usually comes in the form of an EML metadata document) but also system metadata for the metadata. For us to run a `metadig` check at this time, we need both the metadata document and its respective system metadata. The system metadata is parsed for the identifier, which is then used to retrieve the appropriate data pids, which is then used in the check.
+To import data to the default hashstore, you will need the system metadata document for the dataset metadata, and a folder that contains the data objects to import. This folder should contain data objects with the exact name of the data objects that are documented. 
 
-#### The Python Check
+This can be done by viewing your dataset on the member node url (ex. `https://arcticdata.io/catalog/view/doi:...`), downloading the dataset and then extracting its contents. You then copy this path and provide it to the `-data_folder` flag (an example can be found below).
 
-TODO: Discuss how a python check is created, and link to `metadig-checks` for more info.
+The `-importhashstoredata` process will parse the provided metadata system metadata document for the necessary details to validate, and then store the data objects and its associated system metadata to the default hashstore. 
 
-#### Example of the Entire Process via the `MetaDIG-py` command line client
+```sh
+(metadigpy) ~/Code/metadig-py $ metadigpy -importhashstoredata -sysmeta_doc=/path/to/sysmeta -data_folder=/path/to/datset/folder/with/data/objects
+```
+
+Now you may run your desired check or suite against the dataset you just imported to the default hashstore.
+
+## Example of the full `MetaDIG-py` command line client process to run a data suite (default hashstore)
+
+```sh
+$ mkvirtualenv -p python3.9 metadigpy // Create a virtual environment
+(metadigpy) ~/Code $ git clone https://github.com/NCEAS/metadig-py.git ~/Code/metadigpy
+
+(metadigpy) ~/Code $ cd /metadigpy
+
+(metadigpy) ~/Code/metadigpy $ poetry install // Run poetry command to install dependencies
+
+(metadigpy) ~/Code/metadigpy $ metadigpy -importhashstoredata -sysmeta_doc=/path/to/sysmeta -data_folder=/path/to/datset/folder/with/data/objects
+
+(metadigpy) ~/Code/hashstore $ metadigpy -runsuite -suite_path=/path/to/the/data-suite.xml -check_folder=path/to/the/folder/containing/checks/ -metadata_doc=/path/to/metadata/doc -sysmeta_doc=/path/to/sysmeta
+
+{
+  "suite": "data-suite.xml",
+  "timestamp": "2025-06-04 12:04:52",
+  "object_identifier": "doi:10.18739/A2QJ70000",
+  "run_status": "SUCCESS",
+  "run_comments": [],
+  "sysmeta": {
+    "origin_member_node": "urn:node:ARCTIC",
+    "rights_holder": "http://orcid.org/0000-0000-0000-0000",
+    "date_uploaded": "2024-07-03T19:46:44.414+00:00",
+    "format_id": "https://eml.ecoinformatics.org/eml-2.2.0",
+    "obsoletes": "urn:uuid:..."
+  },
+  "results": [
+    {
+      ...
+    },
+    ...
+  ]
+}
+```
+
+## Example of the full `MetaDIG-py` command line client process to run a data check (manual hashstore)
 
 ```sh
 $ mkvirtualenv -p python3.9 metadigpy // Create a virtual environment
