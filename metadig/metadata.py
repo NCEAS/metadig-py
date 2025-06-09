@@ -297,8 +297,9 @@ def detect_text_encoding(raw: bytes):
     except UnicodeDecodeError as e:
         # If we attempt to decode as utf-8 and run into exceptions, it may contain other
         # illegal characters. We will attempt to detect the encoding and return the error message.
-        err_msg = (
-            f"utf-8 decode error at byte {e.start}: {raw[e.start:e.end]}")
+        # TODO: Detect encoding incrementally: https://chardet.readthedocs.io/en/latest/usage.html
         detected_encoding_result = chardet.detect(raw)
-        encoding = detected_encoding_result.get('encoding')
-        return encoding, err_msg
+        encoding = detected_encoding_result.get("encoding")
+        confidence = detected_encoding_result.get("confidence")
+        encoding_msg = f"Confidence Level: {round(confidence*100, 2)}%"
+        return encoding, encoding_msg
