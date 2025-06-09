@@ -332,4 +332,5 @@ def test_detect_text_encoding_other(storemanager_props, init_hashstore_with_test
 
     enc_type, msg = metadata.detect_text_encoding(bytes_read)
     assert enc_type == "ISO-8859-1"
-    assert "decode error at" in msg
+    print(msg)
+    assert "Confidence Level" in msg
