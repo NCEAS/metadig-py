@@ -334,3 +334,10 @@ def test_detect_text_encoding_other(storemanager_props, init_hashstore_with_test
     assert enc_type == "ISO-8859-1"
     print(msg)
     assert "Confidence Level" in msg
+
+
+def test_escape_for_markdown():
+    """Confirm that special characters are escaped"""
+    string_to_escape = "American_Black_Duck_x_Mallard_.hybrid."
+    escaped_string = metadata.escape_for_markdown(string_to_escape)
+    assert escaped_string == r"American\_Black\_Duck\_x\_Mallard\_\.hybrid\."

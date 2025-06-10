@@ -303,3 +303,18 @@ def detect_text_encoding(raw: bytes):
         confidence = detected_encoding_result.get("confidence")
         encoding_msg = f"Confidence Level: {round(confidence*100, 2)}%"
         return encoding, encoding_msg
+
+
+def escape_for_markdown(string: str):
+    """Parses a string and escapes any of the following special characters
+    so that the string is displayed properly in markdown: \`*_{}[]<>()#+-.!|
+
+    :param string str: String to sanitize
+    :return: A string with special character escaped
+    :rtype: string
+    """
+    markdown_chars_to_escape = set(r"\`*_{}[]<>()#+-.!|")
+    return "".join(
+        f"\\{character}" if character in markdown_chars_to_escape else character
+        for character in string
+    )
