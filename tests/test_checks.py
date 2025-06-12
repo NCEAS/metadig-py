@@ -112,7 +112,7 @@ def test_run_check_data_character_encoding(storemanager_props, init_hashstore_wi
 
     # Now execute 'run_check' by providing it the required args
     sample_check_file_path = get_test_data_path(
-        "checks/data.character-encoding.xml"
+        "checks/data.text-encoding.valid.xml"
     )
     sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
     sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
