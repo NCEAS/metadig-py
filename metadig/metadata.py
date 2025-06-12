@@ -175,6 +175,7 @@ def read_csv_with_metadata(d_read, fd, header_line, d_encoding=None):
                     delimiter=fd,
                     header=pd_header_val,
                     encoding=d_encoding,
+                    na_filter=False
                 ),
                 None,
             )
