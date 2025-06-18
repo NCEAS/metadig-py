@@ -5,6 +5,7 @@ import io
 import hashlib
 import pandas
 import chardet
+import re
 
 
 def read_sysmeta_element(stream, element):
@@ -127,7 +128,7 @@ def find_entity_index(fname, pid, entity_names, ids):
     # If a single match is found, [0] is the value returned
     return z if z else None
 
-def read_csv_with_metadata(d_read, fd, header_line, d_encoding=None):
+def read_csv_with_metadata(d_read, fd, header_line, d_encoding=None, nan_filter=False):
     """Uses pandas to read in a csv with given field delimiter and header rows to skip
 
     :param str or bytes d_read: RData as read in from the stream
@@ -144,6 +145,9 @@ def read_csv_with_metadata(d_read, fd, header_line, d_encoding=None):
         fd = fd[0]  # Extract first element if list
     if not isinstance(fd, (str, int)):
         fd = ","  # Default to comma if invalid type
+    # Ensure nan_filter is a boolean
+    if not isinstance(nan_filter, bool):
+        raise ValueError("Argument 'nan_filter' must be a boolean")
 
     pd_header_val = 0
     if isinstance(header_line, list):
@@ -175,14 +179,17 @@ def read_csv_with_metadata(d_read, fd, header_line, d_encoding=None):
                     delimiter=fd,
                     header=pd_header_val,
                     encoding=d_encoding,
-                    na_filter=False
+                    na_filter=nan_filter
                 ),
                 None,
             )
         else:
             return (
                 pandas.read_csv(
-                    io.StringIO(d_read), delimiter=fd, header=pd_header_val
+                    io.StringIO(d_read),
+                    delimiter=fd,
+                    header=pd_header_val,
+                    na_filter=nan_filter,
                 ),
                 None,
             )
@@ -305,10 +312,9 @@ def detect_text_encoding(raw: bytes):
         encoding_msg = f"Confidence Level: {round(confidence*100, 2)}%"
         return encoding, encoding_msg
 
-
 def escape_for_markdown(string: str):
     """Parses a string and escapes any of the following special characters
-    so that the string is displayed properly in markdown: \`*_{}[]<>()#+-.!|
+    so that the string is displayed properly in markdown: \\`*_{}[]<>()#+-.!|
 
     :param string str: String to sanitize
     :return: A string with special character escaped
