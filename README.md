@@ -24,18 +24,18 @@ which enables users to write checks that efficiently retrieves data objects to w
 To install MetaDIG-py, run the following commands
 
 ```sh
-$ mkvirtualenv -p python3.9 metadigpy # Create a virtual environment
-(metadigpy) $ poetry install # Run poetry command to install dependencies
+mkvirtualenv -p python3.9 metadigpy # Create a virtual environment
+poetry install # Run poetry command to install dependencies
 ```
 - Note: If you run into an issue with installing jep, it is likely due to a backwards
 compatibility issue with `setuptools`. Try downgrading to the version 58.0.0:
   ```sh
-  (metadigpy) $ pip install setuptools==58.0.0
+ pip install setuptools==58.0.0
   ```
 
 To confirm that you have installed `MetaDIG-py` successfully, run `pytest`.
 ```sh
-(metadigpy) $ pytest
+pytest
 ```
 - Tip: You may run `pytest` with the option `-s` (ex. `pytest -s`) to see print statements. Not all pytests have print statements, but if you want to extend from what already exists, this may prove to be helpful!
 
@@ -182,13 +182,13 @@ The `MetaDIG-py` command line client was created to help users test python check
 After you've installed `MetaDIG-py`, you will have access to the command `metadigpy`. Please see installation section above if you haven't installed `MetaDIG-py`. Below is what running a check looks like:
 
 ```sh
-(metadigpy) $ metadigpy -runcheck -store_path=/path/to/hashstore -check_xml=/path/to/check_xml -metadata_doc=/path/to/metadata/doc -sysmeta_doc=/path/to/sysmeta
+metadigpy -runcheck -store_path=/path/to/hashstore -check_xml=/path/to/check_xml -metadata_doc=/path/to/metadata/doc -sysmeta_doc=/path/to/sysmeta
 ```
 
 To get help and see all the options available, you can run metadigpy with the `-h` flag
 
 ```sh
-(metadigpy) $ metadigpy -h
+metadigpy -h
 ```
 
 ### How to set up and run a data check through the MetaDig-py command line client
@@ -218,18 +218,18 @@ HashStore is a python package developed for DataONE services to efficiently acce
 
 ```sh
 # Step 0: Install hashstore via poetry to create an executable script
-(metadigpy) ~/Code $ git clone https://github.com/DataONEorg/hashstore.git /Code/hashstore
+git clone https://github.com/DataONEorg/hashstore.git /Code/hashstore
 
-(metadigpy) ~/Code/hashstore $ poetry install
+poetry install
 
 # Step 1: Create a HashStore at your desired store path (ex. /var/metacat/hashstore)
-(metadigpy) ~/Code/hashstore $ hashstore /path/to/store/ -chs -dp=3 -wp=2 -ap=SHA-256 -nsp="https://ns.dataone.org/service/types/v2.0#SystemMetadata"
+hashstore /path/to/store/ -chs -dp=3 -wp=2 -ap=SHA-256 -nsp="https://ns.dataone.org/service/types/v2.0#SystemMetadata"
 
 # Store a data object
-(metadigpy) ~/Code/hashstore $ hashstore /path/to/store/ -storeobject -pid=persistent_identifier -path=/path/to/object
+hashstore /path/to/store/ -storeobject -pid=persistent_identifier -path=/path/to/object
 
 # Store a metadata object
-(metadigpy) ~/Code/hashstore $ hashstore /path/to/store/ -storemetadata -pid=persistent_identifier -path=/path/to/metadata/object -formatid=https://ns.dataone.org/service/types/v2.0#SystemMetadata
+hashstore /path/to/store/ -storemetadata -pid=persistent_identifier -path=/path/to/metadata/object -formatid=https://ns.dataone.org/service/types/v2.0#SystemMetadata
 ```
 
 On your file system, HashStore looks like a folder with data objects and system metadata stored with hashes based on either a content identifier, or a combination of values that create a unique identifier. To interact with a HashStore and learn more, please see the documentation [here](https://github.com/DataONEorg/hashstore/).
@@ -247,7 +247,7 @@ This can be done by viewing your dataset on the member node url (ex. `https://ar
 The `-importhashstoredata` process will parse the provided metadata system metadata document for the necessary details to validate, and then store the data objects and its associated system metadata to the default hashstore. 
 
 ```sh
-(metadigpy) ~/Code/metadig-py $ metadigpy -importhashstoredata -sysmeta_doc=/path/to/sysmeta -data_folder=/path/to/datset/folder/with/data/objects
+metadigpy -importhashstoredata -sysmeta_doc=/path/to/sysmeta -data_folder=/path/to/datset/folder/with/data/objects
 ```
 
 Now you may run your desired check or suite against the dataset you just imported to the default hashstore.
@@ -255,16 +255,16 @@ Now you may run your desired check or suite against the dataset you just importe
 ## Example of the full `MetaDIG-py` command line client process to run a data suite (default hashstore)
 
 ```sh
-$ mkvirtualenv -p python3.9 metadigpy // Create a virtual environment
-(metadigpy) ~/Code $ git clone https://github.com/NCEAS/metadig-py.git ~/Code/metadigpy
+mkvirtualenv -p python3.9 metadigpy // Create a virtual environment
+git clone https://github.com/NCEAS/metadig-py.git ~/Code/metadigpy
 
-(metadigpy) ~/Code $ cd /metadigpy
+cd /metadigpy
 
-(metadigpy) ~/Code/metadigpy $ poetry install // Run poetry command to install dependencies
+poetry install // Run poetry command to install dependencies
 
-(metadigpy) ~/Code/metadigpy $ metadigpy -importhashstoredata -sysmeta_doc=/path/to/sysmeta -data_folder=/path/to/datset/folder/with/data/objects
+metadigpy -importhashstoredata -sysmeta_doc=/path/to/sysmeta -data_folder=/path/to/datset/folder/with/data/objects
 
-(metadigpy) ~/Code/hashstore $ metadigpy -runsuite -suite_path=/path/to/the/data-suite.xml -check_folder=path/to/the/folder/containing/checks/ -metadata_doc=/path/to/metadata/doc -sysmeta_doc=/path/to/sysmeta
+metadigpy -runsuite -suite_path=/path/to/the/data-suite.xml -check_folder=path/to/the/folder/containing/checks/ -metadata_doc=/path/to/metadata/doc -sysmeta_doc=/path/to/sysmeta
 
 {
   "suite": "data-suite.xml",
@@ -291,29 +291,29 @@ $ mkvirtualenv -p python3.9 metadigpy // Create a virtual environment
 ## Example of the full `MetaDIG-py` command line client process to run a data check (manual hashstore)
 
 ```sh
-$ mkvirtualenv -p python3.9 metadigpy // Create a virtual environment
-(metadigpy) ~/Code $ git clone https://github.com/NCEAS/metadig-py.git ~/Code/metadigpy
+mkvirtualenv -p python3.9 metadigpy // Create a virtual environment
+git clone https://github.com/NCEAS/metadig-py.git ~/Code/metadigpy
 
-(metadigpy) ~/Code $ cd /metadigpy
+cd /metadigpy
 
-(metadigpy) ~/Code/metadigpy $ poetry install // Run poetry command to install dependencies
+poetry install // Run poetry command to install dependencies
 
-(metadigpy) ~/Code/metadigpy $ git clone https://github.com/DataONEorg/hashstore.git ~/Code/hashstore
+git clone https://github.com/DataONEorg/hashstore.git ~/Code/hashstore
 
-(metadigpy) ~/Code $ cd ../hashstore
+cd ../hashstore
 
-(metadigpy) ~/Code/hashstore $ poetry install
+poetry install
 
 # Step 1: Create a HashStore at your desired store path (ex. /var/metacat/hashstore)
-(metadigpy) ~/Code/hashstore $ hashstore /path/to/store/ -chs -dp=3 -wp=2 -ap=SHA-256 -nsp="https://ns.dataone.org/service/types/v2.0#SystemMetadata"
+hashstore /path/to/store/ -chs -dp=3 -wp=2 -ap=SHA-256 -nsp="https://ns.dataone.org/service/types/v2.0#SystemMetadata"
 
 # Store a data object
-(metadigpy) ~/Code/hashstore $ hashstore /path/to/store/ -storeobject -pid=persistent_identifier -path=/path/to/object
+hashstore /path/to/store/ -storeobject -pid=persistent_identifier -path=/path/to/object
 
 # Store a metadata object
-(metadigpy) ~/Code/hashstore $ hashstore /path/to/store/ -storemetadata -pid=persistent_identifier -path=/path/to/metadata/object -formatid=https://ns.dataone.org/service/types/v2.0#SystemMetadata
+hashstore /path/to/store/ -storemetadata -pid=persistent_identifier -path=/path/to/metadata/object -formatid=https://ns.dataone.org/service/types/v2.0#SystemMetadata
 
-(metadigpy) ~/Code/hashstore $ metadigpy -runcheck -store_path=/path/to/hashstore -check_xml=/path/to/check_xml -metadata_doc=/path/to/metadata/doc -sysmeta_doc=/path/to/sysmeta
+metadigpy -runcheck -store_path=/path/to/hashstore -check_xml=/path/to/check_xml -metadata_doc=/path/to/metadata/doc -sysmeta_doc=/path/to/sysmeta
 
 {'identifiers': ['...', '...'], 'output': ["the_dataset_checked.csv is a valid 'utf-8' document and does not contain encoding errors."], 'status': 'SUCCESS'}
 ```
