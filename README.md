@@ -29,6 +29,7 @@ poetry install # Run poetry command to install dependencies
 ```
 - Note: If you run into an issue with installing jep, it is likely due to a backwards
 compatibility issue with `setuptools`. Try downgrading to the version 58.0.0:
+
   ```sh
  pip install setuptools==58.0.0
   ```
