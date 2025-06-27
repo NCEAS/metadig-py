@@ -122,11 +122,7 @@ def find_entity_index(fname, pid, entity_names, ids):
     if not z:
         z = [i for i, x in enumerate(ids) if x == pid.replace(":", "-")]
 
-    # If there are multiple matches, we will return the first one
-    if len(z) > 1:
-        z = z[0]
-    # If a single match is found, [0] is the value returned
-    return z if z else None
+    return z[0] if z else None
 
 def read_csv_with_metadata(d_read, fd, header_line, d_encoding=None, nan_filter=False):
     """Uses pandas to read in a csv with given field delimiter and header rows to skip
