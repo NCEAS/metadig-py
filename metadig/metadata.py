@@ -116,6 +116,12 @@ def find_entity_index(fname, pid, entity_names, ids):
         z: Index of matching entity in documentation.
 
     """
+    # Box up single items into a list for interating later
+    if not isinstance(ids, list):
+        ids = [ids]
+    if not isinstance(entity_names, list):
+        entity_names = [entity_names]
+
     # Checks all elements in entity_names to find matches with fname
     z = [i for i, x in enumerate(entity_names) if x == fname]
     # If z is empty, we will try to match by pid instead
