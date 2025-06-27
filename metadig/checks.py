@@ -179,15 +179,19 @@ def get_sysmeta_vars(sysmeta_path: str):
         rights_holder = sysmeta_doc_root.find("rightsHolder").text
         date_uploaded = sysmeta_doc_root.find("dateUploaded").text
         format_id = sysmeta_doc_root.find("formatId").text
-        obsoletes = sysmeta_doc_root.find("obsoletes").text
         if identifier is None:
             raise ValueError("Element 'identifier' is missing from sysmeta document")
-        if identifier is None:
+        if authoritative_member_node is None:
             raise ValueError("Element 'authoritativeMemberNode' is missing from sysmeta document")
     except AttributeError as ae:
         raise AttributeError(
             "Elements 'identifier' or 'authoritativeMemberNode' is missing from sysmeta document"
         ) from ae
+    
+    try:
+        obsoletes = sysmeta_doc_root.find("obsoletes").text
+    except Exception:
+        obsoletes = None
 
     sm_rn_vars = {}
     sm_rn_vars["identifier"] = identifier
