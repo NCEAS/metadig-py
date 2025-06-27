@@ -341,3 +341,30 @@ def test_escape_for_markdown():
     string_to_escape = "American_Black_Duck_x_Mallard_.hybrid."
     escaped_string = metadata.escape_for_markdown(string_to_escape)
     assert escaped_string == r"American\_Black\_Duck\_x\_Mallard\_\.hybrid\."
+
+def test_find_entity_index_fname():
+    fname = "data.csv"
+    pid = "urn:uuid:1234"
+    entity_names = ["other.csv", "data.csv", "final.csv"]
+    ids = ["urn-uuid-9999", "urn-uuid-1234", "urn-uuid-8888"]
+
+    result = metadata.find_entity_index(fname, pid, entity_names, ids)
+    assert result == 1
+
+def test_find_entity_index_single_pid():
+    fname = "data.csv"
+    pid = "urn:uuid:1234"
+    entity_names = ["other.csv" "final.csv"]
+    ids = "urn-uuid-1234"
+
+    result = metadata.find_entity_index(fname, pid, entity_names, ids)
+    assert result == 0
+
+def test_find_entity_index_multi_pid():
+    fname = "data.csv"
+    pid = "urn:uuid:5678"
+    entity_names = ["other.csv" "final.csv"]
+    ids = ["urn-uuid-1234", "urn-uuid-5678"]
+
+    result = metadata.find_entity_index(fname, pid, entity_names, ids)
+    assert result == 1
