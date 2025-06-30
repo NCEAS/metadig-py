@@ -6,6 +6,13 @@ import hashlib
 import pandas
 import chardet
 import re
+try:
+    from java.util import ArrayList
+except ImportError:
+    # If there is an issue with importing python recognized java classes from
+    # the Jython environment, we will attempt to create the classes necessary
+    # to proceed with the check.
+    from metadig.checks import ListWithGet as ArrayList
 
 
 def read_sysmeta_element(stream, element):
@@ -117,16 +124,16 @@ def find_entity_index(fname, pid, entity_names, ids):
 
     """
     # Box up single items into a list for interating later
-    if not isinstance(ids, list):
-        ids = [ids]
-    if not isinstance(entity_names, list):
-        entity_names = [entity_names]
+    list_types = (list, ArrayList)
+
+    ids_l = ids if isinstance(ids, list_types) else [ids]
+    entity_names_l = entity_names if isinstance(entity_names, list_types) else [entity_names]
 
     # Checks all elements in entity_names to find matches with fname
-    z = [i for i, x in enumerate(entity_names) if x == fname]
+    z = [i for i, x in enumerate(entity_names_l) if x == fname]
     # If z is empty, we will try to match by pid instead
     if not z:
-        z = [i for i, x in enumerate(ids) if x == pid.replace(":", "-")]
+        z = [i for i, x in enumerate(ids_l) if x == pid.replace(":", "-")]
 
     return z[0] if z else None
 
