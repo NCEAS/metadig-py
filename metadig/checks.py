@@ -115,10 +115,7 @@ def get_data_pids(identifier: str, member_node: str):
         # Send the request and read the response
         with urllib.request.urlopen(req) as response:
             # Read and decode the response
-            data = response.read().decode("utf-8")
-            # Convert the string to bytes so lxml can parse it
-            xml_bytes = data.encode("utf-8")
-            # Iterate over the response to get all the data pids
+            xml_bytes = response.read()
             # pylint: disable=I1101
             root = etree.fromstring(xml_bytes)
 
@@ -182,15 +179,19 @@ def get_sysmeta_vars(sysmeta_path: str):
         rights_holder = sysmeta_doc_root.find("rightsHolder").text
         date_uploaded = sysmeta_doc_root.find("dateUploaded").text
         format_id = sysmeta_doc_root.find("formatId").text
-        obsoletes = sysmeta_doc_root.find("obsoletes").text
         if identifier is None:
             raise ValueError("Element 'identifier' is missing from sysmeta document")
-        if identifier is None:
+        if authoritative_member_node is None:
             raise ValueError("Element 'authoritativeMemberNode' is missing from sysmeta document")
     except AttributeError as ae:
         raise AttributeError(
             "Elements 'identifier' or 'authoritativeMemberNode' is missing from sysmeta document"
         ) from ae
+    
+    try:
+        obsoletes = sysmeta_doc_root.find("obsoletes").text
+    except Exception:
+        obsoletes = None
 
     sm_rn_vars = {}
     sm_rn_vars["identifier"] = identifier
