@@ -76,8 +76,8 @@ def find_eml_entity(doc, identifier, file_name):
     # Search through dataTable and otherEntity elements
     for element in root.findall(".//dataTable") + root.findall(".//otherEntity"):
         # Check if identifier matches the id element
-        id_elem = element.find(".//id")
-        if id_elem is not None and id_elem.text == identifier.replace(":", "-"):
+        id_attr = element.attrib.get('id')
+        if id_attr is not None and id_attr == identifier.replace(":", "-"):
             return element
 
         # Check if fileName matches the entity name element

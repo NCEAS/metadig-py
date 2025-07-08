@@ -118,6 +118,62 @@ def test_find_entity():
     anames = ent.findall(".//attributeName")
     assert [elem.text for elem in anames] == ["length_1"]
 
+def test_find_entity_diff_fname():
+    """Test 'find_eml_entity' is able to find the expected entity."""
+    doc = """<?xml version="1.0" encoding="UTF-8"?>
+    <eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="id" system="system" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
+      <dataset>
+        <title>A Mimimal Valid EML Dataset</title>
+        <creator>
+          <individualName>
+            <givenName>Jeanette</givenName>
+            <surName>Clark</surName>
+          </individualName>
+        </creator>
+        <contact>
+          <individualName>
+            <givenName>Jeanette</givenName>
+            <surName>Clark</surName>
+          </individualName>
+        </contact> \n """
+
+    dt = """<dataTable id="identifier-123">
+              <entityName>my cool file</entityName>
+              <attributeList>
+                <attribute>
+                  <attributeName>length_1</attributeName>
+                  <attributeDefinition>def1</attributeDefinition>
+                  <measurementScale>
+                    <ratio>
+                      <unit>
+                        <standardUnit>meter</standardUnit>
+                      </unit>
+                      <numericDomain>
+                        <numberType>real</numberType>
+                      </numericDomain>
+                    </ratio>
+                  </measurementScale>
+                </attribute>
+              </attributeList>
+            </dataTable>
+          </dataset>
+        </eml:eml>
+        """
+    # can find by identifier
+    fname = "file.csv"
+    identifier = "identifier:123"
+
+    ent = metadata.find_eml_entity(doc + dt, identifier, fname)
+    assert ent is not None
+    
+    # can find by filename
+    fname = ["my cool file"]
+    identifier = "fakeid"
+
+    ent = metadata.find_eml_entity(doc + dt, identifier, fname)
+    assert ent is not None
+
+
 
 def test_read_csv_with_metadata(storemanager_props, init_hashstore_with_test_data):
     """Test that a text delimited document can be read."""
