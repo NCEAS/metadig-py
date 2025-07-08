@@ -62,13 +62,22 @@ def find_eml_entity(doc, identifier, file_name):
         Returns None if no match is found.
     """
 
+    # extract lists into single items
+    list_types = (list, ArrayList)
+
+    if isinstance(file_name, list_types):
+        file_name = file_name[0]
+
+    if isinstance(identifier, list_types):
+        identifier = identifier[0]
+
     root = ET.fromstring(doc)
 
     # Search through dataTable and otherEntity elements
     for element in root.findall(".//dataTable") + root.findall(".//otherEntity"):
         # Check if identifier matches the id element
         id_elem = element.find(".//id")
-        if id_elem is not None and id_elem.text == identifier:
+        if id_elem is not None and id_elem.text == identifier.replace(":", "-"):
             return element
 
         # Check if fileName matches the entity name element
