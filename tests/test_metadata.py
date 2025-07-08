@@ -79,8 +79,7 @@ def test_find_entity():
     </eml:eml>
     """
 
-    oe2 = """<otherEntity>
-          <id>identifier-123</id>
+    oe2 = """<otherEntity id="identifier-123">
           <entityName>file</entityName>
           <attributeList>
             <attribute>
