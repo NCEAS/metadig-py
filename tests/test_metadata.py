@@ -318,7 +318,7 @@ def test_detect_text_encoding_utf8(storemanager_props, init_hashstore_with_test_
     bytes_read = obj.read()
 
     enc_type, msg = metadata.detect_text_encoding(bytes_read)
-    assert enc_type == "utf-8"
+    assert enc_type == "Windows-1252"
     assert msg is None
 
 
@@ -332,8 +332,7 @@ def test_detect_text_encoding_other(storemanager_props, init_hashstore_with_test
 
     enc_type, msg = metadata.detect_text_encoding(bytes_read)
     assert enc_type == "ISO-8859-1"
-    print(msg)
-    assert "Confidence Level" in msg
+    assert msg is None
 
 
 def test_escape_for_markdown():
@@ -341,6 +340,7 @@ def test_escape_for_markdown():
     string_to_escape = "American_Black_Duck_x_Mallard_.hybrid."
     escaped_string = metadata.escape_for_markdown(string_to_escape)
     assert escaped_string == r"American\_Black\_Duck\_x\_Mallard\_\.hybrid\."
+
 
 def test_find_entity_index_fname():
     fname = "data.csv"
@@ -351,6 +351,7 @@ def test_find_entity_index_fname():
     result = metadata.find_entity_index(fname, pid, entity_names, ids)
     assert result == 1
 
+
 def test_find_entity_index_single_pid():
     fname = "data.csv"
     pid = "urn:uuid:1234"
@@ -359,6 +360,7 @@ def test_find_entity_index_single_pid():
 
     result = metadata.find_entity_index(fname, pid, entity_names, ids)
     assert result == 0
+
 
 def test_find_entity_index_multi_pid():
     fname = "data.csv"

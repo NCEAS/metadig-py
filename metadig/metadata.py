@@ -307,28 +307,26 @@ def detect_text_encoding(raw: bytes):
         - error (str or None): None if decoding succeeded, or a string with error details
     :rtype: tuple
     """
-    # First check to see if the raw bytes are encoded as ASCII
+    # First detect the encoding type
+    detected_encoding_result = chardet.detect(raw)
+    encoding = detected_encoding_result.get("encoding")
+    # Now try to decode it
     try:
-        raw.decode("ascii")
-        return "ascii", None
+        raw.decode(encoding)
+        return encoding, None
     # pylint: disable=W0612
     except UnicodeDecodeError as e:
-        # The bytes are not pure ascii, and it may contain en dashes, accented letters
-        # emojis, etc. so we will check to see if it's utf-8
-        pass
-
-    try:
-        raw.decode("utf-8")
-        return "utf-8", None
-    except UnicodeDecodeError as e:
-        # If we attempt to decode as utf-8 and run into exceptions, it may contain other
-        # illegal characters. We will attempt to detect the encoding and return the error message.
-        # TODO: Detect encoding incrementally: https://chardet.readthedocs.io/en/latest/usage.html
-        detected_encoding_result = chardet.detect(raw)
-        encoding = detected_encoding_result.get("encoding")
+        # If there an a decoding error, return the identified encoding type and the confidence
+        # level, along with details on where we ran into the error.
         confidence = detected_encoding_result.get("confidence")
-        encoding_msg = f"Confidence Level: {round(confidence*100, 2)}%"
+        encoding_msg = (
+            "A decoding error has been detected while attempting to decode the document"
+            + f" with detected encoding: {encoding}. Confidence level of encoding type:"
+            + f" {round(confidence*100, 2)}%. Error Details:"
+            + f" Error at byte {e.start}: {raw[e.start:e.end]}"
+        )
         return encoding, encoding_msg
+
 
 def escape_for_markdown(string: str):
     """Parses a string and escapes any of the following special characters
