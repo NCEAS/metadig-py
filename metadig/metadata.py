@@ -146,7 +146,7 @@ def find_entity_index(fname, pid, entity_names, ids):
 
     return z[0] if z else None
 
-def read_csv_with_metadata(d_read, fd, header_line, d_encoding=None, nan_filter=False):
+def read_csv_with_metadata(d_read, fd, header_line, d_encoding=None, nan_filter=False, dtype_string=False):
     """Uses pandas to read in a csv with given field delimiter and header rows to skip
 
     :param str or bytes d_read: RData as read in from the stream
@@ -166,6 +166,11 @@ def read_csv_with_metadata(d_read, fd, header_line, d_encoding=None, nan_filter=
     # Ensure nan_filter is a boolean
     if not isinstance(nan_filter, bool):
         raise ValueError("Argument 'nan_filter' must be a boolean")
+
+    if dtype_string == True:
+        ty = str
+    else:
+        ty = None
 
     pd_header_val = 0
     if isinstance(header_line, list):
@@ -197,7 +202,8 @@ def read_csv_with_metadata(d_read, fd, header_line, d_encoding=None, nan_filter=
                     delimiter=fd,
                     header=pd_header_val,
                     encoding=d_encoding,
-                    na_filter=nan_filter
+                    na_filter=nan_filter,
+                    dtype=ty
                 ),
                 None,
             )
