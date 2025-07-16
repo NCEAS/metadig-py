@@ -1,4 +1,5 @@
 """Test module for the MetaDIG-py client."""
+
 import os
 import sys
 import json
@@ -31,7 +32,7 @@ def test_metadig_client_run_check(capsys, store, init_hashstore_with_test_data):
         hashstore_path_opt,
         check_xml_path_opt,
         metadata_doc_path_opt,
-        sysmeta_doc_path_opt
+        sysmeta_doc_path_opt,
     ]
 
     sys.path.append(client_directory)
@@ -45,6 +46,7 @@ def test_metadig_client_run_check(capsys, store, init_hashstore_with_test_data):
     assert result_data["status"] is not None
     assert len(result_data["identifiers"]) is 1
     assert len(result_data["output"]) is 1
+
 
 @pytest.mark.parametrize(
     "missing_opt", ["store_path", "check_xml", "metadata_doc", "sysmeta_doc"]
@@ -94,7 +96,7 @@ def test_metadig_client_import_data_to_hashstore(capsys):
         client_module_path,
         import_hashstore_opt,
         sysmeta_doc_path_opt,
-        data_folder_opt
+        data_folder_opt,
     ]
 
     sys.path.append(client_directory)
@@ -126,7 +128,7 @@ def test_metadig_client_run_suite(capsys, store, init_hashstore_with_test_data):
         suite_path_opt,
         check_folder_path_opt,
         metadata_doc_path_opt,
-        sysmeta_doc_path_opt
+        sysmeta_doc_path_opt,
     ]
 
     sys.path.append(client_directory)
@@ -139,6 +141,7 @@ def test_metadig_client_run_suite(capsys, store, init_hashstore_with_test_data):
     assert result_data["sysmeta"] is not None
     assert result_data["run_status"] == "SUCCESS"
     assert result_data["results"] is not None
+
 
 # MetaDigClientUtilities Tests
 
@@ -172,14 +175,18 @@ def test_import_data_to_hashstore_default_store(mcdu):
     sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
     test_data_directory = os.path.join(os.path.dirname(__file__), "testdata")
 
-    data_pids_stored = mcdu.import_data_to_hashstore(sample_sysmeta_file_path, test_data_directory)
+    data_pids_stored = mcdu.import_data_to_hashstore(
+        sample_sysmeta_file_path, test_data_directory
+    )
     for pid in data_pids_stored:
         # No exceptions should be thrown if the data objects and system metadata were stored
         mcdu.default_store.delete_object(pid)
         mcdu.default_store.delete_metadata(pid)
 
 
-def test_import_data_to_hashstore_provided_store(mcdu, store_path, init_hashstore_with_test_data):
+def test_import_data_to_hashstore_provided_store(
+    mcdu, store_path, init_hashstore_with_test_data
+):
     """Test that 'import_data_to_hashstore' imports data to a given hashstore."""
     assert init_hashstore_with_test_data
     sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")

@@ -16,14 +16,14 @@ def get_test_data_path(file_name):
 
 def test_run_check_metadata_resource_license():
     """Test that 'run_check' can run a metadata check."""
-    sample_check_file_path = get_test_data_path("checks/resource.license.present-2.0.0.xml")
+    sample_check_file_path = get_test_data_path(
+        "checks/resource.license.present-2.0.0.xml"
+    )
     sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
     sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
 
     result = checks.run_check(
-        sample_check_file_path,
-        sample_metadata_file_path,
-        sample_sysmeta_file_path
+        sample_check_file_path, sample_metadata_file_path, sample_sysmeta_file_path
     )
     result_data = json.loads(result)
     assert result_data["status"] == "SUCCESS"
@@ -31,20 +31,22 @@ def test_run_check_metadata_resource_license():
 
 def test_run_check_metadata_entity_attributename():
     """Test that 'run_check' can run a metadata check that contains subselectors."""
-    sample_check_file_path = get_test_data_path("checks/entity.attributeName.differs-2.0.0.xml")
+    sample_check_file_path = get_test_data_path(
+        "checks/entity.attributeName.differs-2.0.0.xml"
+    )
     sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
     sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
 
     result = checks.run_check(
-        sample_check_file_path,
-        sample_metadata_file_path,
-        sample_sysmeta_file_path
+        sample_check_file_path, sample_metadata_file_path, sample_sysmeta_file_path
     )
     result_data = json.loads(result)
     assert result_data["status"] == "SUCCESS"
 
 
-def test_run_check_datatable_variables_congruent(storemanager_props, init_hashstore_with_test_data):
+def test_run_check_datatable_variables_congruent(
+    storemanager_props, init_hashstore_with_test_data
+):
     """Test 'run_check' with 'data.table-text-delimited.variables-congruent.xml' python check."""
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)
@@ -73,7 +75,9 @@ def test_run_check_datatable_variables_congruent(storemanager_props, init_hashst
     assert result_data["status"] is not None
 
 
-def test_run_check_datatable_normalized(storemanager_props, init_hashstore_with_test_data):
+def test_run_check_datatable_normalized(
+    storemanager_props, init_hashstore_with_test_data
+):
     """Test 'run_check' with 'data.table-text-delimited.normalized.xml' python check."""
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)
@@ -103,7 +107,9 @@ def test_run_check_datatable_normalized(storemanager_props, init_hashstore_with_
     assert result_data["status"] == "FAILURE"
 
 
-def test_run_check_data_character_encoding(storemanager_props, init_hashstore_with_test_data):
+def test_run_check_data_character_encoding(
+    storemanager_props, init_hashstore_with_test_data
+):
     """Test 'run_check' with 'data.table-text-delimited.normalized.xml' python check."""
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)
@@ -111,9 +117,7 @@ def test_run_check_data_character_encoding(storemanager_props, init_hashstore_wi
     _ = manager.get_object("urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1")
 
     # Now execute 'run_check' by providing it the required args
-    sample_check_file_path = get_test_data_path(
-        "checks/data.text-encoding.valid.xml"
-    )
+    sample_check_file_path = get_test_data_path("checks/data.text-encoding.valid.xml")
     sample_metadata_file_path = get_test_data_path("doi:10.18739_A2QJ78081.xml")
     sample_sysmeta_file_path = get_test_data_path("doi:10.18739_A2QJ78081_sysmeta.xml")
 
@@ -132,7 +136,9 @@ def test_run_check_data_character_encoding(storemanager_props, init_hashstore_wi
     assert result_data["status"] == "SUCCESS"
 
 
-def test_try_run_check_with_multiprocessing(storemanager_props, init_hashstore_with_test_data):
+def test_try_run_check_with_multiprocessing(
+    storemanager_props, init_hashstore_with_test_data
+):
     """Test 'run_check' function in a multiprocessing setting"""
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)
@@ -160,7 +166,7 @@ def test_try_run_check_with_multiprocessing(storemanager_props, init_hashstore_w
     # Set up pool and processes
     pool = multiprocessing.Pool()
     results = pool.imap(checks.try_run_check, input_array)
-    pool.close() # Close the pool and wait for all processes to complete
+    pool.close()  # Close the pool and wait for all processes to complete
     pool.join()
 
     for result, check_id, _ in results:
@@ -202,7 +208,9 @@ def test_run_check_multiple_pids(storemanager_props, init_hashstore_with_test_da
     assert len(result_data["output"]) == 1
 
 
-def test_run_check_error_missing_pid_objects(storemanager_props, init_hashstore_with_test_data):
+def test_run_check_error_missing_pid_objects(
+    storemanager_props, init_hashstore_with_test_data
+):
     """Test that the 'run_check' returns failed results successfully when missing a pid"""
     # Initialize hashstore and confirm it is in working order
     assert init_hashstore_with_test_data
@@ -263,9 +271,7 @@ def test_get_data_pids():
     identifier = sm_rn_vars.get("identifier")
     member_node = "urn:node:ARCTIC"
     data_pids = checks.get_data_pids(identifier, member_node)
-    expected_pids = [
-        "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1"
-    ]
+    expected_pids = ["urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1"]
     for pid in expected_pids:
         assert pid in data_pids
 

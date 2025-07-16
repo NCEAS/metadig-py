@@ -117,6 +117,7 @@ def test_find_entity():
     anames = ent.findall(".//attributeName")
     assert [elem.text for elem in anames] == ["length_1"]
 
+
 def test_find_entity_diff_fname():
     """Test 'find_eml_entity' is able to find the expected entity."""
     doc = """<?xml version="1.0" encoding="UTF-8"?>
@@ -164,14 +165,13 @@ def test_find_entity_diff_fname():
 
     ent = metadata.find_eml_entity(doc + dt, identifier, fname)
     assert ent is not None
-    
+
     # can find by filename
     fname = ["my cool file"]
     identifier = "fakeid"
 
     ent = metadata.find_eml_entity(doc + dt, identifier, fname)
     assert ent is not None
-
 
 
 def test_read_csv_with_metadata(storemanager_props, init_hashstore_with_test_data):
@@ -183,7 +183,7 @@ def test_read_csv_with_metadata(storemanager_props, init_hashstore_with_test_dat
     pid = "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1"
     obj, _ = manager.get_object(pid)
 
-    d_read = obj.read().decode('utf-8', errors = 'replace')
+    d_read = obj.read().decode("utf-8", errors="replace")
     field_delimiter = ","
     skiprows = 0
 
@@ -225,7 +225,9 @@ def test_read_csv_with_metadata_3_rows_to_skip(
     assert error is None
 
 
-def test_find_duplicate_column_content_none(storemanager_props, init_hashstore_with_test_data):
+def test_find_duplicate_column_content_none(
+    storemanager_props, init_hashstore_with_test_data
+):
     """Confirm that 'find_duplicate_column_content' returns an empty list when there
     are no duplicate column content."""
     assert init_hashstore_with_test_data
@@ -234,7 +236,7 @@ def test_find_duplicate_column_content_none(storemanager_props, init_hashstore_w
     pid = "test-pid"
     obj, _ = manager.get_object(pid)
 
-    d_read = obj.read().decode('utf-8', errors = 'replace')
+    d_read = obj.read().decode("utf-8", errors="replace")
     field_delimiter = ","
     skiprows = 0
 
@@ -243,7 +245,9 @@ def test_find_duplicate_column_content_none(storemanager_props, init_hashstore_w
     assert len(dupes) == 0
 
 
-def test_find_duplicate_column_content_found(storemanager_props, init_hashstore_with_test_data):
+def test_find_duplicate_column_content_found(
+    storemanager_props, init_hashstore_with_test_data
+):
     """Confirm that 'find_duplicate_column_content' returns returns a list of tuples when
     duplicate columns are found."""
     assert init_hashstore_with_test_data
@@ -252,7 +256,7 @@ def test_find_duplicate_column_content_found(storemanager_props, init_hashstore_
     pid = "test-pid-dupcols-names"
     obj, _ = manager.get_object(pid)
 
-    d_read = obj.read().decode('utf-8', errors = 'replace')
+    d_read = obj.read().decode("utf-8", errors="replace")
     field_delimiter = ","
     skiprows = 0
 
@@ -261,7 +265,9 @@ def test_find_duplicate_column_content_found(storemanager_props, init_hashstore_
     assert len(dupes) == 2
 
 
-def test_find_duplicate_column_names_none(storemanager_props, init_hashstore_with_test_data):
+def test_find_duplicate_column_names_none(
+    storemanager_props, init_hashstore_with_test_data
+):
     """Confirm that 'find_duplicate_column_name' returns an empty list when there
     are no duplicate column names."""
     assert init_hashstore_with_test_data
@@ -270,7 +276,7 @@ def test_find_duplicate_column_names_none(storemanager_props, init_hashstore_wit
     pid = "test-pid"
     obj, _ = manager.get_object(pid)
 
-    d_read = obj.read().decode('utf-8', errors = 'replace')
+    d_read = obj.read().decode("utf-8", errors="replace")
     field_delimiter = ","
     skiprows = 0
 
@@ -279,7 +285,9 @@ def test_find_duplicate_column_names_none(storemanager_props, init_hashstore_wit
     assert len(dupes_col_names) == 0
 
 
-def test_find_duplicate_column_names_found(storemanager_props, init_hashstore_with_test_data):
+def test_find_duplicate_column_names_found(
+    storemanager_props, init_hashstore_with_test_data
+):
     """Confirm that 'find_duplicate_column_name' returns a list of tuples when duplicate
     column names are found."""
     assert init_hashstore_with_test_data
@@ -288,7 +296,7 @@ def test_find_duplicate_column_names_found(storemanager_props, init_hashstore_wi
     pid = "test-pid-4dupcols"
     obj, _ = manager.get_object(pid)
 
-    d_read = obj.read().decode('utf-8', errors = 'replace')
+    d_read = obj.read().decode("utf-8", errors="replace")
     field_delimiter = ","
     skiprows = 0
 
@@ -306,7 +314,7 @@ def test_find_duplicate_rows_none(storemanager_props, init_hashstore_with_test_d
     pid = "test-pid"
     obj, _ = manager.get_object(pid)
 
-    d_read = obj.read().decode('utf-8', errors = 'replace')
+    d_read = obj.read().decode("utf-8", errors="replace")
     field_delimiter = ","
     skiprows = 0
 
@@ -324,7 +332,7 @@ def test_find_duplicate_rows_found(storemanager_props, init_hashstore_with_test_
     pid = "test-pid-duprows"
     obj, _ = manager.get_object(pid)
 
-    d_read = obj.read().decode('utf-8', errors = 'replace')
+    d_read = obj.read().decode("utf-8", errors="replace")
     field_delimiter = ","
     skiprows = 0
 
@@ -341,7 +349,7 @@ def test_find_number_of_columns(storemanager_props, init_hashstore_with_test_dat
     pid = "test-pid"
     obj, _ = manager.get_object(pid)
 
-    d_read = obj.read().decode('utf-8', errors = 'replace')
+    d_read = obj.read().decode("utf-8", errors="replace")
     field_delimiter = ","
     skiprows = 0
 

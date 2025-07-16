@@ -7,7 +7,9 @@ from metadig import StoreManager
 from metadig import ObjectNotFoundError
 
 
-def test_object_store_returns_correct_data(storemanager_props, init_hashstore_with_test_data):
+def test_object_store_returns_correct_data(
+    storemanager_props, init_hashstore_with_test_data
+):
     """Test that the object store returns data, and that it is the data expected."""
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)
@@ -30,7 +32,9 @@ def test_object_store_handles_no_store(hashstore_props):
         StoreManager(hashstore_props)
 
 
-def test_object_store_handles_no_metadata(storemanager_props, init_hashstore_with_test_data):
+def test_object_store_handles_no_metadata(
+    storemanager_props, init_hashstore_with_test_data
+):
     """Confirm that an exception is thrown when no metadata is found for a pid."""
     assert init_hashstore_with_test_data
     manager = StoreManager(storemanager_props)

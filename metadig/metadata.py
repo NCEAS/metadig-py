@@ -6,6 +6,7 @@ import hashlib
 import pandas
 import chardet
 import re
+
 try:
     from java.util import ArrayList
 except ImportError:
@@ -42,7 +43,10 @@ def read_sysmeta_element(stream, element):
             return elem.text
 
     except ET.ParseError as e:
-        raise ValueError(f"Error parsing XML: {e}, could not find element {element}") from e
+        raise ValueError(
+            f"Error parsing XML: {e}, could not find element {element}"
+        ) from e
+
 
 def find_eml_entity(doc, identifier, file_name):
     """
@@ -76,7 +80,7 @@ def find_eml_entity(doc, identifier, file_name):
     # Search through dataTable and otherEntity elements
     for element in root.findall(".//dataTable") + root.findall(".//otherEntity"):
         # Check if identifier matches the id element
-        id_attr = element.attrib.get('id')
+        id_attr = element.attrib.get("id")
         if id_attr is not None and id_attr == identifier.replace(":", "-"):
             return element
 
@@ -93,6 +97,7 @@ def find_eml_entity(doc, identifier, file_name):
     # Return None if no match is found
     return None
 
+
 def get_valid_csv(manager, pid):
     """
     Returns an input stream for a given pid if the file is a csv file, along with its
@@ -106,7 +111,7 @@ def get_valid_csv(manager, pid):
         obj: An input stream object
         fname: The filename of the object
         status: SKIP or VALID. Returns skip if not a csv.
-        
+
     """
     obj, sys = manager.get_object(pid)
     try:
@@ -116,6 +121,7 @@ def get_valid_csv(manager, pid):
     finally:
         sys.close()
     return obj, fname, "VALID"
+
 
 def find_entity_index(fname, pid, entity_names, ids):
     """
@@ -136,7 +142,9 @@ def find_entity_index(fname, pid, entity_names, ids):
     list_types = (list, ArrayList)
 
     ids_l = ids if isinstance(ids, list_types) else [ids]
-    entity_names_l = entity_names if isinstance(entity_names, list_types) else [entity_names]
+    entity_names_l = (
+        entity_names if isinstance(entity_names, list_types) else [entity_names]
+    )
 
     # Checks all elements in entity_names to find matches with fname
     z = [i for i, x in enumerate(entity_names_l) if x == fname]
@@ -146,7 +154,10 @@ def find_entity_index(fname, pid, entity_names, ids):
 
     return z[0] if z else None
 
-def read_csv_with_metadata(d_read, fd, header_line, d_encoding=None, nan_filter=False, dtype_string=False):
+
+def read_csv_with_metadata(
+    d_read, fd, header_line, d_encoding=None, nan_filter=False, dtype_string=False
+):
     """Uses pandas to read in a csv with given field delimiter and header rows to skip
 
     :param str or bytes d_read: RData as read in from the stream
@@ -184,7 +195,9 @@ def read_csv_with_metadata(d_read, fd, header_line, d_encoding=None, nan_filter=
                 f"Unable to retrieve a numeric value from skiprows. Details: {vte}"
             ) from vte
         # We subtract 1 to standardize this value to pass onto pandas.read_csv
-        pd_header_val = max(0, first_element_from_list - 1) # Ensure it is never negative
+        pd_header_val = max(
+            0, first_element_from_list - 1
+        )  # Ensure it is never negative
     elif isinstance(header_line, int):
         if header_line > 0:
             pd_header_val = header_line - 1
@@ -204,7 +217,7 @@ def read_csv_with_metadata(d_read, fd, header_line, d_encoding=None, nan_filter=
                     header=pd_header_val,
                     encoding=d_encoding,
                     na_filter=nan_filter,
-                    dtype=ty
+                    dtype=ty,
                 ),
                 None,
             )
@@ -221,6 +234,7 @@ def read_csv_with_metadata(d_read, fd, header_line, d_encoding=None, nan_filter=
     # pylint: disable=W0718
     except Exception as e:
         return None, f"Error reading CSV: {str(e)}"
+
 
 def find_duplicate_column_names(pandas_df: pandas.DataFrame):
     """Find duplicate columns names in a text delimited file.
@@ -249,9 +263,10 @@ def find_duplicate_column_names(pandas_df: pandas.DataFrame):
 
     return duplicate_col_names, contains_period
 
+
 def find_duplicate_column_content(pandas_df: pandas.DataFrame):
     """Find duplicate columns in a text delimited file by calculating the hash of the column.
-    
+
     :param df pandas_df: Data frame to check for duplicate columns
     :return: List of tuples of the duplicate columns. Each tuple shows the name of the
         duplicate columns and the calculated hash.
@@ -262,6 +277,7 @@ def find_duplicate_column_content(pandas_df: pandas.DataFrame):
         return hashlib.md5(
             pandas.util.hash_pandas_object(series, index=False).values
         ).hexdigest()
+
     # Empty dict to store each unique column
     seen_hashes = {}
     # List to hold pairs (tuples) of columns
@@ -279,6 +295,7 @@ def find_duplicate_column_content(pandas_df: pandas.DataFrame):
 
     return duplicates
 
+
 def find_duplicate_rows(pandas_df: pandas.DataFrame):
     """Find duplicate rows in a text delimited file.
 
@@ -293,6 +310,7 @@ def find_duplicate_rows(pandas_df: pandas.DataFrame):
     else:
         return duplicates
 
+
 def find_number_of_columns(pandas_df: pandas.DataFrame):
     """Find the number of columns in a text delimited file.
 
@@ -302,10 +320,11 @@ def find_number_of_columns(pandas_df: pandas.DataFrame):
     """
     return pandas_df.shape[1]
 
+
 def detect_text_encoding(raw: bytes):
     """Determine the encoding of the given bytes and return problematic sequences if
     found.
-    
+
     :param bytes raw: Raw byte content
     :return: A tuple containing:
         - encoding (str): One of 'ascii', 'utf-8', or 'other'

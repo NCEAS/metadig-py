@@ -5,6 +5,7 @@ import pytest
 from hashstore import HashStoreFactory
 from metadig import MetaDigClientUtilities
 
+
 @pytest.fixture(name="mcdu")
 def init_metadig_client_utilities():
     """Create and return the path to a hashstore"""
@@ -19,6 +20,7 @@ def init_store_path(tmp_path):
     hashstore_path = directory.as_posix()
     return hashstore_path
 
+
 @pytest.fixture(name="hashstore_props")
 def init_hashstore_props(store_path):
     """Properties to initialize HashStore."""
@@ -31,6 +33,7 @@ def init_hashstore_props(store_path):
     }
     return properties
 
+
 @pytest.fixture(name="storemanager_props")
 def init_storemanager_props(hashstore_props):
     """Properties to initialize StoreManager."""
@@ -38,6 +41,7 @@ def init_storemanager_props(hashstore_props):
     storemanager_props = hashstore_props
     storemanager_props["store_type"] = "HashStore"
     return storemanager_props
+
 
 @pytest.fixture(name="store")
 def init_hashstore(hashstore_props):
@@ -48,6 +52,7 @@ def init_hashstore(hashstore_props):
     class_name = "FileHashStore"
     store = hashstore_factory.get_hashstore(module_name, class_name, hashstore_props)
     return store
+
 
 # Create store and put an object in it
 @pytest.fixture
@@ -79,7 +84,9 @@ def init_hashstore_with_test_data(store):
     # Store data and metadata object for 'checks' pytest for DOI: doi:10.18739/A2QJ78081
     doi = "doi:10.18739/A2QJ78081"
     store.store_object(doi, os.path.join(testdata_dir, "doi:10.18739_A2QJ78081.xml"))
-    store.store_metadata(doi, os.path.join(testdata_dir, "doi:10.18739_A2QJ78081_sysmeta.xml"))
+    store.store_metadata(
+        doi, os.path.join(testdata_dir, "doi:10.18739_A2QJ78081_sysmeta.xml")
+    )
     # Store associated data objects and sysmeta
     store.store_object(
         "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1",
@@ -90,30 +97,34 @@ def init_hashstore_with_test_data(store):
     )
     store.store_metadata(
         "urn:uuid:6a7a874a-39b5-4855-85d4-0fdfac795cd1",
-        os.path.join(testdata_dir, "urn_uuid_6a7a874a-39b5-4855-85d4-0fdfac795cd1.xml")
+        os.path.join(testdata_dir, "urn_uuid_6a7a874a-39b5-4855-85d4-0fdfac795cd1.xml"),
     )
 
     # Store data and metadata object for 'checks' pytest for DOI: doi:10.18739/A2RJ48X0F
     # We have physically altered the data to have normalization issues
     nmi_doi = "doi:10.18739/A2RJ48X0F"
-    store.store_object(nmi_doi, os.path.join(testdata_dir, "doi:10.18739_A2RJ48X0F.xml"))
-    store.store_metadata(nmi_doi, os.path.join(testdata_dir, "doi:10.18739_A2QJ78081_sysmeta.xml"))
+    store.store_object(
+        nmi_doi, os.path.join(testdata_dir, "doi:10.18739_A2RJ48X0F.xml")
+    )
+    store.store_metadata(
+        nmi_doi, os.path.join(testdata_dir, "doi:10.18739_A2QJ78081_sysmeta.xml")
+    )
     # Store associated data objects and sysmeta
     store.store_object(
         "urn:uuid:a4aadc85-9fa4-46c9-9642-46066cf7a691",
-        os.path.join(testdata_dir, "SKQ2020309T_Chla_modified.csv")
+        os.path.join(testdata_dir, "SKQ2020309T_Chla_modified.csv"),
     )
     store.store_metadata(
         "urn:uuid:a4aadc85-9fa4-46c9-9642-46066cf7a691",
-        os.path.join(testdata_dir, "urn_uuid_a4aadc85-9fa4-46c9-9642-46066cf7a691.xml")
+        os.path.join(testdata_dir, "urn_uuid_a4aadc85-9fa4-46c9-9642-46066cf7a691.xml"),
     )
     store.store_object(
         "urn:uuid:60101459-96a2-41ea-b9e7-0dd80ecde3ce",
-        os.path.join(testdata_dir, "SKQ2020309T_Chlorophyll_Pigments_README.pdf")
+        os.path.join(testdata_dir, "SKQ2020309T_Chlorophyll_Pigments_README.pdf"),
     )
     store.store_metadata(
         "urn:uuid:60101459-96a2-41ea-b9e7-0dd80ecde3ce",
-        os.path.join(testdata_dir, "urn_uuid_60101459-96a2-41ea-b9e7-0dd80ecde3ce.xml")
+        os.path.join(testdata_dir, "urn_uuid_60101459-96a2-41ea-b9e7-0dd80ecde3ce.xml"),
     )
 
     return True

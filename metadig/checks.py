@@ -175,19 +175,23 @@ def get_sysmeta_vars(sysmeta_path: str):
     sysmeta_doc_root = etree.parse(sysmeta_path).getroot()
     try:
         identifier = sysmeta_doc_root.find("identifier").text
-        authoritative_member_node = sysmeta_doc_root.find("authoritativeMemberNode").text
+        authoritative_member_node = sysmeta_doc_root.find(
+            "authoritativeMemberNode"
+        ).text
         rights_holder = sysmeta_doc_root.find("rightsHolder").text
         date_uploaded = sysmeta_doc_root.find("dateUploaded").text
         format_id = sysmeta_doc_root.find("formatId").text
         if identifier is None:
             raise ValueError("Element 'identifier' is missing from sysmeta document")
         if authoritative_member_node is None:
-            raise ValueError("Element 'authoritativeMemberNode' is missing from sysmeta document")
+            raise ValueError(
+                "Element 'authoritativeMemberNode' is missing from sysmeta document"
+            )
     except AttributeError as ae:
         raise AttributeError(
             "Elements 'identifier' or 'authoritativeMemberNode' is missing from sysmeta document"
         ) from ae
-    
+
     try:
         obsoletes = sysmeta_doc_root.find("obsoletes").text
     except Exception:
@@ -261,12 +265,12 @@ def run_check(
     check_vars["dataPids"] = data_pids
     check_vars["storeConfiguration"] = store_props
     # read in the sysmeta and add it to check vars as a string
-    with open(metadata_sysmeta_path, 'r', encoding="utf-8") as f:
+    with open(metadata_sysmeta_path, "r", encoding="utf-8") as f:
         metadata_sysmeta_read = f.read()
     check_vars["systemMetadata"] = metadata_sysmeta_read
     # add in mdq params
-    resources_dir = (Path(__file__).parent.parent / 'metadig/resources').resolve()
-    check_vars['mdq_params'] = {
+    resources_dir = (Path(__file__).parent.parent / "metadig/resources").resolve()
+    check_vars["mdq_params"] = {
         "metadigDataDir": resources_dir,
     }
     # Extract the information from selectors
@@ -292,7 +296,7 @@ def run_check(
                 # fallback to the existing global variables.
                 fallback = {
                     "output": check_vars.get("output", "No output."),
-                    "status": check_vars.get("status", "FAILURE")
+                    "status": check_vars.get("status", "FAILURE"),
                 }
                 json_output = json.dumps(fallback, indent=4)
             else:
@@ -302,7 +306,9 @@ def run_check(
         except Exception as e:
             exception_output = {}
             exception_output["identifiers"] = [data_pids]
-            exception_output["output"] = [f"Unexpected exception while running check: {e}"]
+            exception_output["output"] = [
+                f"Unexpected exception while running check: {e}"
+            ]
             exception_output["status"] = "ERROR"
             json_output = json.dumps(exception_output, indent=4)
             return json_output
@@ -400,7 +406,7 @@ def select_nodes(context_node, selector_context):
             value = select_nodes(node, sub_selector[0])
         else:
             # If there is no sub_selector, we extract the final value
-            if hasattr(node, 'text') and node.xpath("string()").strip() is not None:
+            if hasattr(node, "text") and node.xpath("string()").strip() is not None:
                 text_val = node.xpath("string()").strip()
             else:
                 text_val = node
@@ -428,6 +434,7 @@ def select_nodes(context_node, selector_context):
 class ListWithGet(list):
     """This custom list class supports .get access on a list to mimic a dictionary,
     which adds compatibility with existing check code."""
+
     def get(self, index, default=None):
         """Retrieve the element at the given index. If the index is out of bounds,
         return the provided default value (None)."""

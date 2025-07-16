@@ -20,7 +20,7 @@ def does_file_exist(path_to_check: str):
 def map_and_get_check_ids_to_files_and_env(path_to_checks: str):
     """Given a path to a directory of metadig checks, open each check and map the id
     to the file path.
-    
+
     :param str path_to_checks: Path to the folder containing metadig checks
     :return: Tuple of two dictionaries:
          (1) a dictionary mapping check ids to file paths,
@@ -56,7 +56,11 @@ def map_and_get_check_ids_to_files_and_env(path_to_checks: str):
             # pylint: disable=W0718
             except Exception as e:
                 # If there is an unexpected exception, add it to the dict with an err msg
-                check_id = id_elem.text.strip() if id_elem is not None and id_elem.text else None
+                check_id = (
+                    id_elem.text.strip()
+                    if id_elem is not None and id_elem.text
+                    else None
+                )
                 id_to_path_dict[check_id] = f"Error parsing {file_path}: {e}"
 
     return id_to_path_dict, id_to_env_dict
@@ -70,7 +74,7 @@ def run_suite(
     store_props: Optional[Dict[str, Any]] = None,
 ):
     """Run a metadig-check suite which can contain multiple checks.
-    
+
     :param str suite_path: Path to the suite xml containing the checks to run.
     :param str checks_path: Path to the checks found in the suite to be executed.
     :param str metadata_xml_path: Path to the XML metadata document.
@@ -124,12 +128,14 @@ def run_suite(
                 output_msg = f"Check not found for: {check_id} in: {checks_path}"
             else:
                 output_msg = f"Incompatible check environment ({check_env}) for check: {check_id}."
-            check_results.append({
-                "check_id": check_id,
-                "identifiers": "N/A",
-                "output": output_msg,
-                "status": "ERROR",
-            })
+            check_results.append(
+                {
+                    "check_id": check_id,
+                    "identifiers": "N/A",
+                    "output": output_msg,
+                    "status": "ERROR",
+                }
+            )
 
     if not checks_to_run_list:
         raise RuntimeError("No checks to run. Details: " + additional_run_comments)
@@ -137,28 +143,32 @@ def run_suite(
     # Set up multiprocessing pool
     pool = multiprocessing.Pool()
     results = pool.imap(checks.try_run_check, checks_to_run_list)
-    pool.close() # Close the pool and wait for all processes to complete
+    pool.close()  # Close the pool and wait for all processes to complete
     pool.join()
 
     # Gather variables to add to suite results
     for result, check_id, msg in results:
         if result is None:
-            check_results.append({
-                "check_id": check_id,
-                "identifiers": "N/A",
-                "output": f"Unexpected exception: {msg}",
-                "status": "ERROR",
-            })
+            check_results.append(
+                {
+                    "check_id": check_id,
+                    "identifiers": "N/A",
+                    "output": f"Unexpected exception: {msg}",
+                    "status": "ERROR",
+                }
+            )
         else:
             result_data = json.loads(result)
-            check_results.append({
-                "check_id": check_id,
-                "identifiers": result_data.get("identifiers", ["N/A"]),
-                "output": result_data.get("output"),
-                "status": result_data.get("status"),
-            })
+            check_results.append(
+                {
+                    "check_id": check_id,
+                    "identifiers": result_data.get("identifiers", ["N/A"]),
+                    "output": result_data.get("output"),
+                    "status": result_data.get("status"),
+                }
+            )
     suite_name = suite_path.rsplit("/", 1)[-1]
-    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     metadata_sysmeta = checks.get_sysmeta_vars(metadata_sysmeta_path)
     sysmeta = {
         "origin_member_node": metadata_sysmeta.get("authoritative_member_node"),
@@ -175,7 +185,7 @@ def run_suite(
         "run_status": "SUCCESS" if check_results else "FAILURE",
         "run_comments": additional_run_comments,
         "sysmeta": sysmeta,
-        "results": check_results
+        "results": check_results,
     }
     json_suite_results = json.dumps(suite_results, indent=4)
     return json_suite_results

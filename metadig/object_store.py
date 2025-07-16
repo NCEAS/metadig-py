@@ -202,6 +202,7 @@ class HashStore(ObjectStore):
 
 class ObjectNotFoundError(Exception):
     """Custom exception class for when an object is not found."""
+
     def __init__(self, message, errors=None):
         super().__init__(message)
         self.errors = errors
@@ -209,6 +210,7 @@ class ObjectNotFoundError(Exception):
 
 class MetadataNotFoundError(Exception):
     """Custom exception class for when a metadata object is not found."""
+
     def __init__(self, message, errors=None):
         super().__init__(message)
         self.errors = errors

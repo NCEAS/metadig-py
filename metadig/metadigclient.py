@@ -12,6 +12,7 @@ from hashstore import HashStoreFactory
 from hashstore.filehashstore import HashStoreRefsAlreadyExists
 from metadig import checks, suites
 
+
 class MetaDigPyParser:
     """Class to set up parsing arguments via argparse."""
 
@@ -126,7 +127,7 @@ class MetaDigClientUtilities:
     def get_store_manager_props(store_path) -> dict:
         """Given a path, look for the 'hashstore.yaml' configuration file and return a dictionary
         that contains the properties found in the config file.
-        
+
         :param str path_to_data_folder: Path to the folder containing data objects to store.
         :return: Dictionary containing store manager properties
         :rtype: Dict
@@ -256,7 +257,9 @@ class MetaDigClientUtilities:
                 if data_object_path is not None:
                     # Determine hashstore to use
                     if hashstore_path is not None:
-                        target_hashstore = self.get_hashstore_from_factory(hashstore_path)
+                        target_hashstore = self.get_hashstore_from_factory(
+                            hashstore_path
+                        )
                     else:
                         target_hashstore = self.default_store
                     # Import data to hashstore
@@ -275,9 +278,7 @@ class MetaDigClientUtilities:
                     try:
                         sysmeta_file_like_object = io.BytesIO(sysmeta)
                         sysmeta_file_like_object.name = pid + ".xml"
-                        target_hashstore.store_metadata(
-                            pid, sysmeta_file_like_object
-                        )
+                        target_hashstore.store_metadata(pid, sysmeta_file_like_object)
                     # pylint: disable=W0718
                     except Exception as e:
                         raise RuntimeError(
@@ -367,9 +368,8 @@ def main():
         print(f"Data objects have been stored for pids: {data_pids_stored}")
         return
     else:
-        print(
-            "No options provided. Run `metadigpy -h` for more information."
-        )
+        print("No options provided. Run `metadigpy -h` for more information.")
+
 
 if __name__ == "__main__":
     main()
