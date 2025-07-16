@@ -153,6 +153,7 @@ def read_csv_with_metadata(d_read, fd, header_line, d_encoding=None, nan_filter=
     :param str fd: ield delimiter from metadata
     :param int header_line: Number of rows to skip
     :param str d_encoding: Encoding type to use to read the given bytes
+    :param dtype_string: Whether to coerce all column types to string
 
     :return: A tuple containing:
         - df: Pandas data.frame with data
@@ -303,9 +304,7 @@ def find_number_of_columns(pandas_df: pandas.DataFrame):
 
 def detect_text_encoding(raw: bytes):
     """Determine the encoding of the given bytes and return problematic sequences if
-    found. This function first checks for the 'ascii' encoding, before moving onto
-    'utf-8'. If the bytes are neither, we return a tuple that contains 'other' and
-    an error message.
+    found.
     
     :param bytes raw: Raw byte content
     :return: A tuple containing:
